@@ -1,6 +1,7 @@
 <footer class="bg-secondary/50 border-t border-border overflow-hidden">
   <div class="container-custom py-12 md:py-16">
     <div class="grid md:grid-cols-4 gap-8">
+
       <!-- Brand -->
       <div class="md:col-span-1">
         <a href="/" class="block mb-3">
@@ -13,30 +14,23 @@
         <p class="text-muted-foreground text-sm leading-relaxed">
           {{ section.settings.tagline | default: 'Bienestar post-fiesta. Celebra hoy, conquista mañana.' }}
         </p>
-        <div class="flex gap-3 mt-4">
-          {% if section.settings.instagram_url %}
-            <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="w-9 h-9 rounded-full bg-white/5 border border-border flex items-center justify-center hover:border-accent transition-colors">
-              {% render 'icon-instagram' %}
-            </a>
-          {% endif %}
-          {% if section.settings.facebook_url %}
-            <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="w-9 h-9 rounded-full bg-white/5 border border-border flex items-center justify-center hover:border-accent transition-colors">
-              {% render 'icon-facebook' %}
-            </a>
-          {% endif %}
-        </div>
+
+        <!-- Social icons pulled from Shopify Theme Settings > Social media -->
+        <ul class="flex gap-3 mt-4 list-unstyled" role="list">
+          {% render 'social-icons' %}
+        </ul>
       </div>
 
       <!-- Link Groups -->
       {% for block in section.blocks %}
         {% if block.type == 'link_group' %}
           <div {{ block.shopify_attributes }}>
-            <h3 class="font-bold text-foreground text-sm mb-4">{{ block.settings.title }}</h3>
+            <h3 class="font-bold text-foreground text-sm mb-4">{{ block.settings.heading | escape }}</h3>
             {% if block.settings.menu != blank %}
               <ul class="space-y-2 text-sm">
-                {% for link in linklists[block.settings.menu].links %}
+                {% for link in block.settings.menu.links %}
                   <li>
-                    <a href="{{ link.url }}" class="text-muted-foreground hover:text-foreground transition-colors">
+                    <a href="{{ link.url }}" class="text-muted-foreground hover:text-foreground transition-colors{% if link.active %} text-foreground{% endif %}">
                       {{ link.title }}
                     </a>
                   </li>
@@ -46,12 +40,39 @@
           </div>
         {% endif %}
       {% endfor %}
+
     </div>
 
-    <div class="border-t border-border mt-10 pt-6 text-center">
-      <p class="text-muted-foreground text-xs">
-        &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. Todos los derechos reservados. Este producto no está destinado a diagnosticar, tratar, curar o prevenir ninguna enfermedad.
-      </p>
+    <!-- Bottom bar -->
+    <div class="border-t border-border mt-10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+
+      <div class="flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-1">
+        <small class="text-muted-foreground text-xs">
+          &copy; {{ 'now' | date: '%Y' }}, <a href="{{ routes.root_url }}" class="hover:text-foreground transition-colors">{{ shop.name }}</a>. {{ section.settings.copyright_text }}
+        </small>
+        {% if section.settings.show_policy %}
+          {% for policy in shop.policies %}
+            {% if policy != blank %}
+              <small class="text-muted-foreground text-xs">
+                <a href="{{ policy.url }}" class="hover:text-foreground transition-colors">{{ policy.title }}</a>
+              </small>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <!-- Payment icons pulled from Shopify Payments settings -->
+      {% if section.settings.payment_enable %}
+        <div class="footer__payment">
+          <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
+          <ul class="list list-payment flex flex-wrap gap-1" role="list">
+            {% for type in shop.enabled_payment_types %}
+              <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
     </div>
   </div>
 </footer>
@@ -59,6 +80,8 @@
 {% schema %}
 {
   "name": "Footer",
+  "class": "shopify-section-footer",
+  "max_blocks": 4,
   "settings": [
     {
       "type": "image_picker",
@@ -72,14 +95,22 @@
       "default": "Bienestar post-fiesta. Celebra hoy, conquista mañana."
     },
     {
-      "type": "url",
-      "id": "instagram_url",
-      "label": "Instagram URL"
+      "type": "checkbox",
+      "id": "payment_enable",
+      "default": true,
+      "label": "Show payment icons"
     },
     {
-      "type": "url",
-      "id": "facebook_url",
-      "label": "Facebook URL"
+      "type": "checkbox",
+      "id": "show_policy",
+      "default": false,
+      "label": "Show policy links"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "default": "Todos los derechos reservados.",
+      "label": "Copyright text"
     }
   ],
   "blocks": [
@@ -89,12 +120,14 @@
       "settings": [
         {
           "type": "text",
-          "id": "title",
-          "label": "Title"
+          "id": "heading",
+          "label": "Heading",
+          "default": "Links"
         },
         {
           "type": "link_list",
           "id": "menu",
+          "default": "footer",
           "label": "Menu"
         }
       ]
@@ -104,11 +137,14 @@
     {
       "name": "Footer",
       "blocks": [
-        { "type": "link_group", "settings": { "title": "Producto" } },
-        { "type": "link_group", "settings": { "title": "Soporte" } },
-        { "type": "link_group", "settings": { "title": "Legal" } }
+        { "type": "link_group", "settings": { "heading": "Producto" } },
+        { "type": "link_group", "settings": { "heading": "Soporte" } },
+        { "type": "link_group", "settings": { "heading": "Legal" } }
       ]
     }
-  ]
+  ],
+  "enabled_on": {
+    "groups": ["footer"]
+  }
 }
 {% endschema %}
