@@ -63,6 +63,7 @@
         "dhm": {
           "type": "ingredient",
           "settings": {
+            "icon": "shopify://shop_images/Group.svg",
             "title": "DHM",
             "subtitle": "Dihidromiricetina",
             "description": "Acelera el metabolismo del alcohol desde el cerebro. Reduce la ansiedad post-fiesta. Protege tu hígado."
@@ -71,6 +72,7 @@
         "lcisteina": {
           "type": "ingredient",
           "settings": {
+            "icon": "shopify://shop_images/Vector.svg",
             "title": "L-Cisteína",
             "subtitle": "",
             "description": "Neutraliza toxinas. Refuerza tus defensas. Disminuye náuseas y dolor de cabeza."
