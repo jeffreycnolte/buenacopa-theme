@@ -10,25 +10,30 @@
 
   <!-- Desktop: static centered grid -->
   <div class="hidden lg:flex justify-center gap-5 container-custom">
-    {% for block in section.blocks %}
-      {% if block.type == 'testimonial' %}
-        <div class="flex-shrink-0 w-[260px]" {{ block.shopify_attributes }}>
+    {% for i in (1..5) %}
+      {%- case i -%}
+        {%- when 1 -%}{%- assign _video = section.settings.video_1 -%}{%- assign _name = section.settings.name_1 -%}{%- assign _quote = section.settings.quote_1 -%}
+        {%- when 2 -%}{%- assign _video = section.settings.video_2 -%}{%- assign _name = section.settings.name_2 -%}{%- assign _quote = section.settings.quote_2 -%}
+        {%- when 3 -%}{%- assign _video = section.settings.video_3 -%}{%- assign _name = section.settings.name_3 -%}{%- assign _quote = section.settings.quote_3 -%}
+        {%- when 4 -%}{%- assign _video = section.settings.video_4 -%}{%- assign _name = section.settings.name_4 -%}{%- assign _quote = section.settings.quote_4 -%}
+        {%- when 5 -%}{%- assign _video = section.settings.video_5 -%}{%- assign _name = section.settings.name_5 -%}{%- assign _quote = section.settings.quote_5 -%}
+      {%- endcase -%}
+      {%- if _video != blank -%}
+        <div class="flex-shrink-0 w-[260px]">
           <div
             class="video-card aspect-[9/16] rounded-2xl relative flex items-center justify-center group cursor-pointer overflow-hidden bg-muted"
-            data-video-src="{{ block.settings.video_url }}"
+            data-video-src="{{ _video.sources[0].url }}"
             role="button"
-            aria-label="Reproducir video de {{ block.settings.name }}"
+            aria-label="Reproducir video de {{ _name }}"
           >
-            {% if block.settings.video_url != blank %}
-              <video
-                class="absolute inset-0 w-full h-full object-cover"
-                muted
-                loop
-                playsinline
-                preload="metadata"
-                src="{{ block.settings.video_url }}"
-              ></video>
-            {% endif %}
+            <video
+              class="absolute inset-0 w-full h-full object-cover"
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              src="{{ _video.sources[0].url }}"
+            ></video>
             <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-[1]"></div>
             <div class="video-play-btn w-14 h-14 rounded-full bg-white/20 border-2 border-white/60 flex items-center justify-center group-hover:scale-110 transition-all duration-300 z-10">
               <span class="play-icon">{% render 'icon-play', size: 24 %}</span>
@@ -36,36 +41,41 @@
             </div>
           </div>
           <div class="mt-3 px-1">
-            <p class="font-bold text-accent-foreground text-sm">{{ block.settings.name }}</p>
-            <p class="text-accent-foreground text-sm mt-0.5">"{{ block.settings.quote }}"</p>
+            <p class="font-bold text-accent-foreground text-sm">{{ _name }}</p>
+            <p class="text-accent-foreground text-sm mt-0.5">"{{ _quote }}"</p>
           </div>
         </div>
-      {% endif %}
+      {%- endif -%}
     {% endfor %}
   </div>
 
   <!-- Mobile: horizontal scroll -->
   <div class="lg:hidden overflow-x-auto scrollbar-hide snap-x snap-mandatory px-4">
     <div class="flex gap-4 w-max">
-      {% for block in section.blocks %}
-        {% if block.type == 'testimonial' %}
-          <div class="flex-shrink-0 w-[55vw] sm:w-[40vw] snap-center" {{ block.shopify_attributes }}>
+      {% for i in (1..5) %}
+        {%- case i -%}
+          {%- when 1 -%}{%- assign _video = section.settings.video_1 -%}{%- assign _name = section.settings.name_1 -%}{%- assign _quote = section.settings.quote_1 -%}
+          {%- when 2 -%}{%- assign _video = section.settings.video_2 -%}{%- assign _name = section.settings.name_2 -%}{%- assign _quote = section.settings.quote_2 -%}
+          {%- when 3 -%}{%- assign _video = section.settings.video_3 -%}{%- assign _name = section.settings.name_3 -%}{%- assign _quote = section.settings.quote_3 -%}
+          {%- when 4 -%}{%- assign _video = section.settings.video_4 -%}{%- assign _name = section.settings.name_4 -%}{%- assign _quote = section.settings.quote_4 -%}
+          {%- when 5 -%}{%- assign _video = section.settings.video_5 -%}{%- assign _name = section.settings.name_5 -%}{%- assign _quote = section.settings.quote_5 -%}
+        {%- endcase -%}
+        {%- if _video != blank -%}
+          <div class="flex-shrink-0 w-[55vw] sm:w-[40vw] snap-center">
             <div
               class="video-card aspect-[9/16] rounded-2xl relative flex items-center justify-center group cursor-pointer overflow-hidden bg-muted"
-              data-video-src="{{ block.settings.video_url }}"
+              data-video-src="{{ _video.sources[0].url }}"
               role="button"
-              aria-label="Reproducir video de {{ block.settings.name }}"
+              aria-label="Reproducir video de {{ _name }}"
             >
-              {% if block.settings.video_url != blank %}
-                <video
-                  class="absolute inset-0 w-full h-full object-cover"
-                  muted
-                  loop
-                  playsinline
-                  preload="metadata"
-                  src="{{ block.settings.video_url }}"
-                ></video>
-              {% endif %}
+              <video
+                class="absolute inset-0 w-full h-full object-cover"
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                src="{{ _video.sources[0].url }}"
+              ></video>
               <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-[1]"></div>
               <div class="video-play-btn w-14 h-14 rounded-full bg-white/20 border-2 border-white/60 flex items-center justify-center group-hover:scale-110 transition-all duration-300 z-10">
                 <span class="play-icon">{% render 'icon-play', size: 24 %}</span>
@@ -73,11 +83,11 @@
               </div>
             </div>
             <div class="mt-3 px-1">
-              <p class="font-bold text-accent-foreground text-sm">{{ block.settings.name }}</p>
-              <p class="text-accent-foreground text-sm mt-0.5">"{{ block.settings.quote }}"</p>
+              <p class="font-bold text-accent-foreground text-sm">{{ _name }}</p>
+              <p class="text-accent-foreground text-sm mt-0.5">"{{ _quote }}"</p>
             </div>
           </div>
-        {% endif %}
+        {%- endif -%}
       {% endfor %}
     </div>
   </div>
@@ -98,40 +108,31 @@
       "id": "heading_line_2",
       "label": "Heading Line 2",
       "default": "(y no tuvieron cruda)"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "testimonial",
-      "name": "Testimonial",
-      "settings": [
-        {
-          "type": "text",
-          "id": "name",
-          "label": "Name"
-        },
-        {
-          "type": "text",
-          "id": "quote",
-          "label": "Quote"
-        },
-        {
-          "type": "url",
-          "id": "video_url",
-          "label": "Video URL (from Shopify Files)"
-        }
-      ]
-    }
+    },
+    { "type": "header", "content": "Testimonial 1" },
+    { "type": "video", "id": "video_1", "label": "Video 1" },
+    { "type": "text", "id": "name_1", "label": "Name 1", "default": "Gustavo" },
+    { "type": "text", "id": "quote_1", "label": "Quote 1", "default": "Funciona increíble, lo recomiendo al 100%" },
+    { "type": "header", "content": "Testimonial 2" },
+    { "type": "video", "id": "video_2", "label": "Video 2" },
+    { "type": "text", "id": "name_2", "label": "Name 2", "default": "Gerardo" },
+    { "type": "text", "id": "quote_2", "label": "Quote 2", "default": "Le regalé a mis amigos y ya todos lo usan" },
+    { "type": "header", "content": "Testimonial 3" },
+    { "type": "video", "id": "video_3", "label": "Video 3" },
+    { "type": "text", "id": "name_3", "label": "Name 3", "default": "La Norteña" },
+    { "type": "text", "id": "quote_3", "label": "Quote 3", "default": "Amanecí como si no hubiera tomado nada" },
+    { "type": "header", "content": "Testimonial 4" },
+    { "type": "video", "id": "video_4", "label": "Video 4" },
+    { "type": "text", "id": "name_4", "label": "Name 4", "default": "Viri" },
+    { "type": "text", "id": "quote_4", "label": "Quote 4", "default": "No salgo de fiesta sin mi Buenacopa" },
+    { "type": "header", "content": "Testimonial 5" },
+    { "type": "video", "id": "video_5", "label": "Video 5" },
+    { "type": "text", "id": "name_5", "label": "Name 5" },
+    { "type": "text", "id": "quote_5", "label": "Quote 5" }
   ],
   "presets": [
     {
-      "name": "UGC Testimonials",
-      "blocks": [
-        { "type": "testimonial", "settings": { "name": "Gustavo", "quote": "Funciona increíble, lo recomiendo al 100%" } },
-        { "type": "testimonial", "settings": { "name": "Gerardo", "quote": "Le regalé a mis amigos y ya todos lo usan" } },
-        { "type": "testimonial", "settings": { "name": "La Norteña", "quote": "Amanecí como si no hubiera tomado nada" } },
-        { "type": "testimonial", "settings": { "name": "Viri", "quote": "No salgo de fiesta sin mi Buenacopa" } }
-      ]
+      "name": "UGC Testimonials"
     }
   ]
 }
