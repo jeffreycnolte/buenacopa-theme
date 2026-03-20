@@ -114,10 +114,15 @@
       "blocks": {
         "judge_me_reviews_reviews_grid_widget_6pxVMm": {
           "type": "shopify://apps/judge-me-reviews/blocks/reviews_grid_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "disabled": true,
           "settings": {
             "show_sample_reviews": false,
-            "review_selection": "all",
-            "products": [],
+            "review_selection": "product_reviews",
+            "products": [
+              "buenacopa-5-sobres-copy",
+              "buenacopa",
+              "buenacopa-5-sobres-1"
+            ],
             "show_media_only": false,
             "display_order": "media_first",
             "columns_desktop": 3,
@@ -131,10 +136,10 @@
             "corner_styling": "soft",
             "card_spacing": "medium",
             "header_text_color": "#000000",
-            "star_and_reviewer_name_color": "#F9F9F9",
+            "star_and_reviewer_name_color": "#f9f9f9",
             "drop_shadow_color": "#000000",
             "overlay_and_background_color": "#000000",
-            "content_color": "#F9F9F9",
+            "content_color": "#f9f9f9",
             "header_text": "From our customers",
             "show_average_rating": true
           }
@@ -284,13 +289,13 @@
     "product-showcase",
     "formula",
     "ugc",
-    "1773878705558427e7",
     "how-it-works",
     "available-in",
     "brand-banner",
     "faq",
     "17735003308726751e",
     "177350034795b0e5ea",
+    "1773878705558427e7",
     "177371397400f805ef"
   ]
 }
