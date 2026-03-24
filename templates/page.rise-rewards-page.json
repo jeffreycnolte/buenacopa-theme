@@ -91,15 +91,15 @@
           "type": "shopify://apps/rise-gift-cards-store-credit/blocks/rise-rewards-page-faq-extension/d837f9d0-9f22-491a-94b6-f32b41864892",
           "settings": {
             "caption": "FAQ",
-            "title": "Everything you need to know",
+            "title": "Todo lo que necesitas saber",
             "background_color": "#ffffff",
-            "text_color": "#000000",
-            "row1_question": "Where can I see my store credit?",
-            "row1_answer": "Write your answer here",
-            "row2_question": "Can I use credit with other discounts?",
-            "row2_answer": "Write your answer here",
-            "row3_question": "Does store credit expire?",
-            "row3_answer": "Write your answer here"
+            "text_color": "#071d40",
+            "row1_question": "¿Dónde veo mi crédito acumulado?",
+            "row1_answer": "Puedes ver tu crédito iniciando sesión en tu cuenta de Buenacopa.\nAhí verás tu saldo acumulado y cuánto te falta para que tu próxima caja te salga gratis.",
+            "row2_question": "¿Puedo combinar mi crédito con otros descuentos?",
+            "row2_answer": "Sí. Tu crédito se aplica en el checkout y puede combinarse con la mayoría de promociones y suscripciones, salvo que se indique lo contrario en una oferta especial.",
+            "row3_question": "¿Mi crédito tiene fecha de expiración?",
+            "row3_answer": "Tu crédito tiene una vigencia de 12 meses desde que se genera. Te avisaremos antes de que expire para que puedas usarlo sin perderlo."
           }
         }
       },
