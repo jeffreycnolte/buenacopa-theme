@@ -53,6 +53,7 @@
         "product": "buenacopa-5-sobres-copy",
         "tagline": "Bienestar Post-Fiesta",
         "review_label": "10,000+ mañanas sin cruda",
+        "review_count": "150",
         "amazon_url": "https://www.amazon.com.mx/stores/page/FDB18C6D-10B7-43A2-AA75-D935DEF10C38?channel=BOTONSITIOWEB",
         "mercadolibre_url": "https://www.mercadolibre.com.mx/tienda/buenacopa"
       }
@@ -108,47 +109,6 @@
         "name_5": "",
         "quote_5": ""
       }
-    },
-    "1773878705558427e7": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_reviews_grid_widget_6pxVMm": {
-          "type": "shopify://apps/judge-me-reviews/blocks/reviews_grid_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "disabled": true,
-          "settings": {
-            "show_sample_reviews": false,
-            "review_selection": "product_reviews",
-            "products": [
-              "buenacopa-5-sobres-copy",
-              "buenacopa",
-              "buenacopa-5-sobres-1"
-            ],
-            "show_media_only": false,
-            "display_order": "media_first",
-            "columns_desktop": 3,
-            "rows_desktop": 3,
-            "columns_mobile": "2",
-            "rows_mobile": 6,
-            "show_stars": true,
-            "show_reviewer_name": true,
-            "show_review_title_on_hover_desktop": true,
-            "max_width": 1100,
-            "corner_styling": "soft",
-            "card_spacing": "medium",
-            "header_text_color": "#000000",
-            "star_and_reviewer_name_color": "#f9f9f9",
-            "drop_shadow_color": "#000000",
-            "overlay_and_background_color": "#000000",
-            "content_color": "#f9f9f9",
-            "header_text": "From our customers",
-            "show_average_rating": true
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_reviews_grid_widget_6pxVMm"
-      ],
-      "settings": {}
     },
     "how-it-works": {
       "type": "how-it-works",
@@ -258,6 +218,13 @@
             "question": "¿Si no me funciona?",
             "answer": "Si no sientes la diferencia, te devolvemos tu dinero. Sin preguntas."
           }
+        },
+        "faq_item_gLEBFy": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cuáles son sus estándares?",
+            "answer": "Hecho en México con ingredientes de origen global\nFabricado en una instalación regulada por COFEPRIS\nInstalación certificada con Buenas Prácticas de Manufactura (GMP)\nSin colorantes ni ingredientes artificiales\nApto para vegetarianos\nLibre de gluten\nSin cafeína\nSin taurina\nSin ázucar"
+          }
         }
       },
       "block_order": [
@@ -265,7 +232,8 @@
         "faq-2",
         "faq-3",
         "faq-4",
-        "faq-5"
+        "faq-5",
+        "faq_item_gLEBFy"
       ],
       "settings": {
         "heading": "Preguntas frecuentes"
@@ -277,6 +245,47 @@
     },
     "177350034795b0e5ea": {
       "type": "apps",
+      "settings": {}
+    },
+    "1773878705558427e7": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_reviews_grid_widget_6pxVMm": {
+          "type": "shopify://apps/judge-me-reviews/blocks/reviews_grid_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "disabled": true,
+          "settings": {
+            "show_sample_reviews": false,
+            "review_selection": "product_reviews",
+            "products": [
+              "buenacopa-5-sobres-copy",
+              "buenacopa",
+              "buenacopa-5-sobres-1"
+            ],
+            "show_media_only": false,
+            "display_order": "media_first",
+            "columns_desktop": 3,
+            "rows_desktop": 3,
+            "columns_mobile": "2",
+            "rows_mobile": 6,
+            "show_stars": true,
+            "show_reviewer_name": true,
+            "show_review_title_on_hover_desktop": true,
+            "max_width": 1100,
+            "corner_styling": "soft",
+            "card_spacing": "medium",
+            "header_text_color": "#000000",
+            "star_and_reviewer_name_color": "#f9f9f9",
+            "drop_shadow_color": "#000000",
+            "overlay_and_background_color": "#000000",
+            "content_color": "#f9f9f9",
+            "header_text": "From our customers",
+            "show_average_rating": true
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_reviews_grid_widget_6pxVMm"
+      ],
       "settings": {}
     },
     "177371397400f805ef": {
