@@ -11,7 +11,7 @@
   --secondary: 215 82% 18%;
   --secondary-foreground: 0 0% 100%;
   --muted: 215 60% 22%;
-  --muted-foreground: 210 30% 72%;
+  --muted-foreground: 210 30% 80%;
   --accent: 149 100% 34%;
   --accent-foreground: 0 0% 100%;
   --accent-contrast: 149 100% 24%;
@@ -57,11 +57,12 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   padding: 1rem 2rem;
   border-radius: 9999px;
-  transition: all 0.3s;
+  transition: transform 0.3s, opacity 0.3s, box-shadow 0.3s;
   box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  will-change: transform;
 }
 .btn-cta:hover {
   opacity: 0.9;
@@ -80,7 +81,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0.75rem 1.5rem;
   border-radius: 9999px;
   border: 1px solid rgba(255,255,255,0.2);
-  transition: all 0.3s;
+  transition: background-color 0.3s;
 }
 .btn-secondary:hover {
   background-color: rgba(255,255,255,0.2);
@@ -158,10 +159,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
+  will-change: transform;
 }
 
 .animate-marquee {
   animation: marquee 12s linear infinite;
+  will-change: transform;
 }
 
 .animate-marquee-slow {
@@ -216,7 +219,7 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 99;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s;
+  transition: opacity 0.3s, visibility 0.3s;
 }
 .cart-drawer-overlay.active {
   opacity: 1;

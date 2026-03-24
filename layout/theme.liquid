@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
- {%- if content_for_header contains 'tapita-seo-script-tags' -%}{%- include 'tapita-seo-schema' -%}{%- endif -%} 
+ {%- if content_for_header contains 'tapita-seo-script-tags' -%}{%- include 'tapita-seo-schema' -%}{%- endif -%}
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,79 +10,63 @@
     <meta name="description" content="{{ page_description | escape }}">
   {% endif %}
 
-  {{ content_for_header }}
-
-  <!-- Preconnect -->
+  <!-- Preconnect (only critical origins) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="dns-prefetch" href="https://cdn.judge.me">
+  <link rel="dns-prefetch" href="https://cdn.shopify.com">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+  <!-- Preload LCP hero image for fastest paint -->
+  {%- assign hero_section = section -%}
+  <link rel="preload" as="image" href="{{ 'hero-sachet.jpg' | asset_url }}" fetchpriority="high">
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        container: {
-          center: true,
-          padding: '2rem',
-          screens: { '2xl': '1400px' }
-        },
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-            display: ['Nunito', 'Inter', 'system-ui', 'sans-serif']
-          },
-          colors: {
-            border: 'hsl(var(--border))',
-            input: 'hsl(var(--input))',
-            ring: 'hsl(var(--ring))',
-            background: 'hsl(var(--background))',
-            foreground: 'hsl(var(--foreground))',
-            primary: { DEFAULT: 'hsl(var(--primary))', foreground: 'hsl(var(--primary-foreground))' },
-            secondary: { DEFAULT: 'hsl(var(--secondary))', foreground: 'hsl(var(--secondary-foreground))' },
-            destructive: { DEFAULT: 'hsl(var(--destructive))', foreground: 'hsl(var(--destructive-foreground))' },
-            muted: { DEFAULT: 'hsl(var(--muted))', foreground: 'hsl(var(--muted-foreground))' },
-            accent: { DEFAULT: 'hsl(var(--accent))', foreground: 'hsl(var(--accent-foreground))', contrast: 'hsl(var(--accent-contrast))' },
-            popover: { DEFAULT: 'hsl(var(--popover))', foreground: 'hsl(var(--popover-foreground))' },
-            card: { DEFAULT: 'hsl(var(--card))', foreground: 'hsl(var(--card-foreground))' },
-            'header-bg': 'hsl(var(--header-bg))',
-            'hero-bg': 'hsl(var(--hero-bg))',
-            'section-alt': 'hsl(var(--section-alt))',
-            'cta-green': 'hsl(var(--cta-green))',
-            'text-light': 'hsl(var(--text-light))',
-            'text-dark': 'hsl(var(--text-dark))'
-          },
-          borderRadius: {
-            lg: 'var(--radius)',
-            md: 'calc(var(--radius) - 2px)',
-            sm: 'calc(var(--radius) - 4px)'
-          },
-          keyframes: {
-            'fade-in': {
-              from: { opacity: '0', transform: 'translateY(20px)' },
-              to: { opacity: '1', transform: 'translateY(0)' }
-            },
-            'slide-in': {
-              from: { opacity: '0', transform: 'translateX(-20px)' },
-              to: { opacity: '1', transform: 'translateX(0)' }
-            }
-          },
-          animation: {
-            'fade-in': 'fade-in 0.6s ease-out forwards',
-            'slide-in': 'slide-in 0.6s ease-out forwards'
-          }
-        }
-      }
-    }
-  </script>
+  <!-- Critical CSS (inline above-the-fold styles) -->
+  <style>
+    /* Critical: fonts, body, hero, header — inlined for fastest FCP */
+    @font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/inter/v18/UcCo3FwrK3iLTcviYwY.woff2) format('woff2')}
+    @font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(https://fonts.gstatic.com/s/inter/v18/UcCo3FwrK3iLTcviYwY.woff2) format('woff2')}
+    @font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url(https://fonts.gstatic.com/s/inter/v18/UcCo3FwrK3iLTcviYwY.woff2) format('woff2')}
+    @font-face{font-family:'Nunito';font-style:normal;font-weight:700;font-display:swap;src:url(https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDIkhdTQ3j6zbXWjgevT5.woff2) format('woff2')}
+    @font-face{font-family:'Nunito';font-style:normal;font-weight:800;font-display:swap;src:url(https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDIkhdTQ3j6zbXWjgevT5.woff2) format('woff2')}
+    @font-face{font-family:'Nunito';font-style:normal;font-weight:900;font-display:swap;src:url(https://fonts.gstatic.com/s/nunito/v26/XRXI3I6Li01BKofiOc5wtlZ2di8HDIkhdTQ3j6zbXWjgevT5.woff2) format('woff2')}
+    body{font-family:'Inter',system-ui,sans-serif;margin:0}
+    h1,h2,h3,h4,h5,h6{font-family:'Nunito','Inter',system-ui,sans-serif;font-weight:800}
+    .min-h-screen{min-height:100vh}
+  </style>
+
+  <!-- Load Google Fonts async (non-render-blocking) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nunito:wght@400;700;800;900&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet"></noscript>
+
+  <!-- Tailwind (compiled & purged) -->
+  {{ 'tailwind.min.css' | asset_url | stylesheet_tag }}
 
   <!-- Theme CSS -->
-  {{ 'theme.css' | asset_url | stylesheet_tag }}
+  {{ 'theme.min.css' | asset_url | stylesheet_tag }}
 
   {% render 'meta-tags', page_description: page_description, page_title: page_title  %}
+
+  <!-- Shopify required scripts (moved after critical CSS) -->
+  {{ content_for_header }}
+
+  <!-- Organization JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    "url": "{{ shop.url }}",
+    "logo": "https:{{ 'logo.png' | asset_url }}",
+    "description": {{ shop.description | json }},
+    "sameAs": [
+      {% if settings.social_instagram_link != blank %}"{{ settings.social_instagram_link }}"{% endif %}
+      {% if settings.social_facebook_link != blank %},{{ settings.social_facebook_link | json }}{% endif %}
+      {% if settings.social_tiktok_link != blank %},{{ settings.social_tiktok_link | json }}{% endif %}
+      {% if settings.social_twitter_link != blank %},{{ settings.social_twitter_link | json }}{% endif %}
+      {% if settings.social_youtube_link != blank %},{{ settings.social_youtube_link | json }}{% endif %}
+    ]
+  }
+  </script>
 </head>
 <body class="min-h-screen bg-background text-foreground font-sans antialiased">
   {% section 'header' %}
@@ -95,9 +79,31 @@
 
   {% render 'cart-drawer' %}
 
-  <script src="{{ 'theme.js' | asset_url }}" defer></script>
-  <script src="{{ 'cart-drawer.js' | asset_url }}" defer></script>
-  <script src="{{ 'product-form.js' | asset_url }}" defer></script>
-  <script src="{{ 'video-section.js' | asset_url }}" defer></script>
+  <!-- Theme JS (all deferred) -->
+  <script src="{{ 'theme.min.js' | asset_url }}" defer></script>
+  <script src="{{ 'cart-drawer.min.js' | asset_url }}" defer></script>
+  <script src="{{ 'product-form.min.js' | asset_url }}" defer></script>
+  <script src="{{ 'video-section.min.js' | asset_url }}" defer></script>
+
+  <!-- Defer 3rd-party scripts until after user interaction -->
+  <script>
+    (function(){
+      var loaded = false;
+      function loadThirdParty(){
+        if(loaded) return;
+        loaded = true;
+        // Judge.me reviews widget
+        var jm = document.createElement('script');
+        jm.src = 'https://cdn.judge.me/widget_preloader.js';
+        jm.async = true;
+        document.body.appendChild(jm);
+      }
+      // Load on first interaction or after 5s (whichever comes first)
+      ['scroll','click','touchstart','mousemove','keydown'].forEach(function(evt){
+        document.addEventListener(evt, loadThirdParty, {once:true, passive:true});
+      });
+      setTimeout(loadThirdParty, 5000);
+    })();
+  </script>
 </body>
 </html>
