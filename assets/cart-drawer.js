@@ -52,10 +52,11 @@ var CartDrawer = {
         var escapedTitle = item.title.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         var escapedKey = item.key.replace(/'/g, "\\'");
 
-        html += '<div class="flex gap-4 p-2 border-b border-border" data-key="' + item.key + '">';
+        html += '<div class="flex gap-4 p-3 border-b border-border" data-key="' + item.key + '">';
         if (item.image) {
-          html += '<div class="w-16 h-16 rounded-md overflow-hidden flex-shrink-0 bg-muted">';
-          html += '<img src="' + item.image + '" alt="' + escapedTitle + '" class="w-full h-full object-cover" width="64" height="64">';
+          var imgSrc = item.image.replace(/(\.\w+)(\?|$)/, '_120x120$1$2');
+          html += '<div style="width:64px;height:64px;min-width:64px;max-width:64px;border-radius:8px;overflow:hidden;flex-shrink:0;background:hsl(215 60% 22%)">';
+          html += '<img src="' + imgSrc + '" alt="' + escapedTitle + '" style="width:64px;height:64px;object-fit:cover;display:block" width="64" height="64" loading="eager">';
           html += '</div>';
         }
         html += '<div class="flex-1 min-w-0">';
