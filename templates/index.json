@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "hero": {
@@ -80,10 +71,7 @@
           }
         }
       },
-      "block_order": [
-        "dhm",
-        "lcisteina"
-      ],
+      "block_order": ["dhm", "lcisteina"],
       "settings": {
         "heading": "La fórmula que previene la cruda",
         "tagline": "Doble ataque, una sola misión: Que la cruda no llegue, y amanezcas bien."
@@ -100,7 +88,7 @@
         "video_2": "shopify://files/videos/Reel Gerardo H_sutitulos.mp4",
         "name_2": "Gerardo",
         "quote_2": "Le regalé a mis amigos y ya todos lo usan",
-        "video_3": "shopify://files/videos/Ad Reel _Testimonio Norteña_.mp4",
+        "video_3": "",
         "name_3": "La Norteña",
         "quote_3": "Amanecí como si no hubiera tomado nada",
         "video_4": "shopify://files/videos/Reel Testimonio Viri.mp4",
@@ -138,11 +126,7 @@
           }
         }
       },
-      "block_order": [
-        "step-1",
-        "step-2",
-        "step-3"
-      ],
+      "block_order": ["step-1", "step-2", "step-3"],
       "settings": {
         "heading": "Tu ritual en 3 pasos"
       }
@@ -167,10 +151,7 @@
           }
         }
       },
-      "block_order": [
-        "amazon",
-        "mercadolibre"
-      ],
+      "block_order": ["amazon", "mercadolibre"],
       "settings": {
         "heading": "También disponible en:"
       }
@@ -238,89 +219,6 @@
       "settings": {
         "heading": "Preguntas frecuentes"
       }
-    },
-    "17735003308726751e": {
-      "type": "apps",
-      "blocks": {
-        "rise_gift_cards_store_credit_rise_referrals_extension_CdEjLz": {
-          "type": "shopify://apps/rise-gift-cards-store-credit/blocks/rise-referrals-extension/d837f9d0-9f22-491a-94b6-f32b41864892",
-          "settings": {
-            "preview_state": "logged_in",
-            "backgroundColor": "#FFFFFF",
-            "contentColor": "#004ab2",
-            "contentAlignment": "center",
-            "buttonWidth": "stretched",
-            "caption": "BUENACOPA 100/100",
-            "title": "Da $100, Recibe $100",
-            "subtitle": "Si Buenacopa te funcionó, pásalo. Ambos reciben $100.",
-            "button_text": "Obtener mi link",
-            "login_button_text": "Inicia sesión y gana $100",
-            "enable_facebook": true,
-            "enable_twitter": true,
-            "enable_whatsapp": true,
-            "enable_email": true,
-            "enable_messenger": true,
-            "enable_imessage": true,
-            "preset_message": "Check out this store and get a reward on your first purchase!"
-          }
-        }
-      },
-      "block_order": [
-        "rise_gift_cards_store_credit_rise_referrals_extension_CdEjLz"
-      ],
-      "custom_css": [
-        "button,a,input{background:#08b43c!important;color:#fff!important;border:none!important;border-radius:999px!important;box-shadow:none!important;font-weight:700!important;}"
-      ],
-      "settings": {}
-    },
-    "177350034795b0e5ea": {
-      "type": "apps",
-      "settings": {}
-    },
-    "1773878705558427e7": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_reviews_grid_widget_6pxVMm": {
-          "type": "shopify://apps/judge-me-reviews/blocks/reviews_grid_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "disabled": true,
-          "settings": {
-            "show_sample_reviews": false,
-            "review_selection": "product_reviews",
-            "products": [
-              "buenacopa-5-sobres-copy",
-              "buenacopa",
-              "buenacopa-5-sobres-1"
-            ],
-            "show_media_only": false,
-            "display_order": "media_first",
-            "columns_desktop": 3,
-            "rows_desktop": 3,
-            "columns_mobile": "2",
-            "rows_mobile": 6,
-            "show_stars": true,
-            "show_reviewer_name": true,
-            "show_review_title_on_hover_desktop": true,
-            "max_width": 1100,
-            "corner_styling": "soft",
-            "card_spacing": "medium",
-            "header_text_color": "#000000",
-            "star_and_reviewer_name_color": "#f9f9f9",
-            "drop_shadow_color": "#000000",
-            "overlay_and_background_color": "#000000",
-            "content_color": "#f9f9f9",
-            "header_text": "From our customers",
-            "show_average_rating": true
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_reviews_grid_widget_6pxVMm"
-      ],
-      "settings": {}
-    },
-    "177371397400f805ef": {
-      "type": "apps",
-      "settings": {}
     }
   },
   "order": [
@@ -331,10 +229,6 @@
     "how-it-works",
     "available-in",
     "brand-banner",
-    "faq",
-    "17735003308726751e",
-    "177350034795b0e5ea",
-    "1773878705558427e7",
-    "177371397400f805ef"
+    "faq"
   ]
 }
