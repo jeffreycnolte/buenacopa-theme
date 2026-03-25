@@ -22,7 +22,7 @@
 -%}
 
 <!-- ═══════ 1. HERO ═══════ -->
-<section class="bg-accent relative overflow-hidden">
+<section class="bg-background relative overflow-hidden">
   {%- if section.settings.hero_image -%}
     <div class="absolute inset-0 z-0">
       <img
@@ -30,18 +30,19 @@
         srcset="{{ section.settings.hero_image | image_url: width: 768 }} 768w, {{ section.settings.hero_image | image_url: width: 1920 }} 1920w"
         sizes="100vw"
         alt=""
-        class="w-full h-full object-cover opacity-20"
+        class="w-full h-full object-cover opacity-15"
         loading="eager"
         width="1920" height="800" decoding="async"
       >
     </div>
   {%- endif -%}
-  <div class="container-custom relative z-10 text-center py-16 md:py-20 lg:py-24">
-    <h1 class="text-4xl sm:text-5xl md:text-6xl font-display font-black text-white leading-tight">
+  <div class="container-custom relative z-10 text-center py-20 md:py-28 lg:py-36">
+    <p class="text-accent font-bold text-sm md:text-base tracking-widest uppercase mb-6">Conócenos</p>
+    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black text-foreground leading-[0.95]">
       {{ hero_heading }}
     </h1>
     {%- if section.settings.hero_subtitle != blank -%}
-      <p class="mt-4 md:mt-6 text-lg md:text-xl text-white/80 font-sans max-w-2xl mx-auto leading-relaxed">
+      <p class="mt-6 md:mt-8 text-lg md:text-xl lg:text-2xl text-foreground/70 font-sans max-w-2xl mx-auto leading-relaxed">
         {{ section.settings.hero_subtitle }}
       </p>
     {%- endif -%}
@@ -212,18 +213,14 @@
       {%- assign has_commitment_images = true -%}
     {%- endif -%}
 
-    <div class="{% if has_commitment_images %}grid lg:grid-cols-2 gap-10 lg:gap-16 items-center{% else %}max-w-4xl mx-auto text-center{% endif %}">
+    <div class="{% if has_commitment_images %}grid lg:grid-cols-2 gap-10 lg:gap-16 items-center{% else %}max-w-3xl mx-auto{% endif %}">
       <!-- Text -->
       <div>
-        <div class="flex items-center gap-4 mb-6 {% unless has_commitment_images %}justify-center{% endunless %}">
-          <span class="h-px w-10 bg-accent"></span>
-          <span class="w-2 h-2 rounded-full bg-accent"></span>
-          <span class="h-px w-10 bg-accent"></span>
-        </div>
+        <p class="text-accent font-bold text-sm md:text-base tracking-widest uppercase mb-4">Nuestro Compromiso</p>
         <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-foreground mb-8 md:mb-10">
           {{ commitment_heading }}
         </h2>
-        <div class="text-foreground/80 font-sans text-lg leading-relaxed space-y-5">
+        <div class="text-foreground/70 font-sans text-base md:text-lg leading-relaxed space-y-5 text-left">
           {{ commitment_text }}
         </div>
         {%- if section.settings.commitment_cta_text != blank -%}

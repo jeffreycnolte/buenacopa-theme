@@ -75,11 +75,11 @@
       </div>
 
       {% if section.settings.payment_enable %}
-        <div class="footer__payment">
-          <span class="visually-hidden">{{ 'footer.payment_methods' | t }}</span>
-          <ul class="list list-payment flex flex-wrap gap-1" role="list">
+        <div class="footer__payment text-right">
+          <p class="text-muted-foreground text-xs font-bold uppercase tracking-wider mb-2">Métodos de pago</p>
+          <ul class="list list-payment flex flex-wrap justify-end gap-1.5" role="list">
             {% for type in shop.enabled_payment_types %}
-              <li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
+              <li class="bg-white/10 rounded px-1 py-0.5">{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>
             {% endfor %}
           </ul>
         </div>
