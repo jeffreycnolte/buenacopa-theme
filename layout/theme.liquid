@@ -1,75 +1,95 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ request.locale.iso_code | default: 'es' }}">
 <head>
- {%- if content_for_header contains 'tapita-seo-script-tags' -%}{%- include 'tapita-seo-schema' -%}{%- endif -%}
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  {%- comment -%}Tapita SEO schema override — must run before title tag{%- endcomment -%}
+  {%- if content_for_header contains 'tapita-seo-script-tags' -%}{%- render 'tapita-seo-schema' -%}{%- endif -%}
+
   <title>{{ page_title }}{% unless page_title contains shop.name %} – {{ shop.name }}{% endunless %}</title>
   {% if page_description %}
     <meta name="description" content="{{ page_description | escape }}">
   {% endif %}
 
+  {%- comment -%}Favicon{%- endcomment -%}
+  {%- if settings.favicon -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
+
   {{ content_for_header }}
 
-  <!-- TikTok Pixel Code Start -->
-<script>
-!function (w, d, t) {
-  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
-var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
-;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
-
-
-  ttq.load('D1JEHJRC77U87UH7IK6G');
-  ttq.page();
-}(window, document, 'ttq');
-</script>
-<!-- TikTok Pixel Code End -->
-
-  <!-- Preconnect -->
+  {%- comment -%}Preconnect to critical origins{%- endcomment -%}
+  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://cdn.judge.me">
 
-  <!-- Preload LCP hero image -->
-  <link rel="preload" as="image" href="{{ 'hero-sachet.jpg' | asset_url }}" fetchpriority="high">
+  {%- comment -%}Preload LCP hero image (homepage only){%- endcomment -%}
+  {%- if request.page_type == 'index' -%}
+    <link rel="preload" as="image" href="{{ 'hero-sachet.jpg' | asset_url }}" fetchpriority="high">
+  {%- endif -%}
 
-  <!-- Fonts (non-render-blocking) -->
+  {%- comment -%}Fonts — non-render-blocking via media swap{%- endcomment -%}
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nunito:wght@400;700;800;900&display=swap">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet"></noscript>
 
-  <!-- Tailwind (compiled & purged — replaces CDN) -->
+  {%- comment -%}Stylesheets{%- endcomment -%}
   {{ 'tailwind.min.css' | asset_url | stylesheet_tag }}
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
 
-  <!-- Theme CSS -->
-  {{ 'theme.min.css' | asset_url | stylesheet_tag }}
+  {% render 'meta-tags', page_description: page_description, page_title: page_title %}
 
-  {% render 'meta-tags', page_description: page_description, page_title: page_title  %}
-
-  <!-- Organization JSON-LD -->
+  {%- comment -%}Organization JSON-LD{%- endcomment -%}
+  {%- assign social_links = '' -%}
+  {%- if settings.social_instagram_link != blank -%}{%- assign social_links = social_links | append: settings.social_instagram_link | append: '|' -%}{%- endif -%}
+  {%- if settings.social_facebook_link != blank -%}{%- assign social_links = social_links | append: settings.social_facebook_link | append: '|' -%}{%- endif -%}
+  {%- if settings.social_tiktok_link != blank -%}{%- assign social_links = social_links | append: settings.social_tiktok_link | append: '|' -%}{%- endif -%}
+  {%- if settings.social_twitter_link != blank -%}{%- assign social_links = social_links | append: settings.social_twitter_link | append: '|' -%}{%- endif -%}
+  {%- if settings.social_youtube_link != blank -%}{%- assign social_links = social_links | append: settings.social_youtube_link | append: '|' -%}{%- endif -%}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": {{ shop.name | json }},
-    "url": "{{ shop.url }}",
-    "logo": "https:{{ 'logo.png' | asset_url }}",
-    "description": {{ shop.description | json }},
-    "sameAs": [
-      {% if settings.social_instagram_link != blank %}"{{ settings.social_instagram_link }}"{% endif %}
-      {% if settings.social_facebook_link != blank %},{{ settings.social_facebook_link | json }}{% endif %}
-      {% if settings.social_tiktok_link != blank %},{{ settings.social_tiktok_link | json }}{% endif %}
-      {% if settings.social_twitter_link != blank %},{{ settings.social_twitter_link | json }}{% endif %}
-      {% if settings.social_youtube_link != blank %},{{ settings.social_youtube_link | json }}{% endif %}
+    "url": {{ shop.url | json }},
+    "logo": {{ settings.logo | default: 'logo-offwhite.png' | asset_url | prepend: 'https:' | json }},
+    "description": {{ shop.description | json }}
+    {%- if social_links != blank -%}
+    ,"sameAs": [
+      {%- assign links_array = social_links | split: '|' -%}
+      {%- for link in links_array -%}
+        {%- if link != blank -%}
+          {{ link | json }}{%- unless forloop.last -%},{%- endunless -%}
+        {%- endif -%}
+      {%- endfor -%}
     ]
+    {%- endif -%}
   }
   </script>
 </head>
 <body class="min-h-screen bg-background text-foreground font-sans antialiased">
+  <a class="skip-to-content" href="#main-content">{{ 'general.skip_to_content' | t }}</a>
+
+  {%- comment -%}Announcement bar{%- endcomment -%}
+  {%- if settings.announcement_enable -%}
+    <div class="announcement-bar" role="region" aria-label="{{ 'general.announcement' | t }}" style="background-color: {{ settings.announcement_bg_color }}; color: {{ settings.announcement_text_color }};">
+      <div class="container-custom py-2 text-center text-sm font-medium">
+        {%- if settings.announcement_link != blank -%}
+          <a href="{{ settings.announcement_link }}" class="announcement-bar__link" style="color: {{ settings.announcement_text_color }};">
+            {{ settings.announcement_text }}
+          </a>
+        {%- else -%}
+          {{ settings.announcement_text }}
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
   {% section 'header' %}
 
-  <main>
+  <main id="main-content" class="pb-16 lg:pb-0">
     {{ content_for_layout }}
   </main>
 
@@ -77,9 +97,37 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
 
   {% render 'cart-drawer' %}
 
-  <script src="{{ 'theme.min.js' | asset_url }}" defer></script>
-  <script src="{{ 'cart-drawer.min.js' | asset_url }}" defer></script>
-  <script src="{{ 'product-form.min.js' | asset_url }}" defer></script>
-  <script src="{{ 'video-section.min.js' | asset_url }}" defer></script>
+  {%- comment -%}Translation strings for JavaScript{%- endcomment -%}
+  <script>
+    window.theme = window.theme || {};
+    window.theme.strings = {
+      addToCart: {{ 'general.cart.add_to_cart' | t | json }},
+      cartLoad: {{ 'general.errors.cart_load' | t | json }},
+      cartAdd: {{ 'general.errors.cart_add' | t | json }},
+      cartUpdate: {{ 'general.errors.cart_update' | t | json }},
+      cartRemove: {{ 'general.errors.cart_remove' | t | json }},
+      processError: {{ 'general.errors.process_error' | t | json }},
+      removeAria: {{ 'general.cart.remove' | t | json }},
+      decreaseQty: {{ 'general.cart.decrease_qty' | t | json }},
+      increaseQty: {{ 'general.cart.increase_qty' | t | json }},
+      quantityAria: {{ 'general.cart.quantity' | t | json }}
+    };
+  </script>
+
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  <script src="{{ 'cart-drawer.js' | asset_url }}" defer></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer></script>
+  <script src="{{ 'video-section.js' | asset_url }}" defer></script>
+
+  {%- comment -%}TikTok Pixel — deferred to not block rendering{%- endcomment -%}
+  <script>
+    window.addEventListener('load', function() {
+      !function (w, d, t) {
+        w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+        ttq.load('D1JEHJRC77U87UH7IK6G');
+        ttq.page();
+      }(window, document, 'ttq');
+    });
+  </script>
 </body>
 </html>
