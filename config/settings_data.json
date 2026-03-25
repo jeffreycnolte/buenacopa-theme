@@ -65,13 +65,6 @@
         "disabled": false,
         "settings": {}
       },
-      "12120936241911852800": {
-        "type": "shopify://apps/judge-me-reviews/blocks/reviews_tab/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-        "disabled": true,
-        "settings": {
-          "position": "right"
-        }
-      },
       "855628211100114053": {
         "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
         "disabled": false,
@@ -127,35 +120,6 @@
           "tooltip_position": "full-coco-right",
           "custom_css": "",
           "path_filter": ""
-        }
-      },
-      "15181020662106344915": {
-        "type": "shopify://apps/judge-me-reviews/blocks/popup_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-        "disabled": true,
-        "settings": {}
-      },
-      "5061340767713251008": {
-        "type": "shopify://apps/rise-gift-cards-store-credit/blocks/rise-referrals-reward-extension/d837f9d0-9f22-491a-94b6-f32b41864892",
-        "disabled": false,
-        "settings": {
-          "preview_state": "button_only",
-          "position": "bottom-middle",
-          "button_background_color": "#FFFFFF",
-          "button_text_color": "#071d40",
-          "floating_button_text": "Activa tu descuento de $100",
-          "rewardModal_background_color": "#FFFFFF",
-          "rewardModal_text_color": "#000000",
-          "rewardModal_button_color": "#00ab43",
-          "rewardModal_button_text_color": "#071d40",
-          "rewardModal_button_width": "fit",
-          "error_color": "#FF0000",
-          "rewardModal_title": "¡Tienes una invitación para celebrar mejor!",
-          "rewardModal_subtitle": "Reclama $100 en crédito para tu compra en Buenacopa",
-          "rewardModal_button_text": "Reclamar mi crédito",
-          "success_title": "¡Listo! $100 son tuyos",
-          "success_subtitle": "Te enviamos un email con todos los detalles",
-          "success_button_text": "Quiero mi Buenacopa",
-          "success_button_link": "shopify://collections/all"
         }
       },
       "4113930173634242220": {
