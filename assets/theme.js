@@ -1,19 +1,20 @@
 /**
  * Buenacopa Theme - Main JS
- * Handles: mobile menu, FAQ accordion, smooth scroll
+ * Handles: mobile menu, FAQ accordion, smooth scroll, cart count
  */
 
 document.addEventListener('DOMContentLoaded', function () {
   // ===== Mobile Menu Toggle =====
-  const menuToggle = document.getElementById('mobile-menu-toggle');
-  const mobileNav = document.getElementById('mobile-nav');
-  const menuIconOpen = document.getElementById('menu-icon-open');
-  const menuIconClose = document.getElementById('menu-icon-close');
+  var menuToggle = document.getElementById('mobile-menu-toggle');
+  var mobileNav = document.getElementById('mobile-nav');
+  var menuIconOpen = document.getElementById('menu-icon-open');
+  var menuIconClose = document.getElementById('menu-icon-close');
 
   if (menuToggle && mobileNav) {
     menuToggle.addEventListener('click', function () {
-      const isOpen = mobileNav.style.display !== 'none';
+      var isOpen = mobileNav.style.display !== 'none';
       mobileNav.style.display = isOpen ? 'none' : 'block';
+      menuToggle.setAttribute('aria-expanded', !isOpen);
       if (menuIconOpen) menuIconOpen.style.display = isOpen ? 'inline' : 'none';
       if (menuIconClose) menuIconClose.style.display = isOpen ? 'none' : 'inline';
     });
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.mobile-nav-link').forEach(function (link) {
       link.addEventListener('click', function () {
         mobileNav.style.display = 'none';
+        menuToggle.setAttribute('aria-expanded', 'false');
         if (menuIconOpen) menuIconOpen.style.display = 'inline';
         if (menuIconClose) menuIconClose.style.display = 'none';
       });
@@ -59,8 +61,10 @@ function toggleFaq(button) {
     if (otherItem !== item) {
       var otherContent = otherItem.querySelector('.faq-content');
       var otherChevron = otherItem.querySelector('.faq-chevron');
+      var otherButton = otherItem.querySelector('button[aria-expanded]');
       if (otherContent) otherContent.classList.remove('open');
       if (otherChevron) otherChevron.style.transform = '';
+      if (otherButton) otherButton.setAttribute('aria-expanded', 'false');
     }
   });
 
@@ -68,9 +72,11 @@ function toggleFaq(button) {
   if (isOpen) {
     content.classList.remove('open');
     if (chevron) chevron.style.transform = '';
+    button.setAttribute('aria-expanded', 'false');
   } else {
     content.classList.add('open');
     if (chevron) chevron.style.transform = 'rotate(180deg)';
+    button.setAttribute('aria-expanded', 'true');
   }
 }
 
