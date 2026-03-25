@@ -25,16 +25,16 @@
 -%}
 
 <!-- ========== 1. HERO ========== -->
-<section class="section-padding bg-background overflow-hidden">
+<section class="py-16 md:py-24 lg:py-32 bg-background overflow-hidden">
   <div class="container-custom">
     <div class="max-w-3xl mx-auto text-center">
-      <p class="text-accent font-bold text-sm md:text-base tracking-widest uppercase mb-4">
+      <p class="text-accent font-bold text-sm md:text-base tracking-widest uppercase mb-6">
         {{ hero_subheading }}
       </p>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-foreground leading-tight mb-6">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black text-foreground leading-[0.95] mb-8">
         {{ hero_heading }}
       </h1>
-      <p class="text-foreground/80 text-lg md:text-xl leading-relaxed font-sans">
+      <p class="text-foreground/70 text-lg md:text-xl lg:text-2xl leading-relaxed font-sans max-w-2xl mx-auto">
         {{ hero_text }}
       </p>
     </div>
@@ -42,16 +42,16 @@
 </section>
 
 <!-- ========== 2. WHAT CAUSES A HANGOVER ========== -->
-<section class="section-padding bg-white overflow-hidden">
+<section class="section-padding bg-secondary overflow-hidden">
   <div class="container-custom">
-    <div class="text-center mb-6 md:mb-8 max-w-3xl mx-auto">
-      <p class="text-primary font-bold text-sm md:text-base tracking-widest uppercase mb-4">
+    <div class="text-center mb-10 md:mb-14 max-w-3xl mx-auto">
+      <p class="text-accent font-bold text-sm md:text-base tracking-widest uppercase mb-4">
         {{ causes_subheading }}
       </p>
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-background mb-4">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-foreground mb-4">
         {{ causes_heading }}
       </h2>
-      <p class="text-background/70 text-base md:text-lg leading-relaxed font-sans">
+      <p class="text-foreground/70 text-base md:text-lg leading-relaxed font-sans">
         {{ causes_text }}
       </p>
     </div>
@@ -59,7 +59,7 @@
     <div class="grid md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
       {%- for block in section.blocks -%}
         {%- if block.type == 'cause_card' -%}
-          <div class="bg-background rounded-2xl p-8 flex flex-col gap-5 border border-white/10" {{ block.shopify_attributes }}>
+          <div class="bg-background/80 backdrop-blur-md border border-white/10 rounded-2xl p-8 flex flex-col gap-5" {{ block.shopify_attributes }}>
             <div class="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center text-accent">
               {%- case block.settings.icon -%}
                 {%- when 'skull' -%}
@@ -79,9 +79,9 @@
             <h3 class="text-xl md:text-2xl font-display font-black text-accent">
               {{ block.settings.title }}
             </h3>
-            <p class="text-foreground/80 leading-relaxed font-sans text-sm md:text-base">
+            <div class="text-foreground/80 leading-relaxed font-sans text-sm md:text-base">
               {{ block.settings.description }}
-            </p>
+            </div>
           </div>
         {%- endif -%}
       {%- endfor -%}
@@ -92,7 +92,7 @@
 <!-- ========== 3. INGREDIENTS ========== -->
 <section class="section-padding bg-background overflow-hidden">
   <div class="container-custom">
-    <div class="text-center mb-6 md:mb-8 max-w-3xl mx-auto">
+    <div class="text-center mb-12 md:mb-16 max-w-3xl mx-auto">
       <p class="text-accent font-bold text-sm md:text-base tracking-widest uppercase mb-4">
         {{ ingredients_subheading }}
       </p>
@@ -146,7 +146,7 @@
 </section>
 
 <!-- ========== 4. USAGE INSTRUCTIONS ========== -->
-<section class="section-padding bg-primary overflow-hidden">
+<section class="section-padding bg-background overflow-hidden">
   <div class="container-custom">
     <div class="text-center mb-6 md:mb-8 max-w-3xl mx-auto">
       <p class="text-accent font-bold text-sm md:text-base tracking-widest uppercase mb-4">
@@ -185,6 +185,11 @@
             <h3 class="text-lg md:text-xl font-display font-bold text-foreground leading-snug">
               {{ block.settings.title }}
             </h3>
+            {%- if block.settings.description != blank -%}
+              <p class="text-foreground/60 text-sm leading-relaxed font-sans mt-2">
+                {{ block.settings.description }}
+              </p>
+            {%- endif -%}
           </div>
         {%- endif -%}
       {%- endfor -%}
