@@ -1,0 +1,666 @@
+{% comment %}
+  Section: Como Funciona (Science / How It Works)
+  Standalone page section for the Buenacopa "Como Funciona" page.
+  Includes: Hero, Hangover causes, Ingredients, Usage steps, FAQ, CTA.
+{% endcomment %}
+
+{%- liquid
+  assign hero_heading     = section.settings.hero_heading
+  assign hero_subheading  = section.settings.hero_subheading
+  assign hero_text        = section.settings.hero_text
+  assign causes_heading   = section.settings.causes_heading
+  assign causes_subheading = section.settings.causes_subheading
+  assign causes_text      = section.settings.causes_text
+  assign ingredients_heading    = section.settings.ingredients_heading
+  assign ingredients_subheading = section.settings.ingredients_subheading
+  assign ingredients_text       = section.settings.ingredients_text
+  assign usage_heading    = section.settings.usage_heading
+  assign usage_subheading = section.settings.usage_subheading
+  assign usage_note       = section.settings.usage_note
+  assign faq_heading      = section.settings.faq_heading
+  assign cta_heading      = section.settings.cta_heading
+  assign cta_text         = section.settings.cta_text
+  assign cta_button_label = section.settings.cta_button_label
+  assign cta_button_link  = section.settings.cta_button_link
+-%}
+
+<!-- ========== 1. HERO ========== -->
+<section class="section-padding bg-background overflow-hidden">
+  <div class="container-custom">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-accent font-bold text-sm md:text-base tracking-widest uppercase mb-4">
+        {{ hero_subheading }}
+      </p>
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-foreground leading-tight mb-6">
+        {{ hero_heading }}
+      </h1>
+      <p class="text-foreground/80 text-lg md:text-xl leading-relaxed font-sans">
+        {{ hero_text }}
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 2. WHAT CAUSES A HANGOVER ========== -->
+<section class="section-padding bg-white overflow-hidden">
+  <div class="container-custom">
+    <div class="text-center mb-6 md:mb-8 max-w-3xl mx-auto">
+      <p class="text-primary font-bold text-sm md:text-base tracking-widest uppercase mb-4">
+        {{ causes_subheading }}
+      </p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-background mb-4">
+        {{ causes_heading }}
+      </h2>
+      <p class="text-background/70 text-base md:text-lg leading-relaxed font-sans">
+        {{ causes_text }}
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'cause_card' -%}
+          <div class="bg-background rounded-2xl p-8 flex flex-col gap-5 border border-white/10" {{ block.shopify_attributes }}>
+            <div class="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center text-accent">
+              {%- case block.settings.icon -%}
+                {%- when 'skull' -%}
+                  <!-- Skull / Toxin icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><path d="M8 20v2h8v-2"/><path d="m12.5 17-.5-1-.5 1h1z"/><path d="M17 14.5c1.2-1.4 2-3.3 2-5.5 0-3.9-3.1-7-7-7S5 5.1 5 9c0 2.2.8 4.1 2 5.5"/><path d="M7 14.5V17a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-2.5"/></svg>
+                {%- when 'brain' -%}
+                  <!-- Brain icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/></svg>
+                {%- when 'flame' -%}
+                  <!-- Flame / Inflammation icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                {%- else -%}
+                  <!-- Default shield icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+              {%- endcase -%}
+            </div>
+            <h3 class="text-xl md:text-2xl font-display font-black text-accent">
+              {{ block.settings.title }}
+            </h3>
+            <p class="text-foreground/80 leading-relaxed font-sans text-sm md:text-base">
+              {{ block.settings.description }}
+            </p>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<!-- ========== 3. INGREDIENTS ========== -->
+<section class="section-padding bg-background overflow-hidden">
+  <div class="container-custom">
+    <div class="text-center mb-6 md:mb-8 max-w-3xl mx-auto">
+      <p class="text-accent font-bold text-sm md:text-base tracking-widest uppercase mb-4">
+        {{ ingredients_subheading }}
+      </p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-foreground mb-4">
+        {{ ingredients_heading }}
+      </h2>
+      <p class="text-foreground/70 text-base md:text-lg leading-relaxed font-sans">
+        {{ ingredients_text }}
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'ingredient_card' -%}
+          <div class="bg-background/80 backdrop-blur-md border border-white/10 rounded-2xl p-8 md:p-10 flex flex-col gap-5" {{ block.shopify_attributes }}>
+            <div class="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center text-accent">
+              {%- case block.settings.icon -%}
+                {%- when 'dhm' -%}
+                  <!-- Molecule / DHM icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><circle cx="5" cy="8" r="2"/><circle cx="19" cy="8" r="2"/><circle cx="5" cy="16" r="2"/><circle cx="19" cy="16" r="2"/><line x1="6.7" y1="9.5" x2="10.3" y2="11"/><line x1="13.7" y1="11" x2="17.3" y2="9.5"/><line x1="6.7" y1="14.5" x2="10.3" y2="13"/><line x1="13.7" y1="13" x2="17.3" y2="14.5"/></svg>
+                {%- when 'shield' -%}
+                  <!-- Shield / L-Cisteina icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+                {%- when 'vitamin' -%}
+                  <!-- Sun / Vitamin C icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                {%- when 'curcuma' -%}
+                  <!-- Leaf / Curcuma icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+                {%- else -%}
+                  <!-- Default pill icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+              {%- endcase -%}
+            </div>
+            <div>
+              <h3 class="text-2xl md:text-3xl font-display font-black text-accent">
+                {{ block.settings.title }}
+              </h3>
+              {%- if block.settings.subtitle != blank -%}
+                <p class="text-muted-foreground text-sm font-medium mt-1">{{ block.settings.subtitle }}</p>
+              {%- endif -%}
+            </div>
+            <div class="text-foreground/85 leading-relaxed font-sans text-sm md:text-base ingredient-description">
+              {{ block.settings.description }}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<!-- ========== 4. USAGE INSTRUCTIONS ========== -->
+<section class="section-padding bg-primary overflow-hidden">
+  <div class="container-custom">
+    <div class="text-center mb-6 md:mb-8 max-w-3xl mx-auto">
+      <p class="text-accent font-bold text-sm md:text-base tracking-widest uppercase mb-4">
+        {{ usage_subheading }}
+      </p>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-foreground mb-4">
+        {{ usage_heading }}
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-5xl mx-auto">
+      {%- assign step_number = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'usage_step' -%}
+          {%- assign step_number = step_number | plus: 1 -%}
+          <div class="text-center flex flex-col items-center gap-4" {{ block.shopify_attributes }}>
+            <!-- Step number circle -->
+            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-accent/10 border-2 border-accent flex items-center justify-center">
+              <span class="text-2xl md:text-3xl font-display font-black text-accent">{{ step_number }}</span>
+            </div>
+            <!-- Step icon -->
+            <div class="w-12 h-12 flex items-center justify-center text-foreground/60">
+              {%- case block.settings.icon -%}
+                {%- when 'glass' -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h8"/><path d="M12 11v11"/><path d="m19 3-7 8-7-8Z"/></svg>
+                {%- when 'capsule' -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+                {%- when 'moon' -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                {%- when 'sun' -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                {%- else -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              {%- endcase -%}
+            </div>
+            <h3 class="text-lg md:text-xl font-display font-bold text-foreground leading-snug">
+              {{ block.settings.title }}
+            </h3>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if usage_note != blank -%}
+      <p class="text-foreground/60 text-sm text-center mt-10 max-w-2xl mx-auto italic font-sans">
+        {{ usage_note }}
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+<!-- ========== 5. FAQ ========== -->
+<section id="faq-ciencia" class="section-padding bg-background overflow-hidden">
+  <div class="container-custom">
+    <div class="text-center mb-12 md:mb-16">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-foreground">
+        {{ faq_heading }}
+      </h2>
+    </div>
+
+    <div class="max-w-3xl mx-auto space-y-3">
+      {%- assign faq_index = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'faq_item' -%}
+          {%- assign faq_index = faq_index | plus: 1 -%}
+          {%- assign faq_id = 'cf-faq-answer-' | append: faq_index -%}
+          <div class="border border-border/30 rounded-2xl overflow-hidden bg-background/30 cf-faq-item" {{ block.shopify_attributes }}>
+            <button
+              onclick="toggleCfFaq(this)"
+              aria-expanded="false"
+              aria-controls="{{ faq_id }}"
+              class="w-full flex items-center justify-between p-5 md:p-6 text-left hover:bg-white/[0.03] transition-colors"
+            >
+              <span class="text-foreground font-bold pr-4 font-sans">{{ block.settings.question }}</span>
+              <span class="text-accent flex-shrink-0 transition-transform duration-300 cf-faq-chevron" aria-hidden="true">
+                {% render 'icon-chevron-down', size: 20 %}
+              </span>
+            </button>
+            <div class="cf-faq-content" id="{{ faq_id }}" role="region">
+              <div>
+                <div class="px-5 md:px-6 pb-5 md:pb-6">
+                  <p class="text-foreground/80 leading-relaxed font-sans">{{ block.settings.answer }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<!-- ========== 6. CTA ========== -->
+<section class="section-padding bg-accent overflow-hidden">
+  <div class="container-custom">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-background mb-4">
+        {{ cta_heading }}
+      </h2>
+      <p class="text-background/80 text-lg md:text-xl leading-relaxed font-sans mb-8">
+        {{ cta_text }}
+      </p>
+      <a
+        href="{{ cta_button_link | default: '#comprar' }}"
+        class="inline-flex items-center justify-center px-8 py-4 bg-background text-foreground font-display font-bold text-lg rounded-full hover:bg-background/90 transition-colors"
+      >
+        {{ cta_button_label }}
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== STYLES ========== -->
+<style>
+  .cf-faq-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+  .cf-faq-content > div {
+    overflow: hidden;
+  }
+  .cf-faq-item.is-open .cf-faq-content {
+    grid-template-rows: 1fr;
+  }
+  .cf-faq-item.is-open .cf-faq-chevron {
+    transform: rotate(180deg);
+  }
+  .ingredient-description ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin-top: 0.5rem;
+  }
+  .ingredient-description li {
+    margin-bottom: 0.25rem;
+  }
+</style>
+
+<!-- ========== SCRIPTS ========== -->
+<script>
+  function toggleCfFaq(btn) {
+    var item = btn.closest('.cf-faq-item');
+    var isOpen = item.classList.contains('is-open');
+    /* Close all siblings */
+    var siblings = item.parentElement.querySelectorAll('.cf-faq-item');
+    for (var i = 0; i < siblings.length; i++) {
+      siblings[i].classList.remove('is-open');
+      siblings[i].querySelector('button').setAttribute('aria-expanded', 'false');
+    }
+    /* Toggle current */
+    if (!isOpen) {
+      item.classList.add('is-open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Como Funciona",
+  "tag": "div",
+  "class": "como-funciona-page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Hero Heading",
+      "default": "La ciencia detr\u00e1s de tu bienestar post-fiesta"
+    },
+    {
+      "type": "text",
+      "id": "hero_subheading",
+      "label": "Hero Subheading",
+      "default": "Ingredientes respaldados por estudios y con resultados reales"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_text",
+      "label": "Hero Text",
+      "default": "En Buenacopa entendemos lo valioso que es disfrutar de la vida social sin sacrificar tu bienestar al d\u00eda siguiente. Por eso hemos desarrollado una f\u00f3rmula cient\u00edficamente respaldada que te permite celebrar hoy y sentirte bien ma\u00f1ana."
+    },
+    {
+      "type": "header",
+      "content": "Hangover Causes"
+    },
+    {
+      "type": "text",
+      "id": "causes_heading",
+      "label": "Causes Heading",
+      "default": "\u00bfQu\u00e9 es la cruda y por qu\u00e9 sucede?"
+    },
+    {
+      "type": "text",
+      "id": "causes_subheading",
+      "label": "Causes Subheading",
+      "default": "Lo que tu cuerpo no olvida, aunque t\u00fa s\u00ed"
+    },
+    {
+      "type": "textarea",
+      "id": "causes_text",
+      "label": "Causes Description",
+      "default": "Cuando bebes alcohol, tu cuerpo inicia una serie de procesos para metabolizarlo. Lo que muchos no saben es que la cruda no es solo deshidrataci\u00f3n. Estos son los verdaderos culpables detr\u00e1s de ese malestar:"
+    },
+    {
+      "type": "header",
+      "content": "Ingredients"
+    },
+    {
+      "type": "text",
+      "id": "ingredients_heading",
+      "label": "Ingredients Heading",
+      "default": "La f\u00f3rmula ganadora detr\u00e1s de Buenacopa"
+    },
+    {
+      "type": "text",
+      "id": "ingredients_subheading",
+      "label": "Ingredients Subheading",
+      "default": "Ingredientes con respaldo cient\u00edfico, no con promesas"
+    },
+    {
+      "type": "textarea",
+      "id": "ingredients_text",
+      "label": "Ingredients Description",
+      "default": "Cada c\u00e1psula de Buenacopa est\u00e1 formulada con ingredientes como DHM y L-Ciste\u00edna, seleccionados por su eficacia y respaldo cient\u00edfico. Nada al azar, todo pensado para ayudarte a sentirte mejor despu\u00e9s de celebrar."
+    },
+    {
+      "type": "header",
+      "content": "Usage Instructions"
+    },
+    {
+      "type": "text",
+      "id": "usage_heading",
+      "label": "Usage Heading",
+      "default": "Saber c\u00f3mo y cu\u00e1ndo tomar Buenacopa hace toda la diferencia."
+    },
+    {
+      "type": "text",
+      "id": "usage_subheading",
+      "label": "Usage Subheading",
+      "default": "MODO DE USO: TAN SENCILLO COMO BRINDAR"
+    },
+    {
+      "type": "textarea",
+      "id": "usage_note",
+      "label": "Usage Note (bottom)",
+      "default": "Buenacopa est\u00e1 dise\u00f1ado para apoyar un consumo responsable de alcohol, no para contrarrestar el exceso extremo."
+    },
+    {
+      "type": "header",
+      "content": "FAQ"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "FAQ Heading",
+      "default": "Preguntas Frecuentes"
+    },
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "CTA Heading",
+      "default": "Prueba Buenacopa Hoy"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_text",
+      "label": "CTA Text",
+      "default": "Porque lo que empieza con una buena copa, merece terminar con un buen d\u00eda."
+    },
+    {
+      "type": "text",
+      "id": "cta_button_label",
+      "label": "CTA Button Label",
+      "default": "Comprar Ahora"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_link",
+      "label": "CTA Button Link",
+      "default": "#comprar"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "cause_card",
+      "name": "Hangover Cause",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "skull", "label": "Skull (Toxin)" },
+            { "value": "brain", "label": "Brain" },
+            { "value": "flame", "label": "Flame (Inflammation)" }
+          ],
+          "default": "skull"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    },
+    {
+      "type": "ingredient_card",
+      "name": "Ingredient Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "dhm", "label": "Molecule (DHM)" },
+            { "value": "shield", "label": "Shield (L-Ciste\u00edna)" },
+            { "value": "vitamin", "label": "Sun (Vitamina C)" },
+            { "value": "curcuma", "label": "Leaf (C\u00farcuma)" }
+          ],
+          "default": "dhm"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    },
+    {
+      "type": "usage_step",
+      "name": "Usage Step",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "glass", "label": "Glass" },
+            { "value": "capsule", "label": "Capsule" },
+            { "value": "moon", "label": "Moon" },
+            { "value": "sun", "label": "Sun" }
+          ],
+          "default": "glass"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step Title"
+        }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Como Funciona",
+      "blocks": [
+        {
+          "type": "cause_card",
+          "settings": {
+            "icon": "skull",
+            "title": "Acetaldeh\u00eddo: El Verdadero Villano",
+            "description": "<p>Tu h\u00edgado convierte el alcohol en acetaldeh\u00eddo, un compuesto hasta 20 veces m\u00e1s t\u00f3xico que el alcohol mismo. \u00c9ste es responsable de la mayor\u00eda de los s\u00edntomas cl\u00e1sicos como n\u00e1useas, dolor de cabeza punzante y malestar general.<\/p>"
+          }
+        },
+        {
+          "type": "cause_card",
+          "settings": {
+            "icon": "brain",
+            "title": "Desequilibrio Neuroqu\u00edmico",
+            "description": "<p>El alcohol afecta los neurotransmisores de tu cerebro, especialmente el GABA (inhibidor) y el glutamato (excitador). Cuando el efecto del alcohol desaparece, se produce un \"rebote\" que causa ansiedad, insomnio y nerviosismo al d\u00eda siguiente.<\/p>"
+          }
+        },
+        {
+          "type": "cause_card",
+          "settings": {
+            "icon": "flame",
+            "title": "Respuesta Inflamatoria",
+            "description": "<p>Tu cuerpo reacciona al alcohol como una amenaza, activando una respuesta inflamatoria que contribuye a la sensaci\u00f3n de estar \"enfermo\" o indispuesto.<\/p>"
+          }
+        },
+        {
+          "type": "ingredient_card",
+          "settings": {
+            "icon": "dhm",
+            "title": "DHM",
+            "subtitle": "El Detoxificador Estrella",
+            "description": "<p>Es como tener un equipo de limpieza expr\u00e9s que barre las toxinas del alcohol.<\/p><ul><li>Ayuda a tu cuerpo a deshacerse del alcohol y sus toxinas m\u00e1s r\u00e1pido<\/li><li>Equilibra tu cerebro para reducir la ansiedad post-alcohol (\"hangxiety\")<\/li><li>Protege tu h\u00edgado del estr\u00e9s de procesar alcohol.<\/li><\/ul>"
+          }
+        },
+        {
+          "type": "ingredient_card",
+          "settings": {
+            "icon": "shield",
+            "title": "L-Ciste\u00edna",
+            "subtitle": "El Neutralizador Eficaz",
+            "description": "<p>Funciona como un escudo que captura y desactiva las toxinas antes de que causen da\u00f1o.<\/p><ul><li>Neutraliza directamente el acetaldeh\u00eddo t\u00f3xico<\/li><li>Regenera el glutati\u00f3n hep\u00e1tico, vital para la desintoxicaci\u00f3n<\/li><li>Reduce las n\u00e1useas y el dolor de cabeza<\/li><\/ul>"
+          }
+        },
+        {
+          "type": "ingredient_card",
+          "settings": {
+            "icon": "vitamin",
+            "title": "Vitamina C",
+            "subtitle": "El Refuerzo Antioxidante",
+            "description": "<p>Protege tus c\u00e9lulas del da\u00f1o causado por el alcohol y acelera tu recuperaci\u00f3n.<\/p><ul><li>Neutraliza radicales libres generados por el metabolismo del alcohol<\/li><li>Apoya la recuperaci\u00f3n celular<\/li><li>Refuerza el sistema inmunol\u00f3gico temporalmente debilitado<\/li><\/ul>"
+          }
+        },
+        {
+          "type": "ingredient_card",
+          "settings": {
+            "icon": "curcuma",
+            "title": "C\u00farcuma",
+            "subtitle": "El Anti-inflamatorio Natural",
+            "description": "<p>Calma la respuesta inflamatoria de tu cuerpo, reduciendo la sensaci\u00f3n de malestar general.<\/p><ul><li>Reduce la inflamaci\u00f3n causada por el alcohol<\/li><li>Protege el h\u00edgado del estr\u00e9s oxidativo<\/li><li>Apoya el proceso natural de recuperaci\u00f3n del cuerpo<\/li><\/ul>"
+          }
+        },
+        {
+          "type": "usage_step",
+          "settings": {
+            "icon": "glass",
+            "title": "Bebe de forma responsable, sin excederte"
+          }
+        },
+        {
+          "type": "usage_step",
+          "settings": {
+            "icon": "capsule",
+            "title": "Al final de la noche, toma 3 c\u00e1psulas y un vaso de agua"
+          }
+        },
+        {
+          "type": "usage_step",
+          "settings": {
+            "icon": "moon",
+            "title": "Buenacopa entra en acci\u00f3n mientras t\u00fa duermes"
+          }
+        },
+        {
+          "type": "usage_step",
+          "settings": {
+            "icon": "sun",
+            "title": "Despierta sin cruda y vive el d\u00eda como se merece"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "\u00bfC\u00f3mo ayuda Buenacopa a prevenir la cruda?",
+            "answer": "Buenacopa contiene DHM que apoya el metabolismo del alcohol al potenciar las enzimas naturales de tu cuerpo, reduciendo la acumulaci\u00f3n de acetaldeh\u00eddo. La L-Ciste\u00edna complementa neutralizando toxinas y protegiendo tu h\u00edgado, ayudando a mantener tu bienestar despu\u00e9s de celebrar."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "\u00bfCu\u00e1ndo debo tomar Buenacopa?",
+            "answer": "Para mejores resultados, toma 3 c\u00e1psulas con un vaso grande de agua antes de dormir, despu\u00e9s de consumir alcohol. Act\u00faa durante el descanso para apoyar el equilibrio natural de tu cuerpo."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "\u00bfBuenacopa promueve el consumo responsable?",
+            "answer": "Absolutamente. Buenacopa est\u00e1 dise\u00f1ado para quienes disfrutan celebrar con moderaci\u00f3n y quieren mantener su bienestar. No es una licencia para el exceso, sino un complemento para un estilo de vida equilibrado."
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "\u00bfEn qu\u00e9 se diferencia de otros productos para la cruda?",
+            "answer": "A diferencia de productos que solo contienen vitaminas y electrolitos, Buenacopa trabaja sobre las causas fundamentales del malestar post-alcohol: el acetaldeh\u00eddo y el desequilibrio del cerebro. Nuestra f\u00f3rmula con DHM y L-Ciste\u00edna est\u00e1 respaldada cient\u00edficamente para promover un balance entre celebraci\u00f3n y bienestar."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

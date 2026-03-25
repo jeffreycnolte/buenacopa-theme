@@ -6,26 +6,53 @@
         "value-1": {
           "type": "value",
           "settings": {
-            "title": "Hecho en México",
-            "description": "Fabricado en instalaciones reguladas por COFEPRIS con Buenas Prácticas de Manufactura (GMP)."
+            "icon": "balance",
+            "title": "Equilibrio",
+            "description": "Creemos que disfrutar y sentirte bien al día siguiente no son cosas opuestas."
           }
         },
         "value-2": {
           "type": "value",
           "settings": {
-            "title": "Ingredientes Naturales",
-            "description": "Sin colorantes artificiales, sin cafeína, sin taurina, sin azúcar. Apto para vegetarianos y libre de gluten."
+            "icon": "science",
+            "title": "Ciencia",
+            "description": "Cada ingrediente está respaldado por investigación científica, no por promesas vacías."
           }
         },
         "value-3": {
           "type": "value",
           "settings": {
-            "title": "Ciencia Respaldada",
-            "description": "Fórmula basada en DHM y L-Cisteína, ingredientes con evidencia científica para el metabolismo del alcohol."
+            "icon": "responsibility",
+            "title": "Responsabilidad",
+            "description": "Promovemos el consumo consciente y responsable en cada momento."
+          }
+        },
+        "value-4": {
+          "type": "value",
+          "settings": {
+            "icon": "innovation",
+            "title": "Innovación",
+            "description": "Buscamos constantemente mejorar nuestra fórmula con los últimos avances científicos."
+          }
+        },
+        "value-5": {
+          "type": "value",
+          "settings": {
+            "icon": "wellness",
+            "title": "Bienestar",
+            "description": "Tu bienestar integral es nuestra prioridad, antes, durante y después de celebrar."
+          }
+        },
+        "value-6": {
+          "type": "value",
+          "settings": {
+            "icon": "accessibility",
+            "title": "Accesibilidad",
+            "description": "Queremos que todos puedan acceder a una solución efectiva y de calidad."
           }
         }
       },
-      "block_order": ["value-1", "value-2", "value-3"],
+      "block_order": ["value-1", "value-2", "value-3", "value-4", "value-5", "value-6"],
       "settings": {}
     }
   },
