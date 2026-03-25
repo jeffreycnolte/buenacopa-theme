@@ -220,7 +220,7 @@
     </div>
     {%- if section.settings.commitment_cta_text != blank -%}
       <div class="mt-10">
-        <a href="{{ section.settings.commitment_cta_url | default: '#comprar' }}" class="btn-cta inline-flex items-center gap-2 group text-base">
+        <a href="{{ section.settings.commitment_cta_url | default: '/' | append: '#comprar' }}" class="btn-cta inline-flex items-center gap-2 group text-base">
           {{ section.settings.commitment_cta_text }}
           <span class="group-hover:translate-x-1 transition-transform inline-flex">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>

@@ -250,7 +250,7 @@
         {{ cta_text }}
       </p>
       <a
-        href="{{ cta_button_link | default: '#comprar' }}"
+        href="{{ cta_button_link | default: '/#comprar' }}"
         class="inline-flex items-center justify-center px-8 py-4 bg-background text-foreground font-display font-bold text-lg rounded-full hover:bg-background/90 transition-colors"
       >
         {{ cta_button_label }}
@@ -435,7 +435,7 @@
       "type": "url",
       "id": "cta_button_link",
       "label": "CTA Button Link",
-      "default": "#comprar"
+      "default": "/#comprar"
     }
   ],
   "blocks": [
