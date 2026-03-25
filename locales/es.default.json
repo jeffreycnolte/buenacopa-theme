@@ -1,27 +1,52 @@
 {
   "general": {
+    "skip_to_content": "Saltar al contenido",
+    "announcement": "Anuncio",
     "cart": {
       "title": "Carrito",
+      "close": "Cerrar carrito",
       "empty": "Tu carrito está vacío",
+      "go_shopping": "Ir a comprar",
       "checkout": "Checkout",
       "total": "Total",
       "add_to_cart": "Agregar al carrito",
       "buy_now": "Pagar",
       "sold_out": "Agotado",
       "quantity": "Cantidad",
-      "remove": "Eliminar"
+      "remove": "Eliminar",
+      "decrease_qty": "Reducir cantidad",
+      "increase_qty": "Aumentar cantidad"
     },
     "navigation": {
       "menu": "Menú",
       "close": "Cerrar"
     },
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente"
+    },
     "social": {
       "instagram": "Instagram",
       "facebook": "Facebook"
+    },
+    "errors": {
+      "cart_load": "No se pudo cargar el carrito. Intenta de nuevo.",
+      "cart_add": "No se pudo agregar al carrito. Intenta de nuevo.",
+      "cart_update": "No se pudo actualizar la cantidad.",
+      "cart_remove": "No se pudo eliminar el producto.",
+      "process_error": "No se pudo procesar. Intenta de nuevo."
+    },
+    "security": {
+      "ssl_badge": "Pago seguro SSL",
+      "ssl_short": "SSL seguro",
+      "guarantee_badge": "Garantía 30 días",
+      "free_shipping_badge": "Envío gratis"
     }
   },
   "sections": {
     "header": {
+      "cart_aria": "Carrito",
+      "menu_aria": "Menú",
       "buy_cta": "Comprar"
     },
     "hero": {
@@ -29,7 +54,12 @@
       "heading_2": "La cruda no.",
       "subheading": "Bienestar post-fiesta. Celebra hoy. Conquista mañana.",
       "cta": "Comprar ahora",
-      "trust": "Envío gratis y 30 días de garantía. Si no te funciona, te reembolsamos tu dinero."
+      "trust": "Envío gratis y 30 días de garantía. Si no te funciona, te reembolsamos tu dinero.",
+      "social_proof_mornings": "Mañanas sin cruda",
+      "social_proof_rating": "Rating promedio",
+      "social_proof_ingredients": "Ingredientes",
+      "social_proof_safe": "seguros y probados",
+      "hero_image_alt": "Buenacopa - Sachet con cápsulas"
     },
     "product": {
       "tagline": "Bienestar Post-Fiesta",
@@ -38,7 +68,12 @@
       "benefit_caffeine": "Sin cafeína ni azúcar",
       "benefit_shipping": "Envíos a todo México",
       "most_popular": "Más popular",
-      "best_price": "Mejor precio"
+      "best_price": "Mejor precio",
+      "view_image": "Ver imagen {{ index }}",
+      "image_alt": "Vista {{ index }}",
+      "select_variant": "Seleccionar variante: {{ title }}",
+      "buy_amazon_alt": "Comprar en Amazon",
+      "buy_ml_alt": "Comprar en Mercado Libre"
     },
     "formula": {
       "heading": "La fórmula que previene la cruda",
@@ -46,7 +81,8 @@
     },
     "ugc": {
       "heading_1": "Lo que dicen quienes ya lo probaron",
-      "heading_2": "(y no tuvieron cruda)"
+      "heading_2": "(y no tuvieron cruda)",
+      "play_video": "Reproducir video de {{ name }}"
     },
     "how_it_works": {
       "heading": "Tu ritual en 3 pasos"
@@ -56,12 +92,30 @@
     },
     "faq": {
       "heading": "Preguntas frecuentes"
+    },
+    "reviews": {
+      "heading": "Reseñas de nuestros clientes"
+    }
+  },
+  "pages": {
+    "not_found": {
+      "title": "Página no encontrada",
+      "back_home": "Volver al inicio"
     }
   },
   "footer": {
-    "copyright": "Todos los derechos reservados. Este producto no está destinado a diagnosticar, tratar, curar o prevenir ninguna enfermedad.",
+    "copyright": "Todos los derechos reservados.",
+    "payment_methods": "Métodos de pago",
     "product": "Producto",
     "support": "Soporte",
     "legal": "Legal"
+  },
+  "collection": {
+    "empty": "No hay productos en esta colección.",
+    "pagination_aria": "Paginación"
+  },
+  "blog": {
+    "empty": "Próximamente publicaremos contenido aquí.",
+    "pagination_aria": "Paginación del blog"
   }
 }

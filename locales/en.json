@@ -1,0 +1,121 @@
+{
+  "general": {
+    "skip_to_content": "Skip to content",
+    "announcement": "Announcement",
+    "cart": {
+      "title": "Cart",
+      "close": "Close cart",
+      "empty": "Your cart is empty",
+      "go_shopping": "Start shopping",
+      "checkout": "Checkout",
+      "total": "Total",
+      "add_to_cart": "Add to cart",
+      "buy_now": "Buy now",
+      "sold_out": "Sold out",
+      "quantity": "Quantity",
+      "remove": "Remove",
+      "decrease_qty": "Decrease quantity",
+      "increase_qty": "Increase quantity"
+    },
+    "navigation": {
+      "menu": "Menu",
+      "close": "Close"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "social": {
+      "instagram": "Instagram",
+      "facebook": "Facebook"
+    },
+    "errors": {
+      "cart_load": "Could not load the cart. Please try again.",
+      "cart_add": "Could not add to cart. Please try again.",
+      "cart_update": "Could not update the quantity.",
+      "cart_remove": "Could not remove the product.",
+      "process_error": "Could not process. Please try again."
+    },
+    "security": {
+      "ssl_badge": "Secure SSL payment",
+      "ssl_short": "SSL secure",
+      "guarantee_badge": "30-day guarantee",
+      "free_shipping_badge": "Free shipping"
+    }
+  },
+  "sections": {
+    "header": {
+      "cart_aria": "Cart",
+      "menu_aria": "Menu",
+      "buy_cta": "Shop"
+    },
+    "hero": {
+      "heading_1": "The party goes on.",
+      "heading_2": "The hangover doesn't.",
+      "subheading": "Post-party wellness. Celebrate today. Conquer tomorrow.",
+      "cta": "Shop now",
+      "trust": "Free shipping and 30-day guarantee. If it doesn't work for you, we'll refund your money.",
+      "social_proof_mornings": "Hangover-free mornings",
+      "social_proof_rating": "Average rating",
+      "social_proof_ingredients": "Ingredients",
+      "social_proof_safe": "safe and proven",
+      "hero_image_alt": "Buenacopa - Sachet with capsules"
+    },
+    "product": {
+      "tagline": "Post-Party Wellness",
+      "rating_text": "10,000+ hangover-free mornings",
+      "benefit_natural": "Natural ingredients",
+      "benefit_caffeine": "No caffeine or sugar",
+      "benefit_shipping": "Shipping throughout Mexico",
+      "most_popular": "Most popular",
+      "best_price": "Best value",
+      "view_image": "View image {{ index }}",
+      "image_alt": "View {{ index }}",
+      "select_variant": "Select variant: {{ title }}",
+      "buy_amazon_alt": "Buy on Amazon",
+      "buy_ml_alt": "Buy on Mercado Libre"
+    },
+    "formula": {
+      "heading": "The formula that prevents hangovers",
+      "tagline": "Double action, one mission: Keep the hangover away so you wake up feeling great."
+    },
+    "ugc": {
+      "heading_1": "What people who tried it say",
+      "heading_2": "(and didn't get a hangover)",
+      "play_video": "Play video from {{ name }}"
+    },
+    "how_it_works": {
+      "heading": "Your 3-step ritual"
+    },
+    "available_in": {
+      "heading": "Also available on:"
+    },
+    "faq": {
+      "heading": "Frequently asked questions"
+    },
+    "reviews": {
+      "heading": "Customer reviews"
+    }
+  },
+  "pages": {
+    "not_found": {
+      "title": "Page not found",
+      "back_home": "Back to home"
+    }
+  },
+  "footer": {
+    "copyright": "All rights reserved.",
+    "payment_methods": "Payment methods",
+    "product": "Product",
+    "support": "Support",
+    "legal": "Legal"
+  },
+  "collection": {
+    "empty": "No products in this collection.",
+    "pagination_aria": "Pagination"
+  },
+  "blog": {
+    "empty": "Content coming soon.",
+    "pagination_aria": "Blog pagination"
+  }
+}
