@@ -145,54 +145,87 @@
   </div>
 </section>
 
-<!-- ========== 4. USAGE INSTRUCTIONS ========== -->
+<!-- ========== 4. USAGE INSTRUCTIONS (Timeline layout — matches homepage) ========== -->
 <section class="section-padding bg-background overflow-hidden">
   <div class="container-custom">
-    <div class="text-center mb-6 md:mb-8 max-w-3xl mx-auto">
+    <div class="text-center mb-16 md:mb-20 max-w-3xl mx-auto">
       <p class="text-accent font-bold text-sm md:text-base tracking-widest uppercase mb-4">
         {{ usage_subheading }}
       </p>
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-foreground mb-4">
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-foreground">
         {{ usage_heading }}
       </h2>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-5xl mx-auto">
-      {%- assign step_number = 0 -%}
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'usage_step' -%}
-          {%- assign step_number = step_number | plus: 1 -%}
-          <div class="text-center flex flex-col items-center gap-4" {{ block.shopify_attributes }}>
-            <!-- Step number circle -->
-            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-accent/10 border-2 border-accent flex items-center justify-center">
-              <span class="text-2xl md:text-3xl font-display font-black text-accent">{{ step_number }}</span>
-            </div>
-            <!-- Step icon -->
-            <div class="w-12 h-12 flex items-center justify-center text-foreground/60">
-              {%- case block.settings.icon -%}
-                {%- when 'glass' -%}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h8"/><path d="M12 11v11"/><path d="m19 3-7 8-7-8Z"/></svg>
-                {%- when 'capsule' -%}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
-                {%- when 'moon' -%}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                {%- when 'sun' -%}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-                {%- else -%}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              {%- endcase -%}
-            </div>
-            <h3 class="text-lg md:text-xl font-display font-bold text-foreground leading-snug">
-              {{ block.settings.title }}
-            </h3>
-            {%- if block.settings.description != blank -%}
-              <p class="text-foreground/60 text-sm leading-relaxed font-sans mt-2">
-                {{ block.settings.description }}
-              </p>
+    <div class="max-w-5xl mx-auto relative">
+      <!-- Vertical connector line (desktop) -->
+      <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-accent -translate-x-1/2"></div>
+
+      <div class="space-y-16 md:space-y-24">
+        {%- assign step_number = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'usage_step' -%}
+            {%- assign step_number = step_number | plus: 1 -%}
+            {%- assign image_on_right = true -%}
+            {%- if step_number == 2 or step_number == 4 -%}
+              {%- assign image_on_right = false -%}
             {%- endif -%}
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
+
+            <div class="relative" {{ block.shopify_attributes }}>
+              <!-- Center dot -->
+              <div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-accent bg-background z-10 items-center justify-center">
+                <div class="w-1.5 h-1.5 rounded-full bg-accent"></div>
+              </div>
+
+              <div class="flex flex-col gap-8 items-center {% if image_on_right %}md:flex-row{% else %}md:flex-row-reverse{% endif %}">
+                <!-- Text side -->
+                <div class="flex-1 {% if image_on_right %}md:text-right md:pr-16{% else %}md:text-left md:pl-16{% endif %}">
+                  <span class="text-6xl md:text-7xl font-display font-black text-accent/25 leading-none">
+                    0{{ step_number }}
+                  </span>
+                  <h3 class="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-foreground mt-2 mb-3">
+                    {{ block.settings.title }}
+                  </h3>
+                  {%- if block.settings.description != blank -%}
+                    <p class="text-muted-foreground leading-relaxed max-w-md mx-auto md:mx-0">
+                      {{ block.settings.description }}
+                    </p>
+                  {%- endif -%}
+                </div>
+
+                <!-- Image -->
+                <div class="flex-1 w-full">
+                  <div class="aspect-[4/3] rounded-2xl overflow-hidden">
+                    {%- if block.settings.image -%}
+                      <img
+                        src="{{ block.settings.image | image_url: width: 800 }}"
+                        srcset="{{ block.settings.image | image_url: width: 400 }} 400w, {{ block.settings.image | image_url: width: 800 }} 800w"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        alt="{{ block.settings.title }}"
+                        class="w-full h-full object-cover"
+                        width="600" height="450"
+                        loading="lazy" decoding="async"
+                      >
+                    {%- else -%}
+                      {%- assign step_images = 'step-01-celebra.png,step-02-capsulas.jpg,step-03-despierta.png' | split: ',' -%}
+                      {%- assign img_index = step_number | minus: 1 -%}
+                      {%- if img_index < 3 -%}
+                        <img
+                          src="{{ step_images[img_index] | asset_url }}"
+                          alt="{{ block.settings.title }}"
+                          class="w-full h-full object-cover"
+                          width="600" height="450"
+                          loading="lazy"
+                        >
+                      {%- endif -%}
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
     </div>
 
     {%- if usage_note != blank -%}
@@ -508,21 +541,19 @@
       "name": "Usage Step",
       "settings": [
         {
-          "type": "select",
-          "id": "icon",
-          "label": "Icon",
-          "options": [
-            { "value": "glass", "label": "Glass" },
-            { "value": "capsule", "label": "Capsule" },
-            { "value": "moon", "label": "Moon" },
-            { "value": "sun", "label": "Sun" }
-          ],
-          "default": "glass"
+          "type": "image_picker",
+          "id": "image",
+          "label": "Step Image"
         },
         {
           "type": "text",
           "id": "title",
           "label": "Step Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Step Description"
         }
       ]
     },
@@ -610,29 +641,29 @@
         {
           "type": "usage_step",
           "settings": {
-            "icon": "glass",
-            "title": "Bebe de forma responsable, sin excederte"
+            "title": "Disfruta tu noche",
+            "description": "Sal, celebra y disfruta de forma responsable."
           }
         },
         {
           "type": "usage_step",
           "settings": {
-            "icon": "capsule",
-            "title": "Al final de la noche, toma 3 c\u00e1psulas y un vaso de agua"
+            "title": "Toma 3 c\u00e1psulas",
+            "description": "Despu\u00e9s de tu \u00faltima copa, con un vaso grande de agua."
           }
         },
         {
           "type": "usage_step",
           "settings": {
-            "icon": "moon",
-            "title": "Buenacopa entra en acci\u00f3n mientras t\u00fa duermes"
+            "title": "Buenacopa trabaja",
+            "description": "Mientras duermes, la f\u00f3rmula neutraliza toxinas y equilibra tu cuerpo."
           }
         },
         {
           "type": "usage_step",
           "settings": {
-            "icon": "sun",
-            "title": "Despierta sin cruda y vive el d\u00eda como se merece"
+            "title": "Despierta bien",
+            "description": "Sin cruda, sin n\u00e1useas, sin dolor de cabeza. Tu ma\u00f1ana es tuya."
           }
         },
         {
