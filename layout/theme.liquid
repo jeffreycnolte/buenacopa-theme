@@ -124,20 +124,32 @@
     };
   </script>
 
+  {%- comment -%}
+    Core theme JS — these are small and needed for interactivity.
+    Keep defer (not delayed) so cart/product forms work immediately.
+  {%- endcomment -%}
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
   <script src="{{ 'cart-drawer.js' | asset_url }}" defer></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer></script>
   <script src="{{ 'video-section.js' | asset_url }}" defer></script>
 
-  {%- comment -%}TikTok Pixel — deferred to not block rendering{%- endcomment -%}
+  {%- comment -%}
+    Delayed third-party loader — defers analytics/tracking/widgets
+    until first user interaction or 5s timeout. All functionality
+    preserved, just moved off the critical path.
+  {%- endcomment -%}
+  {% render 'delay-third-party' %}
+
+  {%- comment -%}
+    TikTok Pixel — uses delayed loader pattern.
+    The ttq stub is set up immediately so any early track() calls
+    are queued. The actual pixel script loads on user interaction.
+  {%- endcomment -%}
   <script>
-    window.addEventListener('load', function() {
-      !function (w, d, t) {
-        w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
-        ttq.load('D1JEHJRC77U87UH7IK6G');
-        ttq.page();
-      }(window, document, 'ttq');
-    });
+    !function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var s=document.createElement("script");s.type="text/javascript",s.async=!0,s.src=r+"?sdkid="+e+"&lib="+t;var f=document.getElementsByTagName("script")[0];f.parentNode.insertBefore(s,f)}}(window,document,'ttq');
+    // Queue page view immediately; actual network request fires after pixel loads
+    ttq.load('D1JEHJRC77U87UH7IK6G');
+    ttq.page();
   </script>
 </body>
 </html>

@@ -1,0 +1,54 @@
+{%- comment -%}
+  Delay Third-Party Scripts
+  ========================
+  Defers non-critical third-party scripts until user interaction.
+  Scripts load on first scroll, click, touchstart, or mousemove — or
+  after 5 seconds (whichever comes first).
+
+  This keeps all app functionality intact while removing third-party JS
+  from the critical rendering path, improving FCP/LCP/TBT on mobile.
+
+  Usage: {% render 'delay-third-party' %} in theme.liquid before </body>
+{%- endcomment -%}
+
+<script>
+(function() {
+  'use strict';
+
+  var DELAY_MS = 5000; // Max wait before loading anyway
+  var loaded = false;
+
+  function loadDelayed() {
+    if (loaded) return;
+    loaded = true;
+
+    // Remove interaction listeners
+    ['scroll', 'click', 'touchstart', 'mousemove', 'keydown'].forEach(function(evt) {
+      document.removeEventListener(evt, loadDelayed, { passive: true, capture: true });
+    });
+
+    // Find all delayed scripts and activate them
+    document.querySelectorAll('script[data-delay-src]').forEach(function(el) {
+      var script = document.createElement('script');
+      // Copy all attributes except data-delay-src
+      Array.from(el.attributes).forEach(function(attr) {
+        if (attr.name === 'data-delay-src') {
+          script.setAttribute('src', attr.value);
+        } else if (attr.name !== 'type') {
+          script.setAttribute(attr.name, attr.value);
+        }
+      });
+      script.async = true;
+      el.parentNode.replaceChild(script, el);
+    });
+  }
+
+  // Load on first user interaction
+  ['scroll', 'click', 'touchstart', 'mousemove', 'keydown'].forEach(function(evt) {
+    document.addEventListener(evt, loadDelayed, { passive: true, capture: true, once: true });
+  });
+
+  // Fallback: load after DELAY_MS regardless
+  setTimeout(loadDelayed, DELAY_MS);
+})();
+</script>
