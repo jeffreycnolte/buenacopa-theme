@@ -19,6 +19,7 @@
               alt="{{ product.featured_image.alt | default: product.title }}"
               class="w-full h-full object-cover"
               loading="lazy"
+              decoding="async"
               width="600"
               height="600"
             >
@@ -30,7 +31,7 @@
                 aria-label="{{ 'sections.product.view_image' | t: index: forloop.index }}"
                 class="product-thumbnail rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all {% if forloop.first %}border-accent{% else %}border-background/10 hover:border-background/25{% endif %}"
               >
-                <img src="{{ image | image_url: width: 160 }}" alt="{{ 'sections.product.image_alt' | t: index: forloop.index }}" class="w-full h-full object-cover" loading="lazy" width="80" height="80">
+                <img src="{{ image | image_url: width: 160 }}" alt="{{ 'sections.product.image_alt' | t: index: forloop.index }}" class="w-full h-full object-cover" loading="lazy" decoding="async" width="80" height="80">
               </button>
             {%- endfor -%}
           </div>
@@ -43,9 +44,9 @@
           <!-- Logo + Tagline -->
           <div>
             {% if section.settings.product_logo %}
-              <img src="{{ section.settings.product_logo | image_url: width: 320 }}" alt="{{ product.title }}" class="h-10 md:h-12 w-auto" width="160" height="48">
+              <img src="{{ section.settings.product_logo | image_url: width: 320 }}" alt="{{ product.title }}" class="h-10 md:h-12 w-auto" width="160" height="48" loading="lazy" decoding="async">
             {% else %}
-              <img src="{{ 'logo-azul-oscuro.png' | asset_url }}" alt="{{ product.title }}" class="h-10 md:h-12 w-auto" width="160" height="48" loading="lazy">
+              <img src="{{ 'logo-azul-oscuro.png' | asset_url }}" alt="{{ product.title }}" class="h-10 md:h-12 w-auto" width="160" height="48" loading="lazy" decoding="async">
             {% endif %}
             {% if section.settings.tagline != blank %}
               <p class="text-accent-contrast font-display font-bold text-lg mt-2">{{ section.settings.tagline }}</p>
