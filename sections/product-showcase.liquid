@@ -195,7 +195,7 @@
                       {% if per_serving > 0 %}
                         {%- assign ps_whole = per_serving | divided_by: 100 -%}
                         {%- assign ps_cents = per_serving | modulo: 100 -%}
-                        <span class="text-background/40" style="font-size:11px">(${{ ps_whole }}{%- if ps_cents > 0 -%}.{{ ps_cents }}{%- endif -%}  por toma)</span>
+                        <span class="text-background/40" style="font-size:11px">(${{ ps_whole }}{% if ps_cents > 0 %}.{{ ps_cents }}{% endif %} por toma)</span>
                       {% endif %}
                     </div>
                   </button>
