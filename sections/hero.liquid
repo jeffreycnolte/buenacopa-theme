@@ -15,13 +15,29 @@
             </p>
           </div>
 
-          <a href="#comprar" class="btn-cta inline-flex items-center gap-2 group text-base">
-            {{ section.settings.cta_text | default: 'Comprar ahora' }}
-            <span class="group-hover:translate-x-1 transition-transform inline-flex">{% render 'icon-arrow-right', size: 20 %}</span>
-          </a>
+          {%- comment -%}Social proof + rating{%- endcomment -%}
+          <div class="flex items-center gap-2 justify-center lg:justify-start">
+            <div class="flex gap-0.5">
+              {% for s in (1..5) %}
+                {% render 'icon-star', size: 16, fill: '#facc15', stroke: '#facc15' %}
+              {% endfor %}
+            </div>
+            <span class="text-background/50 text-sm font-semibold">10,000+ mañanas sin cruda</span>
+          </div>
 
-          <p class="text-base md:text-xl text-primary font-display font-black">
-            {{ section.settings.trust_text | default: 'Envío gratis y 30 días de garantía.<br>Si no te funciona, te reembolsamos tu dinero.' }}
+          {%- comment -%}Pricing + CTAs{%- endcomment -%}
+          <div class="space-y-3">
+            <a href="#comprar" onclick="if(window.ProductForm)ProductForm.preselectSubscription()" class="btn-cta w-full sm:w-auto inline-flex items-center justify-center gap-2 group text-base px-8">
+              {{ section.settings.cta_sub_text | default: 'Suscríbete y ahorra' }}
+              <span class="group-hover:translate-x-1 transition-transform inline-flex">{% render 'icon-arrow-right', size: 20 %}</span>
+            </a>
+            <a href="#comprar" onclick="if(window.ProductForm)ProductForm.preselectOneTime()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-base px-8 py-3 rounded-xl border-2 border-background/20 text-background/70 font-bold hover:border-background/40 hover:text-background transition-all">
+              {{ section.settings.cta_onetime_text | default: 'Compra única desde $349' }}
+            </a>
+          </div>
+
+          <p class="text-sm md:text-base text-primary font-display font-bold">
+            {{ section.settings.trust_text | default: 'Envío gratis y 30 días de garantía.' }}
           </p>
         </div>
       </div>
@@ -143,15 +159,21 @@
     },
     {
       "type": "text",
-      "id": "cta_text",
-      "label": "CTA Button Text",
-      "default": "Comprar ahora"
+      "id": "cta_sub_text",
+      "label": "Subscription CTA Text",
+      "default": "Suscríbete y ahorra"
+    },
+    {
+      "type": "text",
+      "id": "cta_onetime_text",
+      "label": "One-Time CTA Text",
+      "default": "Compra única desde $349"
     },
     {
       "type": "html",
       "id": "trust_text",
       "label": "Trust Statement",
-      "default": "Envío gratis y 30 días de garantía.<br>Si no te funciona, te reembolsamos tu dinero."
+      "default": "Envío gratis y 30 días de garantía."
     },
     {
       "type": "image_picker",

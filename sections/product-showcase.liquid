@@ -86,90 +86,164 @@
             </div>
           </div>
 
-          <!-- Variant Selector -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 pt-2" id="variant-selector">
-            {%- for variant in product.variants -%}
+          {%- comment -%}
+            Buy Box: Subscription first, then one-time variants.
+            Recharge selling plans accessed via product.selling_plan_groups.
+          {%- endcomment -%}
+
+          {%- liquid
+            assign has_subscription = false
+            assign sub_variant = nil
+            assign sub_plan = nil
+            assign sub_price = 0
+            assign sub_servings = 10
+
+            for group in product.selling_plan_groups
+              if group.selling_plans.size > 0
+                assign has_subscription = true
+                assign sub_plan = group.selling_plans[0]
+                for variant in product.variants
+                  for allocation in variant.selling_plan_allocations
+                    if allocation.selling_plan.id == sub_plan.id
+                      assign sub_variant = variant
+                      assign sub_price = allocation.price
+                      break
+                    endif
+                  endfor
+                  if sub_variant
+                    break
+                  endif
+                endfor
+                break
+              endif
+            endfor
+
+            if sub_price > 0 and sub_servings > 0
+              assign sub_per_serving = sub_price | divided_by: sub_servings
+            else
+              assign sub_per_serving = 0
+            endif
+          -%}
+
+          <!-- Subscription Card -->
+          {% if has_subscription and sub_variant %}
+            <div
+              id="subscription-card"
+              class="relative rounded-2xl border-2 border-accent bg-accent/5 p-5 cursor-pointer transition-all selected"
+              onclick="ProductForm.selectSubscription({{ sub_variant.id }}, {{ sub_plan.id }})"
+              data-variant-id="{{ sub_variant.id }}"
+              data-selling-plan-id="{{ sub_plan.id }}"
+              data-price="{{ sub_price }}"
+            >
+              <span class="absolute -top-3 left-4 inline-flex items-center gap-1.5 bg-accent text-white text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                MEJOR VALOR
+              </span>
+
+              <div class="flex items-start justify-between mt-2">
+                <div>
+                  <p class="font-bold text-background text-base">Suscripción ({{ sub_servings }} sobres)</p>
+                </div>
+                <div class="text-right">
+                  <p class="font-display font-black text-xl text-background">{%- render 'price', amount: sub_price -%}<span class="text-sm font-semibold text-background/50">/mes</span></p>
+                </div>
+              </div>
+
+              <div class="mt-3 space-y-1.5">
+                <div class="flex items-center gap-2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span class="text-sm text-background/70"><strong>${{ sub_per_serving | divided_by: 100 }} por toma</strong></span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span class="text-sm text-background/70"><strong>Ahorra 40%</strong></span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span class="text-sm text-background/70">Nunca te quedes sin producto</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span class="text-sm text-background/70">Cancela cuando quieras</span>
+                </div>
+              </div>
+
               <button
-                type="button"
-                onclick="ProductForm.selectVariant({{ variant.id }}, this)"
-                aria-label="{{ 'sections.product.select_variant' | t: title: variant.title }}"
-                data-variant-id="{{ variant.id }}"
-                data-variant-price="{{ variant.price }}"
-                data-variant-compare-price="{{ variant.compare_at_price }}"
-                data-variant-available="{{ variant.available }}"
-                class="variant-btn relative px-4 py-3.5 rounded-2xl border-2 transition-all duration-200 text-left {% if forloop.first %}border-accent bg-accent/10 selected{% else %}border-background/15 bg-background/5 hover:border-background/25{% endif %} {% unless variant.available %}opacity-50 cursor-not-allowed{% endunless %}"
-                {% unless variant.available %}disabled{% endunless %}
+                onclick="event.stopPropagation(); ProductForm.selectSubscription({{ sub_variant.id }}, {{ sub_plan.id }}); ProductForm.addToCart();"
+                class="w-full mt-4 btn-cta text-base py-3 flex items-center justify-center gap-2"
               >
-                {% unless variant.available %}
-                  <span class="absolute -top-0 left-3 text-[10px] font-bold uppercase tracking-wide px-2.5 py-0.5 rounded-b-lg bg-destructive/15 text-destructive">{{ 'general.cart.sold_out' | t }}</span>
-                {% endunless %}
-                {% if variant.available and forloop.index == 2 %}
-                  <span class="absolute -top-0 right-3 text-[10px] font-bold uppercase tracking-wide px-2.5 py-0.5 rounded-b-lg bg-accent/15 text-accent">{{ 'sections.product.most_popular' | t }}</span>
-                {% endif %}
-                {% if variant.available and forloop.index == 3 %}
-                  <span class="absolute -top-0 right-3 text-[10px] font-bold uppercase tracking-wide px-2.5 py-0.5 rounded-b-lg bg-primary/15 text-primary">{{ 'sections.product.best_price' | t }}</span>
-                {% endif %}
-
-                <!-- Radio + Title row -->
-                <div class="flex items-center justify-between gap-3 w-full">
-                  <div class="flex items-center gap-3 min-w-0 shrink">
-                    <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 {% if forloop.first %}border-accent{% else %}border-background/30{% endif %}">
-                      {% if forloop.first %}
-                        <div class="w-2.5 h-2.5 rounded-full bg-accent"></div>
-                      {% endif %}
-                    </div>
-                    <span class="font-bold text-background text-sm leading-snug">{{ variant.title }}</span>
-                  </div>
-                  <!-- Price mobile -->
-                  <div class="lg:hidden flex items-baseline gap-2 shrink-0">
-                    {% if variant.compare_at_price > variant.price %}
-                      <span class="text-background/40 line-through text-sm">{%- render 'price', amount: variant.compare_at_price -%}</span>
-                    {% endif %}
-                    <span class="font-display font-black text-lg text-background">{%- render 'price', amount: variant.price -%}</span>
-                  </div>
-                </div>
-
-                <!-- Price desktop -->
-                <div class="hidden lg:flex lg:pl-8 lg:mt-1.5 items-baseline gap-2">
-                  {% if variant.compare_at_price > variant.price %}
-                    <span class="text-background/40 line-through text-sm">{%- render 'price', amount: variant.compare_at_price -%}</span>
-                  {% endif %}
-                  <span class="font-display font-black text-lg text-background">{%- render 'price', amount: variant.price -%}</span>
-                </div>
-              </button>
-            {%- endfor -%}
-          </div>
-
-          <!-- Quantity + Add to Cart -->
-          <div class="flex items-center gap-4 pt-1">
-            <span class="text-sm font-semibold text-background/50 uppercase tracking-wider shrink-0">{{ 'general.cart.quantity' | t }}</span>
-            <div class="flex flex-1 lg:flex-none items-center border-2 border-background/15 rounded-xl overflow-hidden">
-              <button onclick="ProductForm.decrementQty()" aria-label="{{ 'general.cart.decrease_qty' | t }}" class="flex-1 lg:flex-none px-3 py-2 text-background/60 hover:bg-background/5 transition-colors flex items-center justify-center">
-                {% render 'icon-minus' %}
-              </button>
-              <span id="product-quantity" class="flex-1 lg:flex-none px-4 py-2 font-bold text-background min-w-[40px] text-center">1</span>
-              <button onclick="ProductForm.incrementQty()" aria-label="{{ 'general.cart.increase_qty' | t }}" class="flex-1 lg:flex-none px-3 py-2 text-background/60 hover:bg-background/5 transition-colors flex items-center justify-center">
-                {% render 'icon-plus' %}
+                Suscribirme ahora
+                <span class="inline-flex">{% render 'icon-arrow-right', size: 18 %}</span>
               </button>
             </div>
-            <!-- Desktop CTA -->
+          {% endif %}
+
+          <!-- One-Time Purchase -->
+          <div class="pt-2">
+            <div class="flex items-center gap-3">
+              <p class="font-bold text-background text-base shrink-0">Compra única</p>
+              <div class="flex-1 h-px bg-background/10"></div>
+            </div>
+
+            <div class="space-y-2 mt-3" id="variant-selector">
+              {%- for variant in product.variants -%}
+                {%- comment -%}Skip subscription-only variants if they match the sub variant{%- endcomment -%}
+                {%- liquid
+                  assign variant_title_lower = variant.title | downcase
+                  assign is_sub_only = false
+                  if variant_title_lower contains 'suscripción' or variant_title_lower contains 'suscripcion' or variant_title_lower contains 'subscription'
+                    assign is_sub_only = true
+                  endif
+
+                  assign servings = 10
+                  if variant_title_lower contains '20'
+                    assign servings = 20
+                  elsif variant_title_lower contains '30'
+                    assign servings = 30
+                  elsif variant_title_lower contains '5 '
+                    assign servings = 5
+                  endif
+
+                  if variant.price > 0 and servings > 0
+                    assign per_serving = variant.price | divided_by: servings
+                  else
+                    assign per_serving = 0
+                  endif
+                -%}
+
+                {%- unless is_sub_only -%}
+                  <button
+                    type="button"
+                    onclick="ProductForm.selectOneTime({{ variant.id }}, this)"
+                    aria-label="{{ 'sections.product.select_variant' | t: title: variant.title }}"
+                    data-variant-id="{{ variant.id }}"
+                    data-variant-price="{{ variant.price }}"
+                    data-variant-available="{{ variant.available }}"
+                    class="variant-btn w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all duration-200 text-left border-background/15 bg-background/5 hover:border-background/25 {% unless variant.available %}opacity-50 cursor-not-allowed{% endunless %}"
+                    {% unless variant.available %}disabled{% endunless %}
+                  >
+                    <span class="font-bold text-background text-sm">{{ variant.title }}</span>
+                    <div class="flex items-baseline gap-2">
+                      <span class="font-display font-black text-lg text-background">{%- render 'price', amount: variant.price -%}</span>
+                      {% if per_serving > 0 %}
+                        <span class="text-background/40 text-xs">({%- render 'price', amount: per_serving -%} por toma)</span>
+                      {% endif %}
+                    </div>
+                  </button>
+                {%- endunless -%}
+              {%- endfor -%}
+            </div>
+
+            <!-- Single CTA for one-time -->
             <button
-              id="add-to-cart-desktop"
+              id="add-to-cart-btn"
               onclick="ProductForm.addToCart()"
-              class="hidden lg:flex flex-1 btn-cta text-base py-3 items-center justify-center gap-2.5 disabled:opacity-50"
+              class="w-full mt-3 flex items-center justify-center gap-2.5 bg-[#004AB2] text-white font-bold text-base py-3.5 rounded-xl hover:bg-[#003d94] transition-colors disabled:opacity-50"
+              style="display: none;"
             >
-              <span class="inline-flex">{% render 'icon-cart', size: 20 %}</span>
-              {{ 'general.cart.add_to_cart' | t }}
+              Finalizar compra
             </button>
           </div>
-
-          <!-- Buy Now -->
-          <button
-            onclick="ProductForm.buyNow()"
-            class="w-full flex items-center justify-center gap-2.5 bg-[#004AB2] text-white font-bold text-base py-3.5 rounded-xl hover:bg-[#003d94] transition-colors disabled:opacity-50"
-          >
-            {{ 'general.cart.buy_now' | t }}
-          </button>
 
           <!-- Trust Badges -->
           <div class="flex items-center justify-center gap-4 py-2 text-background/50">
@@ -231,7 +305,7 @@
     class="w-full flex items-center justify-center gap-2 text-white font-bold text-base py-3 rounded-xl disabled:opacity-50"
   >
     <span class="inline-flex">{% render 'icon-cart', size: 20 %}</span>
-    <span id="mobile-cta-text">{{ 'general.cart.add_to_cart' | t }} – {%- render 'price', amount: product.selected_or_first_available_variant.price -%}</span>
+    <span id="mobile-cta-text">Suscribirme – {% if sub_price > 0 %}{%- render 'price', amount: sub_price -%}/mes{% else %}{%- render 'price', amount: product.selected_or_first_available_variant.price -%}{% endif %}</span>
   </button>
 </div>
 

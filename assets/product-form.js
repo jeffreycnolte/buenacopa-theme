@@ -1,49 +1,106 @@
 /**
  * Buenacopa Theme - Product Form
- * Handles: variant selection, quantity, add-to-cart, buy-now, image gallery, dropdowns
+ * Handles: variant selection, subscription/one-time toggle, quantity, add-to-cart, image gallery, dropdowns
  */
 
 var ProductForm = {
   selectedVariantId: null,
+  selectedSellingPlan: null,
   selectedPrice: 0,
+  isSubscription: true,
   quantity: 1,
   isSubmitting: false,
 
   init: function () {
-    var firstBtn = document.querySelector('.variant-btn.selected');
-    if (firstBtn) {
-      this.selectedVariantId = parseInt(firstBtn.dataset.variantId);
-      this.selectedPrice = parseInt(firstBtn.dataset.variantPrice);
+    var subCard = document.getElementById('subscription-card');
+    if (subCard) {
+      this.selectedVariantId = parseInt(subCard.dataset.variantId);
+      this.selectedSellingPlan = parseInt(subCard.dataset.sellingPlanId);
+      this.selectedPrice = parseInt(subCard.dataset.price);
+      this.isSubscription = true;
+    } else {
+      var firstBtn = document.querySelector('.variant-btn');
+      if (firstBtn) {
+        this.selectedVariantId = parseInt(firstBtn.dataset.variantId);
+        this.selectedPrice = parseInt(firstBtn.dataset.variantPrice);
+        this.isSubscription = false;
+      }
+    }
+    this.updateUI();
+  },
+
+  selectSubscription: function (variantId, sellingPlanId) {
+    this.selectedVariantId = variantId;
+    this.selectedSellingPlan = sellingPlanId;
+    this.isSubscription = true;
+
+    var subCard = document.getElementById('subscription-card');
+    if (subCard) {
+      this.selectedPrice = parseInt(subCard.dataset.price);
+    }
+
+    // Visual: highlight subscription card
+    if (subCard) {
+      subCard.classList.add('border-accent', 'bg-accent/5', 'selected');
+      subCard.classList.remove('border-background/15', 'bg-background/5');
+    }
+
+    // Deselect one-time variants
+    document.querySelectorAll('#variant-selector .variant-btn').forEach(function (btn) {
+      btn.classList.remove('selected', 'border-accent', 'bg-accent/10');
+      btn.classList.add('border-background/15', 'bg-background/5');
+    });
+
+    this.updateUI();
+  },
+
+  selectOneTime: function (variantId, button) {
+    this.selectedVariantId = variantId;
+    this.selectedSellingPlan = null;
+    this.isSubscription = false;
+    this.selectedPrice = parseInt(button.dataset.variantPrice);
+
+    // Deselect subscription card
+    var subCard = document.getElementById('subscription-card');
+    if (subCard) {
+      subCard.classList.remove('border-accent', 'bg-accent/5', 'selected');
+      subCard.classList.add('border-background/15', 'bg-background/5');
+    }
+
+    // Deselect all one-time, select clicked
+    document.querySelectorAll('#variant-selector .variant-btn').forEach(function (btn) {
+      btn.classList.remove('selected', 'border-accent', 'bg-accent/10');
+      btn.classList.add('border-background/15', 'bg-background/5');
+    });
+    button.classList.add('selected', 'border-accent', 'bg-accent/10');
+    button.classList.remove('border-background/15', 'bg-background/5');
+
+    this.updateUI();
+  },
+
+  // Called from hero CTAs
+  preselectSubscription: function () {
+    var subCard = document.getElementById('subscription-card');
+    if (subCard) {
+      this.selectSubscription(
+        parseInt(subCard.dataset.variantId),
+        parseInt(subCard.dataset.sellingPlanId)
+      );
     }
   },
 
-  selectVariant: function (variantId, button) {
-    this.selectedVariantId = variantId;
-    this.selectedPrice = parseInt(button.dataset.variantPrice);
+  preselectOneTime: function () {
+    var firstBtn = document.querySelector('#variant-selector .variant-btn');
+    if (firstBtn) {
+      this.selectOneTime(parseInt(firstBtn.dataset.variantId), firstBtn);
+    }
+  },
 
-    document.querySelectorAll('.variant-btn').forEach(function (btn) {
-      btn.classList.remove('selected', 'border-accent', 'bg-accent/10');
-      btn.classList.add('border-background/15', 'bg-background/5');
-      var radio = btn.querySelector('.w-5.h-5.rounded-full');
-      if (radio) {
-        radio.classList.remove('border-accent');
-        radio.classList.add('border-background/30');
-        var dot = radio.querySelector('.w-2\\.5');
-        if (dot) dot.remove();
-      }
-    });
-
-    button.classList.add('selected', 'border-accent', 'bg-accent/10');
-    button.classList.remove('border-background/15', 'bg-background/5');
-    var radio = button.querySelector('.w-5.h-5.rounded-full');
-    if (radio) {
-      radio.classList.add('border-accent');
-      radio.classList.remove('border-background/30');
-      if (!radio.querySelector('.w-2\\.5')) {
-        var dot = document.createElement('div');
-        dot.className = 'w-2.5 h-2.5 rounded-full bg-accent';
-        radio.appendChild(dot);
-      }
+  updateUI: function () {
+    // Show/hide one-time CTA button
+    var addBtn = document.getElementById('add-to-cart-btn');
+    if (addBtn) {
+      addBtn.style.display = this.isSubscription ? 'none' : 'flex';
     }
 
     this.updateMobileCTA();
@@ -84,25 +141,30 @@ var ProductForm = {
 
   updateMobileCTA: function () {
     var ctaText = document.getElementById('mobile-cta-text');
-    if (ctaText && this.selectedPrice) {
-      var total = (this.selectedPrice / 100) * this.quantity;
-      var hasDecimals = total % 1 !== 0;
-      var lang = document.documentElement.lang || 'es';
-      var addToCartText = (window.theme && window.theme.strings && window.theme.strings.addToCart) || 'Agregar al carrito';
-      ctaText.textContent = addToCartText + ' – $' + total.toLocaleString(lang, { minimumFractionDigits: hasDecimals ? 2 : 0, maximumFractionDigits: 2 });
+    if (!ctaText || !this.selectedPrice) return;
+
+    var total = (this.selectedPrice / 100) * this.quantity;
+    var hasDecimals = total % 1 !== 0;
+    var lang = document.documentElement.lang || 'es';
+    var formatted = '$' + total.toLocaleString(lang, { minimumFractionDigits: hasDecimals ? 2 : 0, maximumFractionDigits: 2 });
+
+    if (this.isSubscription) {
+      ctaText.textContent = 'Suscribirme \u2013 ' + formatted + '/mes';
+    } else {
+      var label = (window.theme && window.theme.strings && window.theme.strings.addToCart) || 'Agregar al carrito';
+      ctaText.textContent = label + ' \u2013 ' + formatted;
     }
   },
 
   setButtonLoading: function (loading) {
     var buttons = [
-      document.getElementById('add-to-cart-desktop'),
+      document.getElementById('add-to-cart-btn'),
       document.querySelector('#mobile-sticky-cta button')
     ];
     buttons.forEach(function (btn) {
       if (!btn) return;
       if (loading) {
         btn.disabled = true;
-        btn.dataset.originalText = btn.textContent;
         btn.style.opacity = '0.7';
       } else {
         btn.disabled = false;
@@ -116,39 +178,37 @@ var ProductForm = {
     this.isSubmitting = true;
     this.setButtonLoading(true);
 
-    CartDrawer.addItem(this.selectedVariantId, this.quantity)
-      .finally(function () {
-        ProductForm.isSubmitting = false;
-        ProductForm.setButtonLoading(false);
-      });
-  },
+    var payload = {
+      id: this.selectedVariantId,
+      quantity: this.quantity
+    };
 
-  buyNow: function () {
-    if (!this.selectedVariantId || this.isSubmitting) return;
-    this.isSubmitting = true;
-
-    var buyBtn = document.querySelector('[onclick="ProductForm.buyNow()"]');
-    if (buyBtn) {
-      buyBtn.disabled = true;
-      buyBtn.style.opacity = '0.7';
+    if (this.isSubscription && this.selectedSellingPlan) {
+      payload.selling_plan = this.selectedSellingPlan;
     }
 
     fetch('/cart/add.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: this.selectedVariantId, quantity: this.quantity })
+      body: JSON.stringify(payload)
     })
     .then(function (r) {
-      if (!r.ok) throw new Error((window.theme && window.theme.strings && window.theme.strings.processError) || 'Error');
-      window.location.href = '/checkout';
-    })
-    .catch(function () {
-      ProductForm.isSubmitting = false;
-      if (buyBtn) {
-        buyBtn.disabled = false;
-        buyBtn.style.opacity = '';
+      if (!r.ok) {
+        return r.json().then(function (data) {
+          throw new Error(data.description || 'Error');
+        });
       }
-      CartDrawer.showError((window.theme && window.theme.strings && window.theme.strings.processError) || 'Error');
+      return r.json();
+    })
+    .then(function () {
+      CartDrawer.open();
+    })
+    .catch(function (err) {
+      CartDrawer.showError(err.message || 'Error al agregar al carrito');
+    })
+    .finally(function () {
+      ProductForm.isSubmitting = false;
+      ProductForm.setButtonLoading(false);
     });
   },
 
