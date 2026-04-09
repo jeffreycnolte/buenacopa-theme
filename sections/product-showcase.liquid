@@ -81,12 +81,12 @@
           <h2 class="sr-only">{{ product.title }}</h2>
 
           <!-- Shipping badge -->
-          <div class="flex items-center gap-2 text-background/50 mt-1">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-            <span class="text-xs font-medium">Envíos a todo México</span>
+          <div class="flex items-center gap-2 text-background/50">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <span style="font-size:12px" class="font-medium">Envíos a todo México</span>
           </div>
 
-          {%- comment -%}Format prices without Shopify's money filter to avoid locale spacing issues{%- endcomment -%}
+          {%- comment -%}Format prices manually to avoid locale spacing{%- endcomment -%}
           {%- assign sub_price_whole = sub_price | divided_by: 100 -%}
           {%- assign sub_price_cents = sub_price | modulo: 100 -%}
           {%- assign sub_per_whole = sub_per_serving | divided_by: 100 -%}
@@ -95,44 +95,46 @@
           {% if has_subscription and sub_variant %}
             <div
               id="subscription-card"
-              class="relative rounded-2xl border-2 border-accent bg-gradient-to-b from-accent/8 to-accent/3 pt-10 pb-5 px-5 cursor-pointer transition-all selected"
+              class="relative rounded-xl border-2 border-accent cursor-pointer transition-all"
+              style="background: linear-gradient(180deg, rgba(0,171,67,0.06) 0%, rgba(0,171,67,0.02) 100%); padding: 32px 16px 16px;"
               onclick="ProductForm.selectSubscription({{ sub_variant.id }}, {{ sub_plan.id }})"
               data-variant-id="{{ sub_variant.id }}"
               data-selling-plan-id="{{ sub_plan.id }}"
               data-price="{{ sub_price }}"
             >
-              <span class="absolute top-0 left-4 -translate-y-1/2 inline-flex items-center gap-1.5 bg-accent text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <span class="absolute left-3" style="top:-11px; font-size:11px; letter-spacing:0.05em; display:inline-flex; align-items:center; gap:5px; background:#00AB43; color:#fff; font-weight:700; text-transform:uppercase; padding:3px 10px; border-radius:999px;">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                 MEJOR VALOR
               </span>
 
               <div class="flex items-baseline justify-between">
-                <p class="font-bold text-background text-sm">Suscripción ({{ sub_servings }} sobres)</p>
-                <p class="font-display font-black text-background"><span class="text-2xl">${{ sub_price_whole }}</span>{%- if sub_price_cents > 0 -%}<span class="text-base">.{{ sub_price_cents }}</span>{%- endif -%}<span class="text-xs font-semibold text-background/40 ml-0.5">/mes</span></p>
+                <p class="font-bold text-background" style="font-size:14px">Suscripción ({{ sub_servings }} sobres)</p>
+                <p class="font-display font-black text-background" style="white-space:nowrap"><span style="font-size:22px">${{ sub_price_whole }}</span>{%- if sub_price_cents > 0 -%}<span style="font-size:14px">.{{ sub_price_cents }}</span>{%- endif -%}<span style="font-size:11px; color:rgba(7,29,64,0.4); font-weight:600; margin-left:2px">/mes</span></p>
               </div>
 
-              <div class="mt-3 space-y-1">
-                <div class="flex items-center gap-2">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                  <span class="text-xs text-background/70"><strong>${{ sub_per_whole }} por toma</strong></span>
+              <div style="margin-top:10px; display:flex; flex-direction:column; gap:4px">
+                <div style="display:flex; align-items:center; gap:7px">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span style="font-size:12px; color:rgba(7,29,64,0.65)"><strong>${{ sub_per_whole }} por toma</strong></span>
                 </div>
-                <div class="flex items-center gap-2">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                  <span class="text-xs text-background/70"><strong>Ahorra 40%</strong></span>
+                <div style="display:flex; align-items:center; gap:7px">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span style="font-size:12px; color:rgba(7,29,64,0.65)"><strong>Ahorra 40%</strong></span>
                 </div>
-                <div class="flex items-center gap-2">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                  <span class="text-xs text-background/70">Nunca te quedes sin producto</span>
+                <div style="display:flex; align-items:center; gap:7px">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span style="font-size:12px; color:rgba(7,29,64,0.65)">Nunca te quedes sin producto</span>
                 </div>
-                <div class="flex items-center gap-2">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                  <span class="text-xs text-background/70">Cancela cuando quieras</span>
+                <div style="display:flex; align-items:center; gap:7px">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span style="font-size:12px; color:rgba(7,29,64,0.65)">Cancela cuando quieras</span>
                 </div>
               </div>
 
               <button
                 onclick="event.stopPropagation(); ProductForm.selectSubscription({{ sub_variant.id }}, {{ sub_plan.id }}); ProductForm.addToCart();"
-                class="w-full mt-4 btn-cta text-sm py-3 flex items-center justify-center gap-2"
+                class="w-full btn-cta flex items-center justify-center gap-2"
+                style="margin-top:14px; font-size:14px; padding:10px 0"
               >
                 Suscribirme ahora
                 <span class="inline-flex">{% render 'icon-arrow-right', size: 16 %}</span>
@@ -142,12 +144,12 @@
 
           <!-- ═══ ONE-TIME PURCHASE ═══ -->
           <div>
-            <div class="flex items-center gap-3">
-              <p class="font-bold text-background text-base shrink-0">Compra única</p>
+            <div class="flex items-center gap-3" style="margin-top:4px">
+              <p class="font-bold text-background shrink-0" style="font-size:14px">Compra única</p>
               <div class="flex-1 h-px bg-background/10"></div>
             </div>
 
-            <div class="space-y-2 mt-3" id="variant-selector">
+            <div class="space-y-2" style="margin-top:8px" id="variant-selector">
               {%- for variant in product.variants -%}
                 {%- liquid
                   assign variant_title_lower = variant.title | downcase
@@ -180,19 +182,20 @@
                     data-variant-id="{{ variant.id }}"
                     data-variant-price="{{ variant.price }}"
                     data-variant-available="{{ variant.available }}"
-                    class="variant-btn w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all duration-200 text-left border-background/15 bg-background/5 hover:border-background/25 {% unless variant.available %}opacity-50 cursor-not-allowed{% endunless %}"
+                    class="variant-btn w-full flex items-center justify-between rounded-xl border-2 transition-all duration-200 text-left border-background/15 bg-background/5 hover:border-background/25 {% unless variant.available %}opacity-50 cursor-not-allowed{% endunless %}"
+                    style="padding:12px 14px"
                     {% unless variant.available %}disabled{% endunless %}
                   >
-                    <span class="font-bold text-background text-sm">{{ variant.title }}</span>
-                    <div class="flex items-baseline gap-2">
+                    <span class="font-bold text-background" style="font-size:13px">{{ variant.title }}</span>
+                    <div class="flex items-baseline" style="gap:6px">
                       {%- assign v_whole = variant.price | divided_by: 100 -%}
                     {%- assign v_cents = variant.price | modulo: 100 -%}
                     {%- capture v_formatted -%}{%- if v_whole >= 1000 -%}{{ v_whole | divided_by: 1000 }},{{ v_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ v_whole }}{%- endif -%}{%- endcapture -%}
-                    <span class="font-display font-black text-lg text-background">${{ v_formatted }}{%- if v_cents > 0 -%}.{{ v_cents }}{%- endif -%}</span>
+                    <span class="font-display font-black text-background" style="font-size:16px">${{ v_formatted }}{%- if v_cents > 0 -%}.{{ v_cents }}{%- endif -%}</span>
                       {% if per_serving > 0 %}
                         {%- assign ps_whole = per_serving | divided_by: 100 -%}
                         {%- assign ps_cents = per_serving | modulo: 100 -%}
-                        <span class="text-background/40 text-xs">(${{ ps_whole }}{%- if ps_cents > 0 -%}.{{ ps_cents }}{%- endif -%} por toma)</span>
+                        <span class="text-background/40" style="font-size:11px">(${{ ps_whole }}{%- if ps_cents > 0 -%}.{{ ps_cents }}{%- endif -%}  por toma)</span>
                       {% endif %}
                     </div>
                   </button>

@@ -18,12 +18,16 @@ var ProductForm = {
       this.selectedSellingPlan = parseInt(subCard.dataset.sellingPlanId);
       this.selectedPrice = parseInt(subCard.dataset.price);
       this.isSubscription = true;
+      // Ensure visual selection on load
+      subCard.classList.add('border-accent', 'selected');
+      subCard.classList.remove('border-background/15', 'bg-background/5');
     } else {
       var firstBtn = document.querySelector('.variant-btn');
       if (firstBtn) {
         this.selectedVariantId = parseInt(firstBtn.dataset.variantId);
         this.selectedPrice = parseInt(firstBtn.dataset.variantPrice);
         this.isSubscription = false;
+        firstBtn.classList.add('selected', 'border-accent', 'bg-accent/10');
       }
     }
     this.updateUI();
