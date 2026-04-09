@@ -10,7 +10,7 @@
 {
   "sections": {
     "main": {
-      "type": "product-showcase",
+      "type": "product-hero",
       "settings": {
         "product": "buenacopa-bienestar-post-fiesta",
         "tagline": "Bienestar Post-Fiesta",
