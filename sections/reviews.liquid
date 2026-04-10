@@ -15,91 +15,76 @@
       </h2>
     </div>
 
-    {%- comment -%}Social proof stats bar{%- endcomment -%}
-    <div class="bc-reviews-proof-bar">
-      <div class="bc-reviews-proof-item">
-        <div style="display: flex; gap: 2px; justify-content: center;" aria-label="{{ rating_value }} de 5 estrellas">
+    {%- comment -%}Unified ratings bar: Buenacopa + Mercado Libre + Amazon{%- endcomment -%}
+    <div class="bc-ratings-bar">
+      {%- comment -%}Buenacopa rating{%- endcomment -%}
+      <div class="bc-ratings-item">
+        <span class="bc-ratings-name">bebuenacopa.com</span>
+        <div style="display: flex; gap: 2px; align-items: center;">
           {%- for i in (1..5) -%}
             {%- assign star_threshold = i | minus: 0.5 -%}
             {%- if rating_value >= i -%}
-              <svg width="18" height="18" viewBox="0 0 20 20" fill="#00AB43"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="#FFB800"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
             {%- elsif rating_value >= star_threshold -%}
-              <svg width="18" height="18" viewBox="0 0 20 20"><defs><linearGradient id="half-star-{{ i }}"><stop offset="50%" stop-color="#00AB43"/><stop offset="50%" stop-color="#D1D5DB"/></linearGradient></defs><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z" fill="url(#half-star-{{ i }})"/></svg>
+              <svg width="16" height="16" viewBox="0 0 20 20"><defs><linearGradient id="bc-half-{{ i }}"><stop offset="50%" stop-color="#FFB800"/><stop offset="50%" stop-color="#D1D5DB"/></linearGradient></defs><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z" fill="url(#bc-half-{{ i }})"/></svg>
             {%- else -%}
-              <svg width="18" height="18" viewBox="0 0 20 20" fill="#D1D5DB"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="#D1D5DB"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
             {%- endif -%}
           {%- endfor -%}
+          <span class="bc-ratings-score">{{ section.settings.rating | default: '4.7' }}</span>
         </div>
-        <span class="bc-reviews-proof-label">{{ section.settings.rating | default: '4.7' }}/5 promedio</span>
       </div>
-      <div class="bc-reviews-proof-divider"></div>
-      <div class="bc-reviews-proof-item">
-        <span class="bc-reviews-proof-number">{{ review_count }}+</span>
-        <span class="bc-reviews-proof-label">reseñas verificadas</span>
-      </div>
-      <div class="bc-reviews-proof-divider"></div>
-      <div class="bc-reviews-proof-item">
-        <span class="bc-reviews-proof-number">{{ section.settings.recommend_pct | default: '97' }}%</span>
-        <span class="bc-reviews-proof-label">lo recomiendan</span>
-      </div>
+
+      {%- if section.settings.ml_rating != blank -%}
+        <div class="bc-ratings-divider"></div>
+        {%- assign ml_rating = section.settings.ml_rating | plus: 0.0 -%}
+        <div class="bc-ratings-item">
+          {%- if section.settings.ml_logo != blank -%}
+            <img src="{{ section.settings.ml_logo | image_url: width: 120 }}" alt="Mercado Libre" class="bc-ratings-logo" loading="lazy">
+          {%- else -%}
+            <span class="bc-ratings-name">Mercado Libre</span>
+          {%- endif -%}
+          <div style="display: flex; gap: 2px; align-items: center;">
+            {%- for i in (1..5) -%}
+              {%- assign ml_half = i | minus: 0.5 -%}
+              {%- if ml_rating >= i -%}
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="#FFB800"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+              {%- elsif ml_rating >= ml_half -%}
+                <svg width="16" height="16" viewBox="0 0 20 20"><defs><linearGradient id="ml-half-{{ i }}"><stop offset="50%" stop-color="#FFB800"/><stop offset="50%" stop-color="#D1D5DB"/></linearGradient></defs><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z" fill="url(#ml-half-{{ i }})"/></svg>
+              {%- else -%}
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="#D1D5DB"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+              {%- endif -%}
+            {%- endfor -%}
+            <span class="bc-ratings-score">{{ section.settings.ml_rating }}</span>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.amz_rating != blank -%}
+        <div class="bc-ratings-divider"></div>
+        {%- assign amz_rating = section.settings.amz_rating | plus: 0.0 -%}
+        <div class="bc-ratings-item">
+          {%- if section.settings.amz_logo != blank -%}
+            <img src="{{ section.settings.amz_logo | image_url: width: 120 }}" alt="Amazon" class="bc-ratings-logo" loading="lazy">
+          {%- else -%}
+            <span class="bc-ratings-name">Amazon</span>
+          {%- endif -%}
+          <div style="display: flex; gap: 2px; align-items: center;">
+            {%- for i in (1..5) -%}
+              {%- assign amz_half = i | minus: 0.5 -%}
+              {%- if amz_rating >= i -%}
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="#FFB800"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+              {%- elsif amz_rating >= amz_half -%}
+                <svg width="16" height="16" viewBox="0 0 20 20"><defs><linearGradient id="amz-half-{{ i }}"><stop offset="50%" stop-color="#FFB800"/><stop offset="50%" stop-color="#D1D5DB"/></linearGradient></defs><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z" fill="url(#amz-half-{{ i }})"/></svg>
+              {%- else -%}
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="#D1D5DB"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+              {%- endif -%}
+            {%- endfor -%}
+            <span class="bc-ratings-score">{{ section.settings.amz_rating }}</span>
+          </div>
+        </div>
+      {%- endif -%}
     </div>
-
-    {%- comment -%}Marketplace ratings bar{%- endcomment -%}
-    {%- if section.settings.ml_rating != blank or section.settings.amz_rating != blank -%}
-      <div class="bc-marketplace-bar">
-        {%- if section.settings.ml_rating != blank -%}
-          {%- assign ml_rating = section.settings.ml_rating | plus: 0.0 -%}
-          <a href="{{ section.settings.ml_url | default: '#' }}" target="_blank" rel="noopener" class="bc-marketplace-item">
-            {%- if section.settings.ml_logo != blank -%}
-              <img src="{{ section.settings.ml_logo | image_url: width: 120 }}" alt="Mercado Libre" style="height: 22px; width: auto;" loading="lazy">
-            {%- else -%}
-              <span class="bc-marketplace-name">Mercado Libre</span>
-            {%- endif -%}
-            <div style="display: flex; gap: 2px; align-items: center;">
-              {%- for i in (1..5) -%}
-                {%- assign ml_half = i | minus: 0.5 -%}
-                {%- if ml_rating >= i -%}
-                  <svg width="14" height="14" viewBox="0 0 20 20" fill="#FFB800"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
-                {%- elsif ml_rating >= ml_half -%}
-                  <svg width="14" height="14" viewBox="0 0 20 20"><defs><linearGradient id="ml-half-{{ i }}"><stop offset="50%" stop-color="#FFB800"/><stop offset="50%" stop-color="#D1D5DB"/></linearGradient></defs><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z" fill="url(#ml-half-{{ i }})"/></svg>
-                {%- else -%}
-                  <svg width="14" height="14" viewBox="0 0 20 20" fill="#D1D5DB"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
-                {%- endif -%}
-              {%- endfor -%}
-              <span style="font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #071D40; margin-left: 4px;">{{ section.settings.ml_rating }}</span>
-            </div>
-          </a>
-        {%- endif -%}
-
-        {%- if section.settings.ml_rating != blank and section.settings.amz_rating != blank -%}
-          <div class="bc-marketplace-divider"></div>
-        {%- endif -%}
-
-        {%- if section.settings.amz_rating != blank -%}
-          {%- assign amz_rating = section.settings.amz_rating | plus: 0.0 -%}
-          <a href="{{ section.settings.amz_url | default: '#' }}" target="_blank" rel="noopener" class="bc-marketplace-item">
-            {%- if section.settings.amz_logo != blank -%}
-              <img src="{{ section.settings.amz_logo | image_url: width: 120 }}" alt="Amazon" style="height: 22px; width: auto;" loading="lazy">
-            {%- else -%}
-              <span class="bc-marketplace-name">Amazon</span>
-            {%- endif -%}
-            <div style="display: flex; gap: 2px; align-items: center;">
-              {%- for i in (1..5) -%}
-                {%- assign amz_half = i | minus: 0.5 -%}
-                {%- if amz_rating >= i -%}
-                  <svg width="14" height="14" viewBox="0 0 20 20" fill="#FFB800"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
-                {%- elsif amz_rating >= amz_half -%}
-                  <svg width="14" height="14" viewBox="0 0 20 20"><defs><linearGradient id="amz-half-{{ i }}"><stop offset="50%" stop-color="#FFB800"/><stop offset="50%" stop-color="#D1D5DB"/></linearGradient></defs><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z" fill="url(#amz-half-{{ i }})"/></svg>
-                {%- else -%}
-                  <svg width="14" height="14" viewBox="0 0 20 20" fill="#D1D5DB"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
-                {%- endif -%}
-              {%- endfor -%}
-              <span style="font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #071D40; margin-left: 4px;">{{ section.settings.amz_rating }}</span>
-            </div>
-          </a>
-        {%- endif -%}
-      </div>
-    {%- endif -%}
 
     {%- if section.blocks.size > 0 -%}
       {%- comment -%}Desktop: 3-column grid{%- endcomment -%}
@@ -120,80 +105,63 @@
   </div>
 
   <style>
-    /* Social proof stats bar */
-    .bc-reviews-proof-bar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      margin-bottom: 2.5rem;
-      padding: 16px 24px;
-      background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      max-width: 640px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .bc-reviews-proof-item {
-      text-align: center;
-    }
-    .bc-reviews-proof-number {
-      font-family: 'Nunito', sans-serif;
-      font-weight: 800;
-      font-size: 22px;
-      color: #071D40;
-      display: block;
-      line-height: 1.2;
-    }
-    .bc-reviews-proof-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      color: #6B7280;
-      display: block;
-      margin-top: 2px;
-    }
-    .bc-reviews-proof-divider {
-      width: 1px;
-      height: 36px;
-      background: #E5E7EB;
-      flex-shrink: 0;
-    }
-
-    /* Marketplace ratings bar */
-    .bc-marketplace-bar {
+    /* Unified ratings bar */
+    .bc-ratings-bar {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 24px;
       margin-bottom: 2.5rem;
+      padding: 18px 28px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .bc-marketplace-item {
+    .bc-ratings-item {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 6px;
-      text-decoration: none;
-      transition: opacity 0.2s;
     }
-    .bc-marketplace-item:hover {
-      opacity: 0.8;
+    .bc-ratings-logo {
+      height: 20px;
+      width: auto;
     }
-    .bc-marketplace-name {
+    .bc-ratings-name {
       font-family: 'Nunito', sans-serif;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 13px;
       color: #071D40;
     }
-    .bc-marketplace-divider {
+    .bc-ratings-score {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #071D40;
+      margin-left: 4px;
+    }
+    .bc-ratings-divider {
       width: 1px;
       height: 40px;
       background: #E5E7EB;
       flex-shrink: 0;
     }
     @media (max-width: 480px) {
-      .bc-marketplace-bar {
-        gap: 16px;
+      .bc-ratings-bar {
+        gap: 14px;
+        padding: 14px 16px;
+      }
+      .bc-ratings-logo {
+        height: 16px;
+      }
+      .bc-ratings-name {
+        font-size: 11px;
+      }
+      .bc-ratings-score {
+        font-size: 11px;
       }
     }
 
@@ -407,11 +375,6 @@
       "default": "5.0"
     },
     {
-      "type": "url",
-      "id": "ml_url",
-      "label": "Mercado Libre store URL"
-    },
-    {
       "type": "image_picker",
       "id": "amz_logo",
       "label": "Amazon logo"
@@ -421,23 +384,6 @@
       "id": "amz_rating",
       "label": "Amazon rating (e.g. 4.5)",
       "default": "4.5"
-    },
-    {
-      "type": "url",
-      "id": "amz_url",
-      "label": "Amazon store URL"
-    },
-    { "type": "header", "content": "CTA" },
-    {
-      "type": "text",
-      "id": "cta_text",
-      "label": "CTA button text",
-      "default": "Quiero amanecer bien"
-    },
-    {
-      "type": "url",
-      "id": "cta_url",
-      "label": "CTA button link"
     }
   ],
   "blocks": [
