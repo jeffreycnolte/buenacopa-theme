@@ -54,18 +54,18 @@
       {%- comment -%}═══ LEFT COLUMN: Product + Messaging ═══{%- endcomment -%}
       <div>
         <!-- Headline -->
-        <div class="text-center lg:text-left" style="margin-bottom: 12px;">
+        <div class="text-left" style="margin-bottom: 12px;">
           <h1 class="font-display font-black leading-[0.95]" style="font-size: clamp(1.75rem, 4.5vw, 2.75rem);">
             <span class="text-background whitespace-nowrap">{{ section.settings.heading_line_1 | default: 'La fiesta sigue.' }}</span>
             <br>
             <span class="text-accent-contrast">{{ section.settings.heading_line_2 | default: 'La cruda no.' }}</span>
           </h1>
-          <p class="text-background/60 font-semibold mx-auto lg:mx-0" style="font-size: clamp(0.75rem, 1.5vw, 0.95rem); max-width: 24rem; margin-top: 4px; line-height: 1.45;">
+          <p class="text-background/60 font-semibold" style="font-size: clamp(0.75rem, 1.5vw, 0.95rem); max-width: 24rem; margin-top: 4px; line-height: 1.45;">
             {{ section.settings.subheading | default: 'Bienestar post-fiesta. Celebra hoy. Conquista mañana.' }}
           </p>
 
           <!-- Stars + social proof -->
-          <div class="flex items-center gap-2 justify-center lg:justify-start" style="margin-top: 6px;">
+          <div class="flex items-center gap-2 justify-start" style="margin-top: 6px;">
             <div class="flex gap-0.5">
               {% for s in (1..5) %}
                 {% render 'icon-star', size: 14, fill: '#facc15', stroke: '#facc15' %}
