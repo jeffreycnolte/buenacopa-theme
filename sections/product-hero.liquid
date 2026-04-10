@@ -48,13 +48,10 @@
 -%}
 
 <section id="comprar" class="overflow-hidden bg-white">
-  <div class="container-custom">
-    <div class="grid lg:grid-cols-2 gap-6 lg:gap-8 items-start" style="padding: 16px 0 0;">
+  <div class="container-custom" style="padding-top: 16px;">
 
-      {%- comment -%}═══ LEFT COLUMN: Product + Messaging ═══{%- endcomment -%}
-      <div>
-        <!-- Headline -->
-        <div class="text-left" style="margin-bottom: 12px;">
+    {%- comment -%}═══ HEADLINE (spans full width on desktop) ═══{%- endcomment -%}
+    <div class="text-left" style="margin-bottom: 12px;">
           <h1 class="font-display font-black leading-[0.95]" style="font-size: clamp(1.75rem, 4.5vw, 2.75rem);">
             <span class="text-background whitespace-nowrap">{{ section.settings.heading_line_1 | default: 'La fiesta sigue.' }}</span>
             <br>
@@ -75,6 +72,11 @@
           </div>
         </div>
 
+    {%- comment -%}═══ 2-COLUMN: Carousel (left) + Purchase (right) ═══{%- endcomment -%}
+    <div class="grid lg:grid-cols-2 gap-6 lg:gap-8 items-start">
+
+      {%- comment -%}═══ LEFT: Product Carousel ═══{%- endcomment -%}
+      <div>
         <!-- Product Image Carousel -->
         <div class="space-y-2">
           <div class="rounded-2xl overflow-hidden aspect-square lg:aspect-auto" style="max-height: min(55vh, 420px);">
@@ -106,7 +108,7 @@
       </div>
 
       {%- comment -%}═══ RIGHT COLUMN: Purchase Flow ═══{%- endcomment -%}
-      <div class="space-y-3 pb-20 lg:pb-0 lg:pt-0" id="product-form-container" data-product-id="{{ product.id }}" style="margin-top: 0;">
+      <div class="space-y-3 pb-20 lg:pb-0" id="product-form-container" data-product-id="{{ product.id }}" style="margin-top: 0; padding-top: 0;">
         <h2 class="sr-only">{{ product.title }}</h2>
 
         <!-- Shipping badge -->
@@ -136,22 +138,22 @@
               <p class="font-display font-black text-background" style="white-space:nowrap"><span style="font-size:22px">${{ sub_price_whole }}</span>{%- if sub_price_cents > 0 -%}<span style="font-size:14px">.{{ sub_price_cents }}</span>{%- endif -%}<span style="font-size:11px; color:rgba(7,29,64,0.4); font-weight:600; margin-left:2px">/mes</span></p>
             </div>
 
-            <div style="margin-top:10px; display:flex; flex-direction:column; gap:4px">
-              <div style="display:flex; align-items:center; gap:7px">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                <span style="font-size:12px; color:rgba(7,29,64,0.65)"><strong>${{ sub_per_whole }} por toma</strong></span>
+            <div class="grid grid-cols-1 lg:grid-cols-2" style="margin-top:8px; gap:3px 12px">
+              <div style="display:flex; align-items:center; gap:6px">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="font-size:11px; color:rgba(7,29,64,0.65)"><strong>${{ sub_per_whole }} por toma</strong></span>
               </div>
-              <div style="display:flex; align-items:center; gap:7px">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                <span style="font-size:12px; color:rgba(7,29,64,0.65)"><strong>Ahorra 40%</strong></span>
+              <div style="display:flex; align-items:center; gap:6px">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="font-size:11px; color:rgba(7,29,64,0.65)"><strong>Ahorra 40%</strong></span>
               </div>
-              <div style="display:flex; align-items:center; gap:7px">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                <span style="font-size:12px; color:rgba(7,29,64,0.65)">Nunca te quedes sin producto</span>
+              <div style="display:flex; align-items:center; gap:6px">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="font-size:11px; color:rgba(7,29,64,0.65)">Sin compromiso</span>
               </div>
-              <div style="display:flex; align-items:center; gap:7px">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                <span style="font-size:12px; color:rgba(7,29,64,0.65)">Cancela cuando quieras</span>
+              <div style="display:flex; align-items:center; gap:6px">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="font-size:11px; color:rgba(7,29,64,0.65)">Cancela cuando quieras</span>
               </div>
             </div>
 
@@ -225,7 +227,7 @@
                       data-variant-price="{{ variant.price }}"
                       data-variant-available="{{ variant.available }}"
                       class="variant-btn flex flex-col items-center justify-center rounded-xl border-2 transition-all duration-200 border-background/15 bg-background/5 hover:border-background/25 {% unless variant.available %}opacity-50 cursor-not-allowed{% endunless %}"
-                      style="padding:10px 8px"
+                      style="padding:10px 8px; min-height:52px"
                       {% unless variant.available %}disabled{% endunless %}
                     >
                       <span class="font-bold text-background" style="font-size:12px">{{ variant.title }}</span>
@@ -278,7 +280,7 @@
                     data-variant-price="{{ variant.price }}"
                     data-variant-available="{{ variant.available }}"
                     class="variant-btn w-full flex items-center justify-between rounded-xl border-2 transition-all duration-200 text-left border-background/15 bg-background/5 hover:border-background/25 {% unless variant.available %}opacity-50 cursor-not-allowed{% endunless %}"
-                    style="padding:10px 14px; margin-top:8px"
+                    style="padding:10px 14px; margin-top:8px; min-height:52px"
                     {% unless variant.available %}disabled{% endunless %}
                   >
                     <span class="font-bold text-background" style="font-size:13px">{{ variant.title }}</span>
