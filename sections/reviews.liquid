@@ -5,7 +5,7 @@
 <section class="section-padding overflow-hidden" id="reviews" style="background: #F9FAFB;">
   <div class="container-custom">
 
-    {%- comment -%}Two-line heading like other sections{%- endcomment -%}
+    {%- comment -%}Two-line heading{%- endcomment -%}
     <div style="text-align: center; margin-bottom: 0.75rem;">
       <h2 class="font-display font-black" style="font-size: clamp(1.5rem, 4vw, 2.25rem); color: #071D40; margin: 0; line-height: 1.2;">
         {{ section.settings.heading_line_1 | default: 'Miles ya despertaron sin cruda' }}
@@ -15,24 +15,32 @@
       </h2>
     </div>
 
-    {%- comment -%}Aggregate rating summary{%- endcomment -%}
-    <div style="text-align: center; margin-bottom: 2.5rem;">
-      <div style="display: inline-flex; align-items: center; gap: 8px;">
-        <div style="display: flex; gap: 2px;" aria-label="{{ rating_value }} de 5 estrellas">
+    {%- comment -%}Social proof stats bar{%- endcomment -%}
+    <div class="bc-reviews-proof-bar">
+      <div class="bc-reviews-proof-item">
+        <div style="display: flex; gap: 2px; justify-content: center;" aria-label="{{ rating_value }} de 5 estrellas">
           {%- for i in (1..5) -%}
             {%- assign star_threshold = i | minus: 0.5 -%}
             {%- if rating_value >= i -%}
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="#00AB43"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="#00AB43"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
             {%- elsif rating_value >= star_threshold -%}
-              <svg width="20" height="20" viewBox="0 0 20 20"><defs><linearGradient id="half-star-{{ i }}"><stop offset="50%" stop-color="#00AB43"/><stop offset="50%" stop-color="#D1D5DB"/></linearGradient></defs><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z" fill="url(#half-star-{{ i }})"/></svg>
+              <svg width="18" height="18" viewBox="0 0 20 20"><defs><linearGradient id="half-star-{{ i }}"><stop offset="50%" stop-color="#00AB43"/><stop offset="50%" stop-color="#D1D5DB"/></linearGradient></defs><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z" fill="url(#half-star-{{ i }})"/></svg>
             {%- else -%}
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="#D1D5DB"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="#D1D5DB"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
             {%- endif -%}
           {%- endfor -%}
         </div>
-        <span style="font-family: 'Inter', sans-serif; font-size: 14px; color: #6B7280;">
-          {{ section.settings.rating | default: '4.7' }} / 5 &middot; {{ review_count }} reseñas
-        </span>
+        <span class="bc-reviews-proof-label">{{ section.settings.rating | default: '4.7' }}/5 promedio</span>
+      </div>
+      <div class="bc-reviews-proof-divider"></div>
+      <div class="bc-reviews-proof-item">
+        <span class="bc-reviews-proof-number">{{ review_count }}+</span>
+        <span class="bc-reviews-proof-label">reseñas verificadas</span>
+      </div>
+      <div class="bc-reviews-proof-divider"></div>
+      <div class="bc-reviews-proof-item">
+        <span class="bc-reviews-proof-number">{{ section.settings.recommend_pct | default: '97' }}%</span>
+        <span class="bc-reviews-proof-label">lo recomiendan</span>
       </div>
     </div>
 
@@ -52,7 +60,7 @@
       </div>
     {%- endif -%}
 
-    {%- comment -%}CTA button instead of text link{%- endcomment -%}
+    {%- comment -%}CTA button{%- endcomment -%}
     <div style="text-align: center; margin-top: 2.5rem;">
       <a href="{{ section.settings.cta_url | default: '#product-hero' }}" class="bc-reviews-cta">
         {{ section.settings.cta_text | default: 'Quiero amanecer bien' }}
@@ -61,6 +69,46 @@
   </div>
 
   <style>
+    /* Social proof stats bar */
+    .bc-reviews-proof-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 2.5rem;
+      padding: 16px 24px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .bc-reviews-proof-item {
+      text-align: center;
+    }
+    .bc-reviews-proof-number {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      color: #071D40;
+      display: block;
+      line-height: 1.2;
+    }
+    .bc-reviews-proof-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #6B7280;
+      display: block;
+      margin-top: 2px;
+    }
+    .bc-reviews-proof-divider {
+      width: 1px;
+      height: 36px;
+      background: #E5E7EB;
+      flex-shrink: 0;
+    }
+
     /* Cards shared style */
     .bc-review-card,
     .bc-review-card-mobile {
@@ -72,16 +120,6 @@
       flex-direction: column;
     }
 
-    /* Quote open icon */
-    .bc-review-quote {
-      color: #00AB43;
-      opacity: 0.15;
-      font-size: 48px;
-      line-height: 1;
-      font-family: Georgia, serif;
-      margin: -8px 0 4px;
-    }
-
     /* Review body fills space, author sticks to bottom */
     .bc-review-body {
       font-family: 'Inter', sans-serif;
@@ -90,6 +128,18 @@
       color: #374151;
       margin: 0 0 16px;
       flex: 1;
+    }
+
+    /* Product variant tag */
+    .bc-review-variant-tag {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: #071D40;
+      background: #F3F4F6;
+      padding: 3px 10px;
+      border-radius: 20px;
     }
 
     /* Author row */
@@ -112,7 +162,6 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #00AB43 0%, #009639 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -201,6 +250,20 @@
         display: none;
       }
     }
+
+    /* Proof bar responsive */
+    @media (max-width: 480px) {
+      .bc-reviews-proof-bar {
+        gap: 12px;
+        padding: 14px 16px;
+      }
+      .bc-reviews-proof-number {
+        font-size: 18px;
+      }
+      .bc-reviews-proof-label {
+        font-size: 10px;
+      }
+    }
   </style>
 </section>
 
@@ -239,6 +302,12 @@
     },
     {
       "type": "text",
+      "id": "recommend_pct",
+      "label": "% who recommend (e.g. 97)",
+      "default": "97"
+    },
+    {
+      "type": "text",
       "id": "cta_text",
       "label": "CTA button text",
       "default": "Quiero amanecer bien"
@@ -261,6 +330,16 @@
           "default": "Cliente"
         },
         {
+          "type": "select",
+          "id": "gender",
+          "label": "Avatar color",
+          "options": [
+            { "value": "male", "label": "Navy (male)" },
+            { "value": "female", "label": "Rose (female)" }
+          ],
+          "default": "male"
+        },
+        {
           "type": "range",
           "id": "rating",
           "label": "Stars",
@@ -281,9 +360,24 @@
           "default": "Excelente producto, lo recomiendo."
         },
         {
+          "type": "text",
+          "id": "date",
+          "label": "Review date (e.g. Mar 2026)"
+        },
+        {
+          "type": "text",
+          "id": "city",
+          "label": "City (e.g. CDMX)"
+        },
+        {
+          "type": "text",
+          "id": "variant",
+          "label": "Product purchased (e.g. 10 Sobres)"
+        },
+        {
           "type": "image_picker",
           "id": "image",
-          "label": "Photo (optional)"
+          "label": "Review photo (optional)"
         },
         {
           "type": "image_picker",
@@ -301,39 +395,7 @@
   ],
   "presets": [
     {
-      "name": "Reseñas",
-      "blocks": [
-        {
-          "type": "review",
-          "settings": {
-            "author": "Carlos M.",
-            "rating": 5,
-            "title": "Funciona de verdad",
-            "body": "Lo probé en una boda y al día siguiente me sentí increíble. Mis amigos no lo podían creer. Ya no salgo sin mi Buenacopa.",
-            "verified": true
-          }
-        },
-        {
-          "type": "review",
-          "settings": {
-            "author": "Andrea R.",
-            "rating": 5,
-            "title": "Indispensable",
-            "body": "Lo uso cada fin de semana. La diferencia es brutal — antes perdía todo el domingo, ahora despierto lista para todo.",
-            "verified": true
-          }
-        },
-        {
-          "type": "review",
-          "settings": {
-            "author": "Diego L.",
-            "rating": 5,
-            "title": "El mejor regalo",
-            "body": "Le regalé a todo mi grupo de amigos. Ahora todos lo piden antes de cada salida. 100% recomendado.",
-            "verified": true
-          }
-        }
-      ]
+      "name": "Reseñas"
     }
   ]
 }

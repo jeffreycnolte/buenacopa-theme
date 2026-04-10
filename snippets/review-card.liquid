@@ -6,6 +6,14 @@
 {%- assign card_class = 'bc-review-card' -%}
 {%- if mobile -%}{%- assign card_class = 'bc-review-card-mobile' -%}{%- endif -%}
 
+{%- comment -%}Avatar color based on gender{%- endcomment -%}
+{%- assign avatar_bg = 'linear-gradient(135deg, #00AB43 0%, #009639 100%)' -%}
+{%- if block.settings.gender == 'male' -%}
+  {%- assign avatar_bg = 'linear-gradient(135deg, #071D40 0%, #1E3A5F 100%)' -%}
+{%- elsif block.settings.gender == 'female' -%}
+  {%- assign avatar_bg = 'linear-gradient(135deg, #D4477A 0%, #E8637A 100%)' -%}
+{%- endif -%}
+
 <div class="{{ card_class }}" {{ block.shopify_attributes }}>
   {%- comment -%}Optional review image{%- endcomment -%}
   {%- if block.settings.image != blank -%}
@@ -19,21 +27,26 @@
     >
   {%- endif -%}
 
-  {%- comment -%}Stars{%- endcomment -%}
-  <div style="display: flex; gap: 2px; margin-bottom: 8px;">
-    {%- assign block_rating = block.settings.rating | default: 5 -%}
-    {%- for i in (1..5) -%}
-      {%- if block_rating >= i -%}
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="#00AB43"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
-      {%- else -%}
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="#D1D5DB"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
-      {%- endif -%}
-    {%- endfor -%}
+  {%- comment -%}Stars + date row{%- endcomment -%}
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+    <div style="display: flex; gap: 2px;">
+      {%- assign block_rating = block.settings.rating | default: 5 -%}
+      {%- for i in (1..5) -%}
+        {%- if block_rating >= i -%}
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#00AB43"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+        {%- else -%}
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#D1D5DB"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- if block.settings.date != blank -%}
+      <span style="font-family: 'Inter', sans-serif; font-size: 11px; color: #9CA3AF;">
+        {{ block.settings.date }}
+      </span>
+    {%- endif -%}
   </div>
 
-  {%- comment -%}Quote mark + title{%- endcomment -%}
-  <div class="bc-review-quote">&ldquo;</div>
-
+  {%- comment -%}Title{%- endcomment -%}
   {%- if block.settings.title != blank -%}
     <p style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; color: #071D40; margin: 0 0 6px;">
       {{ block.settings.title }}
@@ -42,6 +55,13 @@
 
   {%- comment -%}Review body{%- endcomment -%}
   <p class="bc-review-body">{{ block.settings.body }}</p>
+
+  {%- comment -%}Product variant tag{%- endcomment -%}
+  {%- if block.settings.variant != blank -%}
+    <div style="margin-bottom: 14px;">
+      <span class="bc-review-variant-tag">{{ block.settings.variant }}</span>
+    </div>
+  {%- endif -%}
 
   {%- comment -%}Author row{%- endcomment -%}
   <div class="bc-review-author">
@@ -55,18 +75,25 @@
         height="40"
       >
     {%- else -%}
-      <div class="bc-review-avatar-placeholder">
+      <div class="bc-review-avatar-placeholder" style="background: {{ avatar_bg }};">
         <span>{{ block.settings.author | slice: 0 }}</span>
       </div>
     {%- endif -%}
     <div>
       <div class="bc-review-author-name">{{ block.settings.author }}</div>
-      {%- if block.settings.verified -%}
-        <div class="bc-review-verified">
-          <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-2 15l-5-5 1.41-1.41L8 12.17l7.59-7.59L17 6l-9 9z"/></svg>
-          Compra verificada
-        </div>
-      {%- endif -%}
+      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+        {%- if block.settings.verified -%}
+          <span class="bc-review-verified">
+            <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-2 15l-5-5 1.41-1.41L8 12.17l7.59-7.59L17 6l-9 9z"/></svg>
+            Compra verificada
+          </span>
+        {%- endif -%}
+        {%- if block.settings.city != blank -%}
+          <span style="font-family: 'Inter', sans-serif; font-size: 11px; color: #9CA3AF;">
+            {{ block.settings.city }}
+          </span>
+        {%- endif -%}
+      </div>
     </div>
   </div>
 </div>

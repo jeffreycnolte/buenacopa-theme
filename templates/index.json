@@ -243,9 +243,13 @@
           "type": "review",
           "settings": {
             "author": "Carlos M.",
+            "gender": "male",
             "rating": 5,
             "title": "Funciona de verdad",
             "body": "Lo probé en una boda y al día siguiente me sentí increíble. Mis amigos no lo podían creer. Ya no salgo sin mi Buenacopa.",
+            "date": "Mar 2026",
+            "city": "Monterrey",
+            "variant": "10 Sobres",
             "verified": true
           }
         },
@@ -253,9 +257,13 @@
           "type": "review",
           "settings": {
             "author": "Andrea R.",
+            "gender": "female",
             "rating": 5,
             "title": "Indispensable",
             "body": "Lo uso cada fin de semana. La diferencia es brutal — antes perdía todo el domingo, ahora despierto lista para todo.",
+            "date": "Feb 2026",
+            "city": "CDMX",
+            "variant": "10 Sobres",
             "verified": true
           }
         },
@@ -263,9 +271,13 @@
           "type": "review",
           "settings": {
             "author": "Diego L.",
+            "gender": "male",
             "rating": 5,
             "title": "El mejor regalo",
             "body": "Le regalé a todo mi grupo de amigos. Ahora todos lo piden antes de cada salida. 100% recomendado.",
+            "date": "Mar 2026",
+            "city": "Guadalajara",
+            "variant": "20 Sobres",
             "verified": true
           }
         },
@@ -273,9 +285,13 @@
           "type": "review",
           "settings": {
             "author": "Fernanda G.",
+            "gender": "female",
             "rating": 4,
             "title": "Muy bueno",
             "body": "La primera vez no lo tomé correctamente pero ya aprendí — con agua después de la última copa. Desde entonces funciona perfecto.",
+            "date": "Ene 2026",
+            "city": "Puebla",
+            "variant": "5 Sobres",
             "verified": true
           }
         },
@@ -283,9 +299,13 @@
           "type": "review",
           "settings": {
             "author": "Roberto S.",
+            "gender": "male",
             "rating": 5,
             "title": "No más crudas",
             "body": "Soy escéptico por naturaleza pero esto realmente funciona. Lo he probado varias veces y el resultado es consistente.",
+            "date": "Feb 2026",
+            "city": "Querétaro",
+            "variant": "10 Sobres",
             "verified": true
           }
         },
@@ -293,9 +313,13 @@
           "type": "review",
           "settings": {
             "author": "Mariana T.",
+            "gender": "female",
             "rating": 5,
             "title": "Sorprendente",
             "body": "Mi novio me lo recomendó y ahora soy yo la que no sale sin sus sobres. Amaneces como si no hubieras tomado.",
+            "date": "Mar 2026",
+            "city": "CDMX",
+            "variant": "10 Sobres",
             "verified": true
           }
         }
@@ -314,6 +338,7 @@
         "product": "buenacopa-bienestar-post-fiesta",
         "rating": "4.7",
         "review_count": "33",
+        "recommend_pct": "97",
         "cta_text": "Quiero amanecer bien",
         "cta_url": "/products/buenacopa-bienestar-post-fiesta"
       }
