@@ -303,14 +303,14 @@
                     {% unless variant.available %}disabled{% endunless %}
                   >
                     <span class="font-bold text-background" style="font-size:13px">{{ variant.title }}</span>
-                    <div class="text-right">
+                    <div style="text-align:right">
                       {%- assign v_whole = variant.price | divided_by: 100 -%}
                       {%- assign v_cents = variant.price | modulo: 100 -%}
                       {%- capture v_formatted -%}{%- if v_whole >= 1000 -%}{{ v_whole | divided_by: 1000 }},{{ v_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ v_whole }}{%- endif -%}{%- endcapture -%}
                       <span class="font-display font-black text-background" style="font-size:15px">${{ v_formatted }}</span>
                       {% if per_serving > 0 %}
                         {%- assign ps_whole = per_serving | divided_by: 100 -%}
-                        <div class="text-background/40" style="font-size:9px">${{ ps_whole }}/toma</div>
+                        <div class="text-background/40" style="font-size:9px; text-align:right">${{ ps_whole }}/toma</div>
                       {% endif %}
                     </div>
                   </button>
@@ -331,18 +331,19 @@
         </div>
 
         <!-- Trust Badges -->
-        <div class="flex items-center justify-center text-background/50" style="gap:12px; padding:8px 0">
-          <div class="flex items-center whitespace-nowrap" style="gap:4px; font-size:10px; font-weight:500">
+        <div class="flex items-center justify-center text-background/50" id="trust-badges" style="gap:12px; padding:8px 0; font-size:10px">
+          <style>@media(min-width:1024px) { #trust-badges { font-size: 12px !important; } #trust-badges svg { width: 14px; height: 14px; } }</style>
+          <div class="flex items-center whitespace-nowrap" style="gap:5px; font-weight:500">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="shrink-0"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             {{ 'general.security.ssl_badge' | t }}
           </div>
           <span class="text-background/20">|</span>
-          <div class="flex items-center whitespace-nowrap" style="gap:4px; font-size:10px; font-weight:500">
+          <div class="flex items-center whitespace-nowrap" style="gap:5px; font-weight:500">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="shrink-0"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
             {{ 'general.security.free_shipping_badge' | t }}
           </div>
           <span class="text-background/20">|</span>
-          <div class="flex items-center whitespace-nowrap" style="gap:4px; font-size:10px; font-weight:500">
+          <div class="flex items-center whitespace-nowrap" style="gap:5px; font-weight:500">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             {{ 'general.security.guarantee_badge' | t }}
           </div>
