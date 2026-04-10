@@ -237,10 +237,82 @@
       }
     },
     "reviews": {
-      "type": "judgeme-reviews",
+      "type": "reviews",
+      "blocks": {
+        "rev-1": {
+          "type": "review",
+          "settings": {
+            "author": "Carlos M.",
+            "rating": 5,
+            "title": "Funciona de verdad",
+            "body": "Lo probé en una boda y al día siguiente me sentí increíble. Mis amigos no lo podían creer. Ya no salgo sin mi Buenacopa.",
+            "verified": true
+          }
+        },
+        "rev-2": {
+          "type": "review",
+          "settings": {
+            "author": "Andrea R.",
+            "rating": 5,
+            "title": "Indispensable",
+            "body": "Lo uso cada fin de semana. La diferencia es brutal — antes perdía todo el domingo, ahora despierto lista para todo.",
+            "verified": true
+          }
+        },
+        "rev-3": {
+          "type": "review",
+          "settings": {
+            "author": "Diego L.",
+            "rating": 5,
+            "title": "El mejor regalo",
+            "body": "Le regalé a todo mi grupo de amigos. Ahora todos lo piden antes de cada salida. 100% recomendado.",
+            "verified": true
+          }
+        },
+        "rev-4": {
+          "type": "review",
+          "settings": {
+            "author": "Fernanda G.",
+            "rating": 4,
+            "title": "Muy bueno",
+            "body": "La primera vez no lo tomé correctamente pero ya aprendí — con agua después de la última copa. Desde entonces funciona perfecto.",
+            "verified": true
+          }
+        },
+        "rev-5": {
+          "type": "review",
+          "settings": {
+            "author": "Roberto S.",
+            "rating": 5,
+            "title": "No más crudas",
+            "body": "Soy escéptico por naturaleza pero esto realmente funciona. Lo he probado varias veces y el resultado es consistente.",
+            "verified": true
+          }
+        },
+        "rev-6": {
+          "type": "review",
+          "settings": {
+            "author": "Mariana T.",
+            "rating": 5,
+            "title": "Sorprendente",
+            "body": "Mi novio me lo recomendó y ahora soy yo la que no sale sin sus sobres. Amaneces como si no hubieras tomado.",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "rev-1",
+        "rev-2",
+        "rev-3",
+        "rev-4",
+        "rev-5",
+        "rev-6"
+      ],
       "settings": {
         "heading": "Reseñas de nuestros clientes",
-        "product": "buenacopa-bienestar-post-fiesta"
+        "product": "buenacopa-bienestar-post-fiesta",
+        "rating": "4.7",
+        "review_count": "33"
       }
     }
   },

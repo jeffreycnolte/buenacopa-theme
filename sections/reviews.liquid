@@ -1,0 +1,313 @@
+{%- assign current_product = product | default: section.settings.product -%}
+{%- assign rating_value = section.settings.rating | default: '4.7' -%}
+{%- assign review_count = section.settings.review_count | default: '33' -%}
+
+<section class="section-padding overflow-hidden" id="reviews" style="background: #fff;">
+  <div class="container-custom">
+    <h2 class="font-display font-black text-center" style="font-size: clamp(1.5rem, 4vw, 2.25rem); color: #071D40; margin-bottom: 0.5rem;">
+      {{ section.settings.heading | default: 'Reseñas de nuestros clientes' }}
+    </h2>
+
+    {%- comment -%}Aggregate rating summary{%- endcomment -%}
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <div style="display: inline-flex; align-items: center; gap: 8px;">
+        <div style="display: flex; gap: 2px;" aria-label="{{ rating_value }} de 5 estrellas">
+          {%- for i in (1..5) -%}
+            {%- assign star_threshold = i | minus: 0.5 -%}
+            {%- if rating_value >= i -%}
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="#00AB43"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+            {%- elsif rating_value >= star_threshold -%}
+              <svg width="20" height="20" viewBox="0 0 20 20"><defs><linearGradient id="half-star-{{ i }}"><stop offset="50%" stop-color="#00AB43"/><stop offset="50%" stop-color="#D1D5DB"/></linearGradient></defs><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z" fill="url(#half-star-{{ i }})"/></svg>
+            {%- else -%}
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="#D1D5DB"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <span style="font-family: 'Inter', sans-serif; font-size: 14px; color: #6B7280;">
+          {{ rating_value }} / 5 &middot; {{ review_count }} reseñas
+        </span>
+      </div>
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      {%- comment -%}Desktop: grid of review cards{%- endcomment -%}
+      <div class="bc-reviews-grid">
+        {%- for block in section.blocks -%}
+          <div class="bc-review-card" {{ block.shopify_attributes }}>
+            <div style="display: flex; gap: 2px; margin-bottom: 8px;">
+              {%- assign block_rating = block.settings.rating | default: 5 -%}
+              {%- for i in (1..5) -%}
+                {%- if block_rating >= i -%}
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="#00AB43"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+                {%- else -%}
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="#D1D5DB"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            {%- if block.settings.title != blank -%}
+              <p style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; color: #071D40; margin: 0 0 4px;">
+                {{ block.settings.title }}
+              </p>
+            {%- endif -%}
+
+            <p style="font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6; color: #374151; margin: 0 0 12px;">
+              {{ block.settings.body }}
+            </p>
+
+            <div style="display: flex; align-items: center; gap: 8px;">
+              {%- if block.settings.verified -%}
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="#00AB43"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-2 15l-5-5 1.41-1.41L8 12.17l7.59-7.59L17 6l-9 9z"/></svg>
+              {%- endif -%}
+              <span style="font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 13px; color: #071D40;">
+                {{ block.settings.author }}
+              </span>
+              {%- if block.settings.verified -%}
+                <span style="font-family: 'Inter', sans-serif; font-size: 11px; color: #6B7280;">
+                  Compra verificada
+                </span>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%}Mobile: horizontal scroll{%- endcomment -%}
+      <div class="bc-reviews-scroll">
+        {%- for block in section.blocks -%}
+          <div class="bc-review-card-mobile" {{ block.shopify_attributes }}>
+            <div style="display: flex; gap: 2px; margin-bottom: 8px;">
+              {%- assign block_rating = block.settings.rating | default: 5 -%}
+              {%- for i in (1..5) -%}
+                {%- if block_rating >= i -%}
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="#00AB43"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+                {%- else -%}
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="#D1D5DB"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            {%- if block.settings.title != blank -%}
+              <p style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; color: #071D40; margin: 0 0 4px;">
+                {{ block.settings.title }}
+              </p>
+            {%- endif -%}
+
+            <p style="font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6; color: #374151; margin: 0 0 12px;">
+              {{ block.settings.body }}
+            </p>
+
+            <div style="display: flex; align-items: center; gap: 8px;">
+              {%- if block.settings.verified -%}
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="#00AB43"><path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm-2 15l-5-5 1.41-1.41L8 12.17l7.59-7.59L17 6l-9 9z"/></svg>
+              {%- endif -%}
+              <span style="font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 13px; color: #071D40;">
+                {{ block.settings.author }}
+              </span>
+              {%- if block.settings.verified -%}
+                <span style="font-family: 'Inter', sans-serif; font-size: 11px; color: #6B7280;">
+                  Compra verificada
+                </span>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if current_product -%}
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="{{ current_product.url }}#reviews" style="font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14px; color: #00AB43; text-decoration: underline; text-underline-offset: 3px;">
+          Ver todas las {{ review_count }} reseñas &rarr;
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <style>
+    /* Desktop: 3-column grid */
+    .bc-reviews-grid {
+      display: none;
+    }
+    .bc-review-card {
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    /* Mobile: horizontal scroll */
+    .bc-reviews-scroll {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 0 16px 8px;
+      scrollbar-width: none;
+    }
+    .bc-reviews-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .bc-review-card-mobile {
+      flex-shrink: 0;
+      width: 280px;
+      scroll-snap-align: center;
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .bc-reviews-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        max-width: 960px;
+        margin: 0 auto;
+      }
+      .bc-reviews-scroll {
+        display: none;
+      }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Reseñas",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Reseñas de nuestros clientes"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product (for 'Ver todas' link)"
+    },
+    {
+      "type": "text",
+      "id": "rating",
+      "label": "Average rating (e.g. 4.7)",
+      "default": "4.7"
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Total review count",
+      "default": "33"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Reviewer name",
+          "default": "Cliente"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Stars",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Review title"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Review text",
+          "default": "Excelente producto, lo recomiendo."
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Verified purchase badge",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reseñas",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "author": "Carlos M.",
+            "rating": 5,
+            "title": "Funciona de verdad",
+            "body": "Lo probé en una boda y al día siguiente me sentí increíble. Mis amigos no lo podían creer. Ya no salgo sin mi Buenacopa.",
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Andrea R.",
+            "rating": 5,
+            "title": "Indispensable",
+            "body": "Lo uso cada fin de semana. La diferencia es brutal — antes perdía todo el domingo, ahora despierto lista para todo.",
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Diego L.",
+            "rating": 5,
+            "title": "El mejor regalo",
+            "body": "Le regalé a todo mi grupo de amigos. Ahora todos lo piden antes de cada salida. 100% recomendado.",
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Fernanda G.",
+            "rating": 4,
+            "title": "Muy bueno",
+            "body": "La primera vez no lo tomé correctamente pero ya aprendí — con agua después de la última copa. Desde entonces funciona perfecto.",
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Roberto S.",
+            "rating": 5,
+            "title": "No más crudas",
+            "body": "Soy escéptico por naturaleza pero esto realmente funciona. Lo he probado varias veces y el resultado es consistente.",
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Mariana T.",
+            "rating": 5,
+            "title": "Sorprendente",
+            "body": "Mi novio me lo recomendó y ahora soy yo la que no sale sin sus sobres. Amaneces como si no hubieras tomado.",
+            "verified": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
