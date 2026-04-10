@@ -63,6 +63,16 @@
           <p class="text-background/60 font-semibold mx-auto lg:mx-0" style="font-size: clamp(0.75rem, 1.5vw, 0.95rem); max-width: 24rem; margin-top: 4px; line-height: 1.45;">
             {{ section.settings.subheading | default: 'Bienestar post-fiesta. Celebra hoy. Conquista mañana.' }}
           </p>
+
+          <!-- Stars + social proof -->
+          <div class="flex items-center gap-2 justify-center lg:justify-start" style="margin-top: 6px;">
+            <div class="flex gap-0.5">
+              {% for s in (1..5) %}
+                {% render 'icon-star', size: 14, fill: '#facc15', stroke: '#facc15' %}
+              {% endfor %}
+            </div>
+            <span class="text-background/50" style="font-size: 11px; font-weight: 600;">{{ section.settings.review_label | default: '10,000+ mañanas sin cruda' }}</span>
+          </div>
         </div>
 
         <!-- Product Image Carousel -->
@@ -93,15 +103,6 @@
           </div>
         </div>
 
-        <!-- Desktop: social proof below carousel -->
-        <div class="hidden lg:flex items-center gap-2 lg:justify-start" style="margin-top: 12px;">
-          <div class="flex gap-0.5">
-            {% for s in (1..5) %}
-              {% render 'icon-star', size: 14, fill: '#facc15', stroke: '#facc15' %}
-            {% endfor %}
-          </div>
-          <span class="text-background/50" style="font-size: 11px; font-weight: 600;">{{ section.settings.review_label | default: '10,000+ mañanas sin cruda' }}</span>
-        </div>
       </div>
 
       {%- comment -%}═══ RIGHT COLUMN: Purchase Flow ═══{%- endcomment -%}
