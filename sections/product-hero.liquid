@@ -228,21 +228,14 @@
                       data-variant-price="{{ variant.price }}"
                       data-variant-available="{{ variant.available }}"
                       class="variant-btn flex items-center justify-between rounded-xl border-2 transition-all duration-200 border-background/15 bg-background/5 hover:border-background/25 {% unless variant.available %}opacity-50 cursor-not-allowed{% endunless %}"
-                      style="padding:10px 12px; min-height:48px"
+                      style="padding:10px 12px"
                       {% unless variant.available %}disabled{% endunless %}
                     >
-                      <span class="font-bold text-background" style="font-size:12px">{{ variant.title }}</span>
-                      <div class="text-right">
-                        {%- assign v_whole = variant.price | divided_by: 100 -%}
-                        {%- assign v_cents = variant.price | modulo: 100 -%}
-                        {%- capture v_formatted -%}{%- if v_whole >= 1000 -%}{{ v_whole | divided_by: 1000 }},{{ v_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ v_whole }}{%- endif -%}{%- endcapture -%}
-                        <span class="font-display font-black text-background" style="font-size:14px">${{ v_formatted }}</span>
-                        {% if per_serving > 0 %}
-                          {%- assign ps_whole = per_serving | divided_by: 100 -%}
-                          {%- assign ps_cents = per_serving | modulo: 100 -%}
-                          <div class="text-background/40" style="font-size:9px">(${{ ps_whole }}{% if ps_cents > 0 %}.{{ ps_cents }}{% endif %} /toma)</div>
-                        {% endif %}
-                      </div>
+                      <span class="font-bold text-background" style="font-size:13px">{{ variant.title }}</span>
+                      {%- assign v_whole = variant.price | divided_by: 100 -%}
+                      {%- assign v_cents = variant.price | modulo: 100 -%}
+                      {%- capture v_formatted -%}{%- if v_whole >= 1000 -%}{{ v_whole | divided_by: 1000 }},{{ v_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ v_whole }}{%- endif -%}{%- endcapture -%}
+                      <span class="font-display font-black text-background" style="font-size:15px">${{ v_formatted }}</span>
                     </button>
                   {%- endif -%}
                 {%- endunless -%}
