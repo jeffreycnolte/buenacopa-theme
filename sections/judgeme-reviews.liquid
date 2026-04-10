@@ -6,12 +6,27 @@
       {{ section.settings.heading | default: 'Reseñas de nuestros clientes' }}
     </h2>
 
-    {%- comment -%}Judge.me Review Widget — renders via Judge.me JS{%- endcomment -%}
-    <div
-      class="jdgm-widget jdgm-review-widget"
-      data-id="{{ current_product.id }}"
-      data-product-title="{{ current_product.title | escape }}"
-    ></div>
+    {%- comment -%}Judge.me Review Widget{%- endcomment -%}
+    {%- if current_product -%}
+      <div
+        class="jdgm-widget jdgm-review-widget"
+        data-id="{{ current_product.id }}"
+        data-product-title="{{ current_product.title | escape }}"
+      ></div>
+    {%- else -%}
+      <div class="jdgm-widget jdgm-all-reviews-page"></div>
+    {%- endif -%}
+
+    {%- comment -%}Fallback: trigger Judge.me to load widget for specific product on non-product pages{%- endcomment -%}
+    {%- if request.page_type != 'product' and current_product -%}
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          if (typeof jdgm !== 'undefined' && jdgm.customizableWidgets) {
+            jdgm.customizableWidgets();
+          }
+        });
+      </script>
+    {%- endif -%}
   </div>
 
   <style>
