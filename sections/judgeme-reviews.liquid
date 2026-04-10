@@ -6,24 +6,34 @@
       {{ section.settings.heading | default: 'Reseñas de nuestros clientes' }}
     </h2>
 
-    {%- comment -%}Judge.me Review Widget{%- endcomment -%}
-    {%- if current_product -%}
+    {%- comment -%}Judge.me Reviews — use carousel on homepage, full widget on product page{%- endcomment -%}
+    {%- if request.page_type == 'product' -%}
       <div
         class="jdgm-widget jdgm-review-widget"
         data-id="{{ current_product.id }}"
         data-product-title="{{ current_product.title | escape }}"
       ></div>
     {%- else -%}
-      <div class="jdgm-widget jdgm-all-reviews-page"></div>
-    {%- endif -%}
+      {%- comment -%}Carousel widget works on any page — doesn't require product context{%- endcomment -%}
+      <div class="jdgm-carousel-wrapper" data-auto-play="false" data-number-of-reviews="6" data-slides-to-show="3" data-slides-to-scroll="1">
+        <div class="jdgm-carousel"></div>
+      </div>
 
-    {%- comment -%}Fallback: trigger Judge.me to load widget for specific product on non-product pages{%- endcomment -%}
-    {%- if request.page_type != 'product' and current_product -%}
+      {%- comment -%}Fallback: also try the all-reviews widget{%- endcomment -%}
+      <div class="jdgm-widget jdgm-all-reviews-page" data-number-of-reviews="6" style="margin-top: 1rem;"></div>
+
       <script>
         document.addEventListener('DOMContentLoaded', function() {
-          if (typeof jdgm !== 'undefined' && jdgm.customizableWidgets) {
-            jdgm.customizableWidgets();
+          // Trigger Judge.me to initialize widgets
+          if (typeof jdgm !== 'undefined') {
+            if (jdgm.customizableWidgets) jdgm.customizableWidgets();
           }
+          // Retry after a delay in case jdgm loads async
+          setTimeout(function() {
+            if (typeof jdgm !== 'undefined' && jdgm.customizableWidgets) {
+              jdgm.customizableWidgets();
+            }
+          }, 3000);
         });
       </script>
     {%- endif -%}
