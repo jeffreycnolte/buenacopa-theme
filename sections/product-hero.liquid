@@ -112,7 +112,7 @@
   <div class="container-custom" style="padding-top: 16px;">
     {%- comment -%}═══ 2-COLUMN: Carousel (left) + Purchase (right) ═══{%- endcomment -%}
     <div class="grid gap-6 items-start" id="hero-grid">
-    <style>#hero-grid { grid-template-columns: 1fr; } @media(min-width:1024px) { #hero-grid { grid-template-columns: 1fr 1fr !important; gap: 20px !important; max-width: 960px; margin: 0 auto; } }</style>
+    <style>#hero-grid { grid-template-columns: 1fr; } #hero-grid > div { min-width: 0; } @media(min-width:1024px) { #hero-grid { grid-template-columns: 1fr 1fr !important; gap: 20px !important; max-width: 960px; margin: 0 auto; } }</style>
 
       {%- comment -%}═══ LEFT: Product Carousel ═══{%- endcomment -%}
       <div>
@@ -166,6 +166,10 @@
 
         <style>
           /* Gallery viewport */
+          .bc-gallery {
+            min-width: 0;
+            overflow: hidden;
+          }
           .bc-gallery-viewport {
             overflow: hidden;
             position: relative;
