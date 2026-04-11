@@ -101,10 +101,10 @@ var ProductForm = {
   },
 
   updateUI: function () {
-    // Show/hide one-time CTA button
-    var addBtn = document.getElementById('add-to-cart-btn');
-    if (addBtn) {
-      addBtn.style.display = this.isSubscription ? 'none' : 'flex';
+    // Show/hide one-time CTA row (quantity + button)
+    var ctaRow = document.getElementById('onetime-cta-row');
+    if (ctaRow) {
+      ctaRow.style.display = this.isSubscription ? 'none' : 'block';
     }
 
     this.updateMobileCTA();

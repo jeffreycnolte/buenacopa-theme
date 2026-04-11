@@ -1,16 +1,16 @@
-<section class="py-10 md:py-14 lg:py-16 px-4 sm:px-6 md:px-8 bg-background">
+<section class="py-8 md:py-10 px-4 sm:px-6 md:px-8 bg-background">
   <div class="container-custom text-center">
-    <h2 class="text-2xl md:text-3xl lg:text-5xl font-display font-black text-foreground mb-12 lg:mb-16">
+    <p style="font-family: 'Inter', sans-serif; font-size: 13px; color: rgba(255,255,255,0.5); font-weight: 500; margin-bottom: 16px;">
       {{ section.settings.heading | default: 'También disponible en:' }}
-    </h2>
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-12">
+    </p>
+    <div class="flex items-center justify-center gap-8 md:gap-12">
       {% for block in section.blocks %}
         {% if block.type == 'marketplace' %}
-          <a href="{{ block.settings.url }}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-52 h-16 md:w-64 md:h-20 lg:w-72 lg:h-24 hover:opacity-80 transition-opacity" {{ block.shopify_attributes }}>
+          <a href="{{ block.settings.url }}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center hover:opacity-70 transition-opacity" style="opacity: 0.5;" {{ block.shopify_attributes }}>
             {% if block.settings.logo %}
-              <img src="{{ block.settings.logo | image_url: width: 576 }}" alt="{{ block.settings.label }}" class="max-h-full max-w-full object-contain rounded-2xl" loading="lazy" decoding="async" width="288" height="96">
+              <img src="{{ block.settings.logo | image_url: width: 288 }}" alt="{{ block.settings.label }}" style="height: 36px; width: auto; object-fit: contain;" loading="lazy" decoding="async">
             {% else %}
-              <span class="text-foreground font-bold">{{ block.settings.label }}</span>
+              <span class="text-foreground font-bold" style="font-size: 14px;">{{ block.settings.label }}</span>
             {% endif %}
           </a>
         {% endif %}

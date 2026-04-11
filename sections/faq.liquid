@@ -12,6 +12,7 @@
           {%- assign faq_id = 'faq-answer-' | append: forloop.index -%}
           <div class="border border-border/30 rounded-2xl overflow-hidden bg-background/30 faq-item" {{ block.shopify_attributes }}>
             <button
+              id="faq-btn-{{ forloop.index }}"
               onclick="toggleFaq(this)"
               aria-expanded="false"
               aria-controls="{{ faq_id }}"

@@ -59,6 +59,28 @@
   assign sub_price_whole = sub_price | divided_by: 100
   assign sub_price_cents = sub_price | modulo: 100
   assign sub_per_whole = sub_per_serving | divided_by: 100
+
+  comment
+    Find the one-time price for the same serving count to show as compare-at
+  endcomment
+  assign sub_compare_price = 0
+  for variant in product.variants
+    assign v_title_lower = variant.title | downcase
+    unless v_title_lower contains 'suscri'
+      assign v_words = variant.title | split: ' '
+      for w in v_words
+        assign w_num = w | plus: 0
+        if w_num == sub_servings
+          assign sub_compare_price = variant.price
+          break
+        endif
+      endfor
+    endunless
+    if sub_compare_price > 0
+      break
+    endif
+  endfor
+  assign sub_compare_whole = sub_compare_price | divided_by: 100
 -%}
 
 <section id="comprar" class="overflow-hidden bg-white">
@@ -79,7 +101,7 @@
       <div class="flex items-center gap-2 justify-start" style="margin-top: 6px;">
         <div class="flex gap-0.5">
           {% for s in (1..5) %}
-            {% render 'icon-star', size: 14, fill: '#facc15', stroke: '#facc15' %}
+            {% render 'icon-star', size: 14, fill: '#FFB800', stroke: '#FFB800' %}
           {% endfor %}
         </div>
         <span class="text-background/50" style="font-size: 11px; font-weight: 600;">{{ section.settings.review_label | default: '10,000+ mañanas sin cruda' }}</span>
@@ -152,7 +174,12 @@
 
             <div class="flex items-baseline justify-between">
               <p class="font-bold text-background" style="font-size:14px">Suscripción ({{ sub_servings }} sobres)</p>
-              <p class="font-display font-black text-background" style="white-space:nowrap"><span style="font-size:22px">${{ sub_price_whole }}</span>{%- if sub_price_cents > 0 -%}<span style="font-size:14px">.{{ sub_price_cents }}</span>{%- endif -%}<span style="font-size:11px; color:rgba(7,29,64,0.4); font-weight:600; margin-left:2px">/mes</span></p>
+              <div style="text-align:right; white-space:nowrap;">
+                {%- if sub_compare_price > sub_price -%}
+                  <span style="font-size:13px; color:rgba(7,29,64,0.4); text-decoration:line-through; font-weight:600; margin-right:4px;">${{ sub_compare_whole }}</span>
+                {%- endif -%}
+                <span class="font-display font-black text-background" style="font-size:22px">${{ sub_price_whole }}</span>{%- if sub_price_cents > 0 -%}<span class="font-display font-black text-background" style="font-size:14px">.{{ sub_price_cents }}</span>{%- endif -%}<span style="font-size:11px; color:rgba(7,29,64,0.4); font-weight:600; margin-left:2px">/mes</span>
+              </div>
             </div>
 
             <div class="grid grid-cols-2" style="margin-top:8px; gap:3px 12px">
@@ -326,15 +353,26 @@
             {%- endfor -%}
           </div>
 
-          <!-- One-time CTA -->
-          <button
-            id="add-to-cart-btn"
-            onclick="ProductForm.addToCart()"
-            class="w-full mt-3 flex items-center justify-center gap-2.5 bg-[#004AB2] text-white font-bold text-base py-3.5 rounded-xl hover:bg-[#003d94] transition-colors disabled:opacity-50"
-            style="display: none;"
-          >
-            Finalizar compra
-          </button>
+          <!-- Quantity + One-time CTA -->
+          <div id="onetime-cta-row" class="mt-3" style="display:none;">
+            <div style="display:flex; gap:10px; align-items:stretch;">
+              <div style="display:flex; align-items:center; border:1px solid rgba(7,29,64,0.15); border-radius:12px; overflow:hidden; flex-shrink:0;">
+                <button onclick="ProductForm.decrementQty()" aria-label="Menos" style="padding:10px 14px; background:none; border:none; cursor:pointer; font-size:18px; color:#071D40; font-weight:700; line-height:1;">−</button>
+                <span id="product-quantity" style="font-family:'Nunito',sans-serif; font-weight:800; font-size:15px; color:#071D40; min-width:24px; text-align:center;">1</span>
+                <button onclick="ProductForm.incrementQty()" aria-label="Más" style="padding:10px 14px; background:none; border:none; cursor:pointer; font-size:18px; color:#071D40; font-weight:700; line-height:1;">+</button>
+              </div>
+              <button
+                id="add-to-cart-btn"
+                onclick="ProductForm.addToCart()"
+                class="flex-1 flex items-center justify-center gap-2.5 text-white font-bold text-base rounded-xl transition-colors disabled:opacity-50"
+                style="background-color: #00AB43; padding:12px 0;"
+                onmouseover="this.style.backgroundColor='#009639'"
+                onmouseout="this.style.backgroundColor='#00AB43'"
+              >
+                Agregar al carrito
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Trust Badges -->
@@ -397,10 +435,10 @@
             <div class="flex items-center gap-2 px-5">
               <div class="flex shrink-0">
                 {% for s in (1..5) %}
-                  {% render 'icon-star', size: 11, fill: '#facc15', stroke: '#facc15' %}
+                  {% render 'icon-star', size: 11, fill: '#FFB800', stroke: '#FFB800' %}
                 {% endfor %}
               </div>
-              <span class="text-white font-bold" style="font-size:12px">4.8/5</span>
+              <span class="text-white font-bold" style="font-size:12px">4.7/5</span>
               <span class="text-white font-bold" style="font-size:11px">{{ 'sections.hero.social_proof_rating' | t }}</span>
             </div>
             <div class="flex items-center gap-2 px-5">
@@ -423,10 +461,10 @@
         <div class="flex items-center justify-center gap-2">
           <div class="flex">
             {% for s in (1..5) %}
-              {% render 'icon-star', size: 12, fill: '#facc15', stroke: '#facc15' %}
+              {% render 'icon-star', size: 12, fill: '#FFB800', stroke: '#FFB800' %}
             {% endfor %}
           </div>
-          <span class="text-white font-bold" style="font-size:13px">4.8/5</span>
+          <span class="text-white font-bold" style="font-size:13px">4.7/5</span>
           <span class="text-white/80 font-bold" style="font-size:11px">{{ 'sections.hero.social_proof_rating' | t }}</span>
         </div>
         <div class="flex items-center justify-center gap-2">
