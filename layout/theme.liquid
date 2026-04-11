@@ -157,6 +157,24 @@
     performance.getEntriesByType('resource').filter(e => e.name.includes('tiktok')).length
     If > 0 WITHOUT this script, the sales channel started working and this can be removed.
   {%- endcomment -%}
+  {%- comment -%}
+    Marketplace outbound click tracking — fires GA4 event when visitors
+    click Amazon or MercadoLibre links. Uses gtag() injected by the
+    Shopify Google & YouTube app (not hardcoded). Enables leakage reporting.
+  {%- endcomment -%}
+  <script>
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('a[href*="amazon.com"], a[href*="mercadolibre.com"]');
+      if (!link || typeof gtag !== 'function') return;
+      var dest = link.href.indexOf('amazon.com') !== -1 ? 'amazon' : 'mercadolibre';
+      gtag('event', 'marketplace_click', {
+        destination: dest,
+        link_url: link.href,
+        page_location: window.location.href
+      });
+    });
+  </script>
+
   <script>
     !function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var s=document.createElement("script");s.type="text/javascript",s.async=!0,s.src=r+"?sdkid="+e+"&lib="+t;var f=document.getElementsByTagName("script")[0];f.parentNode.insertBefore(s,f)}}(window,document,'ttq');
     ttq.load('D1JEHJRC77U87UH7IK6G');
