@@ -43,7 +43,8 @@
           "settings": {
             "number": "1",
             "title": "Celebra",
-            "description": "Disfruta tu noche sin reservas"
+            "description": "Disfruta tu noche sin reservas",
+            "default_icon": "world"
           }
         },
         "step-2": {
@@ -51,7 +52,8 @@
           "settings": {
             "number": "2",
             "title": "Toma tus 3 cápsulas",
-            "description": "Con agua, después de tu última copa"
+            "description": "Con agua, después de tu última copa",
+            "default_icon": "glass"
           }
         },
         "step-3": {
@@ -59,7 +61,8 @@
           "settings": {
             "number": "3",
             "title": "Despierta y conquista",
-            "description": "Tu mañana es tuya"
+            "description": "Tu mañana es tuya",
+            "default_icon": "sun"
           }
         }
       },

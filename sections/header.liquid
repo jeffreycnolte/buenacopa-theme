@@ -1,7 +1,20 @@
+{%- liquid
+  assign is_lander = false
+  if template contains 'lander'
+    assign is_lander = true
+  endif
+  if is_lander
+    assign cta_href = '#lander-buy-box'
+  elsif request.page_type == 'index'
+    assign cta_href = '#comprar'
+  else
+    assign cta_href = '/#comprar'
+  endif
+-%}
 <header class="bg-background/95 backdrop-blur-md text-foreground sticky top-0 z-50 border-b border-border">
   <div class="container-custom py-4 flex items-center justify-between">
     <!-- Logo -->
-    <a href="/">
+    <a href="{% if is_lander %}#lander-buy-box{% else %}/{% endif %}">
       {% if section.settings.logo %}
         <img src="{{ section.settings.logo | image_url: width: 240 }}" alt="{{ shop.name }}" class="h-6 md:h-8 w-auto" width="120" height="32" loading="eager" fetchpriority="high" decoding="async">
       {% else %}
@@ -11,13 +24,15 @@
 
     <!-- Desktop Nav -->
     <nav class="hidden md:flex items-center gap-8">
-      {% for block in section.blocks %}
-        {% if block.type == 'nav_link' %}
-          <a href="{{ block.settings.url }}" class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            {{ block.settings.label }}
-          </a>
-        {% endif %}
-      {% endfor %}
+      {% unless is_lander %}
+        {% for block in section.blocks %}
+          {% if block.type == 'nav_link' %}
+            <a href="{{ block.settings.url }}" class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              {{ block.settings.label }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      {% endunless %}
 
       <!-- Cart Button -->
       <button onclick="CartDrawer.open()" class="relative text-foreground hover:text-accent transition-colors" aria-label="{{ 'sections.header.cart_aria' | t }}">
@@ -25,7 +40,7 @@
         <span id="cart-count-desktop" class="absolute -top-2 -right-2 h-4 w-4 rounded-full flex items-center justify-center text-[10px] bg-accent text-accent-foreground border-0" style="display:none;">0</span>
       </button>
 
-      <a href="{% if request.page_type == 'index' %}#comprar{% else %}/#comprar{% endif %}" class="bg-accent text-accent-foreground font-bold text-sm px-6 py-2.5 rounded-full hover:opacity-90 transition-all">
+      <a href="{{ cta_href }}" class="bg-accent text-accent-foreground font-bold text-sm px-6 py-2.5 rounded-full hover:opacity-90 transition-all">
         {{ section.settings.cta_text | default: 'Comprar' }}
       </a>
     </nav>
@@ -36,28 +51,32 @@
         {% render 'icon-cart', size: 20 %}
         <span id="cart-count-mobile" class="absolute -top-2 -right-2 h-4 w-4 rounded-full flex items-center justify-center text-[10px] bg-accent text-accent-foreground border-0" style="display:none;">0</span>
       </button>
-      <button id="mobile-menu-toggle" aria-label="{{ 'sections.header.menu_aria' | t }}" aria-expanded="false" class="text-foreground">
-        <span id="menu-icon-open">{% render 'icon-menu', size: 24 %}</span>
-        <span id="menu-icon-close" style="display:none;">{% render 'icon-x', size: 24 %}</span>
-      </button>
+      {% unless is_lander %}
+        <button id="mobile-menu-toggle" aria-label="{{ 'sections.header.menu_aria' | t }}" aria-expanded="false" class="text-foreground">
+          <span id="menu-icon-open">{% render 'icon-menu', size: 24 %}</span>
+          <span id="menu-icon-close" style="display:none;">{% render 'icon-x', size: 24 %}</span>
+        </button>
+      {% endunless %}
     </div>
   </div>
 
-  <!-- Mobile Nav -->
-  <nav id="mobile-nav" class="md:hidden bg-background border-t border-border py-4" style="display:none;">
-    <div class="container-custom flex flex-col gap-3">
-      {% for block in section.blocks %}
-        {% if block.type == 'nav_link' %}
-          <a href="{{ block.settings.url }}" class="text-sm font-medium py-2 text-muted-foreground mobile-nav-link">
-            {{ block.settings.label }}
-          </a>
-        {% endif %}
-      {% endfor %}
-      <a href="{% if request.page_type == 'index' %}#comprar{% else %}/#comprar{% endif %}" class="bg-accent text-accent-foreground font-bold text-sm px-6 py-2.5 rounded-full text-center mt-2 mobile-nav-link">
-        {{ section.settings.cta_text | default: 'Comprar' }}
-      </a>
-    </div>
-  </nav>
+  {% unless is_lander %}
+    <!-- Mobile Nav -->
+    <nav id="mobile-nav" class="md:hidden bg-background border-t border-border py-4" style="display:none;">
+      <div class="container-custom flex flex-col gap-3">
+        {% for block in section.blocks %}
+          {% if block.type == 'nav_link' %}
+            <a href="{{ block.settings.url }}" class="text-sm font-medium py-2 text-muted-foreground mobile-nav-link">
+              {{ block.settings.label }}
+            </a>
+          {% endif %}
+        {% endfor %}
+        <a href="{{ cta_href }}" class="bg-accent text-accent-foreground font-bold text-sm px-6 py-2.5 rounded-full text-center mt-2 mobile-nav-link">
+          {{ section.settings.cta_text | default: 'Comprar' }}
+        </a>
+      </div>
+    </nav>
+  {% endunless %}
 </header>
 
 {% schema %}
