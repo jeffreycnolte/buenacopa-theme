@@ -86,68 +86,70 @@
 <!-- ═══════ 3. STORY / MISSION / VISION ═══════ -->
 <section class="section-padding bg-background/95 border-t border-b border-foreground/5">
   <div class="container-custom">
+    {%- capture pillars_html -%}
+      <!-- Historia -->
+      <div class="{% unless section.settings.story_image %}text-center{% endunless %}">
+        <div class="flex items-center gap-3 mb-4 {% unless section.settings.story_image %}justify-center{% endunless %}">
+          <span class="w-10 h-10 rounded-lg bg-accent/15 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          </span>
+          <h3 class="text-xl md:text-2xl font-display font-black text-foreground">
+            {{ history_heading }}
+          </h3>
+        </div>
+        <p class="text-foreground/70 font-sans leading-relaxed">{{ history_text }}</p>
+      </div>
+
+      <!-- Mision -->
+      <div class="{% unless section.settings.story_image %}text-center{% endunless %}">
+        <div class="flex items-center gap-3 mb-4 {% unless section.settings.story_image %}justify-center{% endunless %}">
+          <span class="w-10 h-10 rounded-lg bg-accent/15 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </span>
+          <h3 class="text-xl md:text-2xl font-display font-black text-foreground">
+            {{ mission_heading }}
+          </h3>
+        </div>
+        <p class="text-foreground/70 font-sans leading-relaxed">{{ mission_text }}</p>
+      </div>
+
+      <!-- Vision -->
+      <div class="{% unless section.settings.story_image %}text-center{% endunless %}">
+        <div class="flex items-center gap-3 mb-4 {% unless section.settings.story_image %}justify-center{% endunless %}">
+          <span class="w-10 h-10 rounded-lg bg-accent/15 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+          </span>
+          <h3 class="text-xl md:text-2xl font-display font-black text-foreground">
+            {{ vision_heading }}
+          </h3>
+        </div>
+        <p class="text-foreground/70 font-sans leading-relaxed">{{ vision_text }}</p>
+      </div>
+    {%- endcapture -%}
+
     {%- if section.settings.story_image -%}
       <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         <div class="space-y-10 md:space-y-12">
+          {{ pillars_html }}
+        </div>
+        <div>
+          <img
+            src="{{ section.settings.story_image | image_url: width: 800 }}"
+            srcset="{{ section.settings.story_image | image_url: width: 480 }} 480w, {{ section.settings.story_image | image_url: width: 800 }} 800w"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            alt="{{ history_heading }}"
+            class="w-full rounded-2xl object-cover"
+            loading="lazy" width="800" height="900" decoding="async"
+          >
+        </div>
+      </div>
     {%- else -%}
       <div class="max-w-4xl mx-auto">
         <div class="grid md:grid-cols-3 gap-8 md:gap-10">
-    {%- endif -%}
-
-          <!-- Historia -->
-          <div class="{% unless section.settings.story_image %}text-center{% endunless %}">
-            <div class="flex items-center gap-3 mb-4 {% unless section.settings.story_image %}justify-center{% endunless %}">
-              <span class="w-10 h-10 rounded-lg bg-accent/15 flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-              </span>
-              <h3 class="text-xl md:text-2xl font-display font-black text-foreground">
-                {{ history_heading }}
-              </h3>
-            </div>
-            <p class="text-foreground/70 font-sans leading-relaxed">{{ history_text }}</p>
-          </div>
-
-          <!-- Mision -->
-          <div class="{% unless section.settings.story_image %}text-center{% endunless %}">
-            <div class="flex items-center gap-3 mb-4 {% unless section.settings.story_image %}justify-center{% endunless %}">
-              <span class="w-10 h-10 rounded-lg bg-accent/15 flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              </span>
-              <h3 class="text-xl md:text-2xl font-display font-black text-foreground">
-                {{ mission_heading }}
-              </h3>
-            </div>
-            <p class="text-foreground/70 font-sans leading-relaxed">{{ mission_text }}</p>
-          </div>
-
-          <!-- Vision -->
-          <div class="{% unless section.settings.story_image %}text-center{% endunless %}">
-            <div class="flex items-center gap-3 mb-4 {% unless section.settings.story_image %}justify-center{% endunless %}">
-              <span class="w-10 h-10 rounded-lg bg-accent/15 flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-              </span>
-              <h3 class="text-xl md:text-2xl font-display font-black text-foreground">
-                {{ vision_heading }}
-              </h3>
-            </div>
-            <p class="text-foreground/70 font-sans leading-relaxed">{{ vision_text }}</p>
-          </div>
-
+          {{ pillars_html }}
         </div>
-
-        {%- if section.settings.story_image -%}
-          <div>
-            <img
-              src="{{ section.settings.story_image | image_url: width: 800 }}"
-              srcset="{{ section.settings.story_image | image_url: width: 480 }} 480w, {{ section.settings.story_image | image_url: width: 800 }} 800w"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              alt="{{ history_heading }}"
-              class="w-full rounded-2xl object-cover"
-              loading="lazy" width="800" height="900" decoding="async"
-            >
-          </div>
-        {%- endif -%}
       </div>
+    {%- endif -%}
   </div>
 </section>
 

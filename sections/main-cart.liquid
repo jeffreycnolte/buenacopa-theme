@@ -8,7 +8,7 @@
           {% render 'icon-cart', size: 48 %}
         </div>
         <p class="text-muted-foreground text-lg mb-6">{{ 'general.cart.empty' | t }}</p>
-        <a href="/" class="btn-cta">{{ 'general.cart.go_shopping' | t }}</a>
+        <a href="{{ routes.root_url }}" class="btn-cta">{{ 'general.cart.go_shopping' | t }}</a>
       </div>
     {% else %}
       <div class="space-y-4 mb-8">

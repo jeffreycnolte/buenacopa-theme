@@ -117,5 +117,11 @@
   "blog": {
     "empty": "Próximamente publicaremos contenido aquí.",
     "pagination_aria": "Paginación del blog"
+  },
+  "contact": {
+    "form": {
+      "name": "name",
+      "phone": "phone"
+    }
   }
 }
