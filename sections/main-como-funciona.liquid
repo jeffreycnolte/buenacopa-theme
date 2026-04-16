@@ -217,6 +217,12 @@
                           width="600" height="450"
                           loading="lazy" decoding="async"
                         >
+                      {%- else -%}
+                        <div class="w-full h-full bg-gradient-to-br from-accent/25 via-accent/10 to-background flex items-center justify-center">
+                          <span class="text-7xl md:text-8xl font-display font-black text-accent/50 leading-none">
+                            0{{ step_number }}
+                          </span>
+                        </div>
                       {%- endif -%}
                     {%- endif -%}
                   </div>

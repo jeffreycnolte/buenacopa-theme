@@ -75,25 +75,29 @@
         "step-1": {
           "type": "usage_step",
           "settings": {
-            "title": "Disfruta tu noche"
+            "title": "Disfruta tu noche",
+            "description": "Sal, celebra y disfruta de forma responsable."
           }
         },
         "step-2": {
           "type": "usage_step",
           "settings": {
-            "title": "Toma 3 cápsulas"
+            "title": "Toma 3 cápsulas",
+            "description": "Después de tu última copa, con un vaso grande de agua."
           }
         },
         "step-3": {
           "type": "usage_step",
           "settings": {
-            "title": "Buenacopa trabaja"
+            "title": "Buenacopa trabaja",
+            "description": "Mientras duermes, la fórmula neutraliza toxinas y equilibra tu cuerpo."
           }
         },
         "step-4": {
           "type": "usage_step",
           "settings": {
-            "title": "Despierta bien"
+            "title": "Despierta bien",
+            "description": "Sin cruda, sin náuseas, sin dolor de cabeza. Tu mañana es tuya."
           }
         },
         "faq-1": {
