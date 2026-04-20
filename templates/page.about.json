@@ -8,7 +8,7 @@
           "settings": {
             "icon": "balance",
             "title": "Equilibrio",
-            "description": "Creemos que disfrutar y sentirte bien al día siguiente no son cosas opuestas."
+            "description": "Promovemos la armonía entre el disfrute social y el bienestar personal."
           }
         },
         "value-2": {
@@ -16,7 +16,7 @@
           "settings": {
             "icon": "science",
             "title": "Ciencia",
-            "description": "Cada ingrediente está respaldado por investigación científica, no por promesas vacías."
+            "description": "Basamos nuestras formulaciones en investigación y evidencia, no en mitos o promesas vacías."
           }
         },
         "value-3": {
@@ -24,7 +24,7 @@
           "settings": {
             "icon": "responsibility",
             "title": "Responsabilidad",
-            "description": "Promovemos el consumo consciente y responsable en cada momento."
+            "description": "Fomentamos un enfoque consciente hacia el consumo y la celebración."
           }
         },
         "value-4": {
@@ -32,7 +32,7 @@
           "settings": {
             "icon": "innovation",
             "title": "Innovación",
-            "description": "Buscamos constantemente mejorar nuestra fórmula con los últimos avances científicos."
+            "description": "Buscamos constantemente nuevas formas de mejorar la experiencia de nuestros usuarios."
           }
         },
         "value-5": {
@@ -40,7 +40,7 @@
           "settings": {
             "icon": "wellness",
             "title": "Bienestar",
-            "description": "Tu bienestar integral es nuestra prioridad, antes, durante y después de celebrar."
+            "description": "Nos preocupamos por la salud integral de quienes confían en nosotros."
           }
         },
         "value-6": {
@@ -48,15 +48,23 @@
           "settings": {
             "icon": "accessibility",
             "title": "Accesibilidad",
-            "description": "Queremos que todos puedan acceder a una solución efectiva y de calidad."
+            "description": "Trabajamos para que nuestras soluciones estén al alcance de todos los que celebran."
           }
         }
       },
       "block_order": ["value-1", "value-2", "value-3", "value-4", "value-5", "value-6"],
       "settings": {
-        "hero_heading": "Sobre Nosotros",
-        "hero_subtitle": "La fiesta sigue. La cruda no. Conoce la historia detrás de Buenacopa.",
-        "commitment_cta_text": "Comprar ahora"
+        "manifesto_heading": "Nuestro Manifiesto",
+        "history_heading": "Nuestra Historia",
+        "mission_heading": "Nuestra Misión",
+        "vision_heading": "Nuestra Visión",
+        "values_subheading": "Lo que creemos define lo que creamos",
+        "values_heading": "Nuestros Valores",
+        "values_description": "Cada decisión detrás de BUENACOPA nace de nuestros valores. No hacemos atajos, hacemos lo correcto.",
+        "commitment_heading": "Nuestro Compromiso",
+        "commitment_cta_text": "Comprar ahora",
+        "banner_line_1": "Buenacopa",
+        "banner_line_2": "Buenos días"
       }
     }
   },

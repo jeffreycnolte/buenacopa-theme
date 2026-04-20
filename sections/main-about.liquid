@@ -1,227 +1,171 @@
 {% comment %}
-  Sobre Nosotros (About Us) — Buenacopa theme section
-  Renders: Hero, Manifesto, Story/Mission/Vision, Values, Commitment
-  Designed to look great with or without images.
+  Sobre Nosotros — Buenacopa
+  Sections: Manifesto, Story/Mission/Vision, Values, Commitment, Brand Moment
 {% endcomment %}
 
-{%- liquid
-  assign hero_heading = section.settings.hero_heading
-  assign manifesto_heading = section.settings.manifesto_heading
-  assign manifesto_text = section.settings.manifesto_text
-  assign history_heading = section.settings.history_heading
-  assign history_text = section.settings.history_text
-  assign mission_heading = section.settings.mission_heading
-  assign mission_text = section.settings.mission_text
-  assign vision_heading = section.settings.vision_heading
-  assign vision_text = section.settings.vision_text
-  assign values_subheading = section.settings.values_subheading
-  assign values_heading = section.settings.values_heading
-  assign values_description = section.settings.values_description
-  assign commitment_heading = section.settings.commitment_heading
-  assign commitment_text = section.settings.commitment_text
--%}
+<!-- ═══════ 1. MANIFIESTO ═══════ -->
+<section class="bg-primary overflow-hidden">
+  <div class="container-custom py-16 md:py-24 lg:py-28">
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
-<!-- ═══════ 1. HERO ═══════ -->
-<section class="bg-background relative overflow-hidden">
-  {%- if section.settings.hero_image -%}
-    <div class="absolute inset-0 z-0">
-      <img
-        src="{{ section.settings.hero_image | image_url: width: 1920 }}"
-        srcset="{{ section.settings.hero_image | image_url: width: 768 }} 768w, {{ section.settings.hero_image | image_url: width: 1920 }} 1920w"
-        sizes="100vw"
-        alt=""
-        class="w-full h-full object-cover opacity-15"
-        loading="eager"
-        width="1920" height="800" decoding="async"
-      >
-    </div>
-  {%- endif -%}
-  <div class="container-custom relative z-10 text-center py-20 md:py-28 lg:py-36">
-    <p class="text-accent font-bold text-sm md:text-base tracking-widest uppercase mb-6">Conócenos</p>
-    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black text-foreground leading-[0.95]">
-      {{ hero_heading }}
-    </h1>
-    {%- if section.settings.hero_subtitle != blank -%}
-      <p class="mt-6 md:mt-8 text-lg md:text-xl lg:text-2xl text-foreground/70 font-sans max-w-2xl mx-auto leading-relaxed">
-        {{ section.settings.hero_subtitle }}
-      </p>
-    {%- endif -%}
-  </div>
-</section>
-
-<!-- ═══════ 2. MANIFESTO ═══════ -->
-<section class="section-padding bg-background">
-  <div class="container-custom max-w-4xl">
-    <div class="text-center mb-8 md:mb-10">
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-foreground">
-        {{ manifesto_heading }}
-      </h2>
-    </div>
-
-    {%- if section.settings.manifesto_image -%}
-      <div class="mb-10 md:mb-12">
-        <img
-          src="{{ section.settings.manifesto_image | image_url: width: 960 }}"
-          srcset="{{ section.settings.manifesto_image | image_url: width: 480 }} 480w, {{ section.settings.manifesto_image | image_url: width: 960 }} 960w"
-          sizes="(max-width: 768px) 100vw, 960px"
-          alt="{{ manifesto_heading }}"
-          class="w-full rounded-2xl object-cover max-h-[400px]"
-          loading="lazy" width="960" height="400" decoding="async"
-        >
-      </div>
-    {%- endif -%}
-
-    <div class="text-foreground/85 font-sans text-lg md:text-xl leading-relaxed space-y-6 text-center">
-      {{ manifesto_text }}
-    </div>
-
-    <div class="flex items-center justify-center gap-4 mt-10 md:mt-12">
-      <span class="h-px w-16 bg-accent/40"></span>
-      <span class="w-2.5 h-2.5 rounded-full bg-accent"></span>
-      <span class="h-px w-16 bg-accent/40"></span>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════ 3. STORY / MISSION / VISION ═══════ -->
-<section class="section-padding bg-background/95 border-t border-b border-foreground/5">
-  <div class="container-custom">
-    {%- if section.settings.story_image -%}
-      <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-        <div class="space-y-10 md:space-y-12">
-    {%- else -%}
-      <div class="max-w-4xl mx-auto">
-        <div class="grid md:grid-cols-3 gap-8 md:gap-10">
-    {%- endif -%}
-
-          <!-- Historia -->
-          <div class="{% unless section.settings.story_image %}text-center{% endunless %}">
-            <div class="flex items-center gap-3 mb-4 {% unless section.settings.story_image %}justify-center{% endunless %}">
-              <span class="w-10 h-10 rounded-lg bg-accent/15 flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-              </span>
-              <h3 class="text-xl md:text-2xl font-display font-black text-foreground">
-                {{ history_heading }}
-              </h3>
-            </div>
-            <p class="text-foreground/70 font-sans leading-relaxed">{{ history_text }}</p>
-          </div>
-
-          <!-- Mision -->
-          <div class="{% unless section.settings.story_image %}text-center{% endunless %}">
-            <div class="flex items-center gap-3 mb-4 {% unless section.settings.story_image %}justify-center{% endunless %}">
-              <span class="w-10 h-10 rounded-lg bg-accent/15 flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              </span>
-              <h3 class="text-xl md:text-2xl font-display font-black text-foreground">
-                {{ mission_heading }}
-              </h3>
-            </div>
-            <p class="text-foreground/70 font-sans leading-relaxed">{{ mission_text }}</p>
-          </div>
-
-          <!-- Vision -->
-          <div class="{% unless section.settings.story_image %}text-center{% endunless %}">
-            <div class="flex items-center gap-3 mb-4 {% unless section.settings.story_image %}justify-center{% endunless %}">
-              <span class="w-10 h-10 rounded-lg bg-accent/15 flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-              </span>
-              <h3 class="text-xl md:text-2xl font-display font-black text-foreground">
-                {{ vision_heading }}
-              </h3>
-            </div>
-            <p class="text-foreground/70 font-sans leading-relaxed">{{ vision_text }}</p>
-          </div>
-
+      <div class="order-2 lg:order-1 text-foreground">
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black mb-6 md:mb-8 leading-tight">
+          {{ section.settings.manifesto_heading }}
+        </h2>
+        <div class="text-foreground/90 text-base md:text-lg leading-relaxed space-y-5 font-sans">
+          {{ section.settings.manifesto_text }}
         </div>
+      </div>
 
-        {%- if section.settings.story_image -%}
-          <div>
-            <img
-              src="{{ section.settings.story_image | image_url: width: 800 }}"
-              srcset="{{ section.settings.story_image | image_url: width: 480 }} 480w, {{ section.settings.story_image | image_url: width: 800 }} 800w"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              alt="{{ history_heading }}"
-              class="w-full rounded-2xl object-cover"
-              loading="lazy" width="800" height="900" decoding="async"
-            >
-          </div>
+      <div class="order-1 lg:order-2">
+        {%- if section.settings.manifesto_image -%}
+          <img
+            src="{{ section.settings.manifesto_image | image_url: width: 1000 }}"
+            srcset="{{ section.settings.manifesto_image | image_url: width: 500 }} 500w, {{ section.settings.manifesto_image | image_url: width: 1000 }} 1000w"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            alt="{{ section.settings.manifesto_heading }}"
+            class="w-full rounded-2xl object-cover"
+            style="aspect-ratio: 4/5;"
+            loading="eager" width="1000" height="1250" decoding="async"
+          >
+        {%- else -%}
+          <img
+            src="{{ 'lander-problem-lifestyle.jpg' | asset_url }}"
+            alt="{{ section.settings.manifesto_heading }}"
+            class="w-full rounded-2xl object-cover"
+            style="aspect-ratio: 4/5;"
+            loading="eager" width="1000" height="1250" decoding="async"
+          >
         {%- endif -%}
       </div>
+
+    </div>
   </div>
 </section>
 
-<!-- ═══════ 4. VALUES ═══════ -->
-<section class="section-padding bg-primary/80">
-  <div class="container-custom">
-    <div class="text-center mb-12 md:mb-16 max-w-3xl mx-auto">
-      {%- if values_subheading != blank -%}
-        <p class="text-accent font-sans font-bold text-sm md:text-base uppercase tracking-wider mb-3">
-          {{ values_subheading }}
+<!-- ═══════ 2. HISTORIA / MISIÓN / VISIÓN ═══════ -->
+<section class="bg-white overflow-hidden">
+  <div class="container-custom py-16 md:py-24 lg:py-28">
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+
+      <div>
+        {%- if section.settings.story_image -%}
+          <img
+            src="{{ section.settings.story_image | image_url: width: 1000 }}"
+            srcset="{{ section.settings.story_image | image_url: width: 500 }} 500w, {{ section.settings.story_image | image_url: width: 1000 }} 1000w"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            alt="{{ section.settings.history_heading }}"
+            class="w-full rounded-2xl object-cover sticky top-8"
+            style="aspect-ratio: 4/5;"
+            loading="lazy" width="1000" height="1250" decoding="async"
+          >
+        {%- else -%}
+          <img
+            src="{{ 'lander-solution-lifestyle.jpg' | asset_url }}"
+            alt="{{ section.settings.history_heading }}"
+            class="w-full rounded-2xl object-cover sticky top-8"
+            style="aspect-ratio: 4/5;"
+            loading="lazy" width="1000" height="1250" decoding="async"
+          >
+        {%- endif -%}
+      </div>
+
+      <div class="space-y-10 md:space-y-12" style="color: #071D40;">
+        <div>
+          <h3 class="text-2xl md:text-3xl font-display font-black mb-3 leading-tight">
+            {{ section.settings.history_heading }}
+          </h3>
+          <p class="font-sans leading-relaxed text-base md:text-lg" style="color: #071D40cc;">
+            {{ section.settings.history_text }}
+          </p>
+        </div>
+        <div>
+          <h3 class="text-2xl md:text-3xl font-display font-black mb-3 leading-tight">
+            {{ section.settings.mission_heading }}
+          </h3>
+          <p class="font-sans leading-relaxed text-base md:text-lg" style="color: #071D40cc;">
+            {{ section.settings.mission_text }}
+          </p>
+        </div>
+        <div>
+          <h3 class="text-2xl md:text-3xl font-display font-black mb-3 leading-tight">
+            {{ section.settings.vision_heading }}
+          </h3>
+          <p class="font-sans leading-relaxed text-base md:text-lg" style="color: #071D40cc;">
+            {{ section.settings.vision_text }}
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ 3. VALORES ═══════ -->
+<section class="bg-primary overflow-hidden">
+  <div class="container-custom py-16 md:py-24 lg:py-28">
+    <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16 text-foreground">
+      {%- if section.settings.values_subheading != blank -%}
+        <p class="text-foreground/70 font-sans font-bold text-xs tracking-[0.2em] uppercase mb-4">
+          {{ section.settings.values_subheading }}
         </p>
       {%- endif -%}
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-foreground">
-        {{ values_heading }}
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black mb-4">
+        {{ section.settings.values_heading }}
       </h2>
-      {%- if values_description != blank -%}
-        <p class="mt-4 text-foreground/70 font-sans text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-          {{ values_description }}
+      {%- if section.settings.values_description != blank -%}
+        <p class="text-foreground/80 font-sans text-base md:text-lg leading-relaxed">
+          {{ section.settings.values_description }}
         </p>
       {%- endif -%}
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-      {% for block in section.blocks %}
-        {% if block.type == 'value' %}
-          <div class="bg-background/10 backdrop-blur-sm border border-foreground/10 rounded-2xl p-6 md:p-8 text-center transition-all duration-300 hover:bg-background/20 hover:border-accent/30" {{ block.shopify_attributes }}>
-            <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-accent/15 flex items-center justify-center">
-              {% case block.settings.icon %}
-                {% when 'balance' %}
-                  <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m-8-9H3m18 0h-1m-2.636-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707"/><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M9 12h6"/></svg>
-                {% when 'science' %}
-                  <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5m-4.75-11.396c.251.023.501.05.75.082M12 6v3m-3.75 6h7.5a2.25 2.25 0 012.25 2.25v.75a2.25 2.25 0 01-2.25 2.25h-7.5A2.25 2.25 0 016 18v-.75A2.25 2.25 0 018.25 15z"/></svg>
-                {% when 'responsibility' %}
-                  <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
-                {% when 'innovation' %}
-                  <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>
-                {% when 'wellness' %}
-                  <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
-                {% when 'accessibility' %}
-                  <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
-                {% else %}
-                  <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
-              {% endcase %}
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12 max-w-5xl mx-auto">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'value' -%}
+          <div class="text-center text-foreground" {{ block.shopify_attributes }}>
+            <div class="w-10 h-10 md:w-12 md:h-12 mx-auto mb-5 flex items-center justify-center text-accent">
+              {%- case block.settings.icon -%}
+                {%- when 'balance' -%}
+                  <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m-8-9H3m18 0h-1m-2.636-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707"/><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M9 12h6"/></svg>
+                {%- when 'science' -%}
+                  <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L19 14.5m-4.75-11.396c.251.023.501.05.75.082M12 6v3m-3.75 6h7.5a2.25 2.25 0 012.25 2.25v.75a2.25 2.25 0 01-2.25 2.25h-7.5A2.25 2.25 0 016 18v-.75A2.25 2.25 0 018.25 15z"/></svg>
+                {%- when 'responsibility' -%}
+                  <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+                {%- when 'innovation' -%}
+                  <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg>
+                {%- when 'wellness' -%}
+                  <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+                {%- when 'accessibility' -%}
+                  <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
+                {%- else -%}
+                  <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+              {%- endcase -%}
             </div>
-            <h3 class="text-lg md:text-xl font-display font-black text-foreground mb-2">
+            <h3 class="text-lg md:text-xl font-display font-black mb-2">
               {{ block.settings.title }}
             </h3>
-            <p class="text-foreground/65 font-sans leading-relaxed text-sm">
+            <p class="text-foreground/75 font-sans leading-relaxed text-sm md:text-base">
               {{ block.settings.description }}
             </p>
           </div>
-        {% endif %}
-      {% endfor %}
+        {%- endif -%}
+      {%- endfor -%}
     </div>
   </div>
 </section>
 
-<!-- ═══════ 5. COMMITMENT ═══════ -->
-<section class="section-padding bg-background">
-  <div class="container-custom">
-    {%- assign has_commitment_images = false -%}
-    {%- if section.settings.commitment_image_1 or section.settings.commitment_image_2 -%}
-      {%- assign has_commitment_images = true -%}
-    {%- endif -%}
+<!-- ═══════ 4. COMPROMISO ═══════ -->
+<section class="bg-white overflow-hidden">
+  <div class="container-custom py-16 md:py-24 lg:py-28">
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
-    <div class="{% if has_commitment_images %}grid lg:grid-cols-2 gap-10 lg:gap-16 items-center{% else %}max-w-3xl mx-auto{% endif %}">
-      <!-- Text -->
-      <div>
-        <p class="text-accent font-bold text-sm md:text-base tracking-widest uppercase mb-4">Nuestro Compromiso</p>
-        <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-foreground mb-8 md:mb-10">
-          {{ commitment_heading }}
+      <div style="color: #071D40;">
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black mb-6 md:mb-8 leading-tight">
+          {{ section.settings.commitment_heading }}
         </h2>
-        <div class="text-foreground/70 font-sans text-base md:text-lg leading-relaxed space-y-5 text-left">
-          {{ commitment_text }}
+        <div class="font-sans text-base md:text-lg leading-relaxed space-y-5" style="color: #071D40cc;">
+          {{ section.settings.commitment_text }}
         </div>
         {%- if section.settings.commitment_cta_text != blank -%}
           <div class="mt-10">
@@ -235,27 +179,66 @@
         {%- endif -%}
       </div>
 
-      <!-- Images (only when configured) -->
-      {%- if has_commitment_images -%}
-        <div class="grid grid-cols-2 gap-4">
-          {%- if section.settings.commitment_image_1 -%}
-            <img
-              src="{{ section.settings.commitment_image_1 | image_url: width: 480 }}"
-              srcset="{{ section.settings.commitment_image_1 | image_url: width: 320 }} 320w, {{ section.settings.commitment_image_1 | image_url: width: 480 }} 480w"
-              sizes="(max-width: 1024px) 45vw, 240px"
-              alt="" class="w-full rounded-2xl object-cover aspect-[3/4]"
-              loading="lazy" width="480" height="640" decoding="async"
-            >
+      <!-- Image collage -->
+      <div class="relative" style="height: 520px;">
+        {%- assign c1 = section.settings.commitment_image_1 -%}
+        {%- assign c2 = section.settings.commitment_image_2 -%}
+        {%- assign c3 = section.settings.commitment_image_3 -%}
+
+        <div class="absolute" style="top: 0; left: 0; width: 52%; z-index: 1; transform: rotate(-3deg);">
+          {%- if c1 -%}
+            <img src="{{ c1 | image_url: width: 480 }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 4/3;" loading="lazy" width="480" height="360" decoding="async">
+          {%- else -%}
+            <img src="{{ 'review-1.png' | asset_url }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 4/3;" loading="lazy" width="480" height="360" decoding="async">
           {%- endif -%}
-          {%- if section.settings.commitment_image_2 -%}
-            <img
-              src="{{ section.settings.commitment_image_2 | image_url: width: 480 }}"
-              srcset="{{ section.settings.commitment_image_2 | image_url: width: 320 }} 320w, {{ section.settings.commitment_image_2 | image_url: width: 480 }} 480w"
-              sizes="(max-width: 1024px) 45vw, 240px"
-              alt="" class="w-full rounded-2xl object-cover aspect-[3/4] mt-8"
-              loading="lazy" width="480" height="640" decoding="async"
-            >
+        </div>
+
+        <div class="absolute" style="top: 30px; right: 0; width: 52%; z-index: 2; transform: rotate(2deg);">
+          {%- if c2 -%}
+            <img src="{{ c2 | image_url: width: 480 }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 3/4;" loading="lazy" width="480" height="640" decoding="async">
+          {%- else -%}
+            <img src="{{ 'review-2.png' | asset_url }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 3/4;" loading="lazy" width="480" height="640" decoding="async">
           {%- endif -%}
+        </div>
+
+        <div class="absolute" style="bottom: 0; left: 8%; width: 42%; z-index: 3; transform: rotate(1deg);">
+          {%- if c3 -%}
+            <img src="{{ c3 | image_url: width: 400 }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 3/4;" loading="lazy" width="400" height="533" decoding="async">
+          {%- else -%}
+            <img src="{{ 'review-3.png' | asset_url }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 3/4;" loading="lazy" width="400" height="533" decoding="async">
+          {%- endif -%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ 5. BRAND MOMENT: BUENACOPA / BUENOS DÍAS ═══════ -->
+<section class="bg-primary relative overflow-hidden">
+  <div class="container-custom py-12 md:py-16 lg:py-20">
+    <div class="relative">
+      <!-- Massive text -->
+      <div class="text-center font-display font-black text-foreground leading-none tracking-tight select-none pointer-events-none" aria-hidden="true">
+        <div style="font-size: clamp(4rem, 18vw, 14rem); line-height: 0.88;">
+          {{ section.settings.banner_line_1 }}
+        </div>
+        <div style="font-size: clamp(4rem, 18vw, 14rem); line-height: 0.88;">
+          {{ section.settings.banner_line_2 }}
+        </div>
+      </div>
+      <!-- Person image layered on top -->
+      {%- if section.settings.banner_image -%}
+        <div class="absolute inset-0 flex items-end justify-center pointer-events-none" style="padding-bottom: 0;">
+          <img
+            src="{{ section.settings.banner_image | image_url: width: 800 }}"
+            srcset="{{ section.settings.banner_image | image_url: width: 400 }} 400w, {{ section.settings.banner_image | image_url: width: 800 }} 800w"
+            sizes="(max-width: 768px) 60vw, 40vw"
+            alt="{{ section.settings.banner_line_1 }} {{ section.settings.banner_line_2 }}"
+            class="object-contain object-bottom"
+            style="max-height: 85%; max-width: 40%; width: auto;"
+            loading="lazy" width="800" height="1000" decoding="async"
+          >
         </div>
       {%- endif -%}
     </div>
@@ -268,27 +251,6 @@
   "tag": "div",
   "class": "about-page",
   "settings": [
-    {
-      "type": "header",
-      "content": "Hero"
-    },
-    {
-      "type": "text",
-      "id": "hero_heading",
-      "label": "Heading",
-      "default": "Sobre Nosotros"
-    },
-    {
-      "type": "text",
-      "id": "hero_subtitle",
-      "label": "Subtitle",
-      "default": "La fiesta sigue. La cruda no. Conoce la historia detrás de Buenacopa."
-    },
-    {
-      "type": "image_picker",
-      "id": "hero_image",
-      "label": "Hero Background Image"
-    },
     {
       "type": "header",
       "content": "Manifiesto"
@@ -308,11 +270,16 @@
     {
       "type": "image_picker",
       "id": "manifesto_image",
-      "label": "Manifesto Image (optional)"
+      "label": "Manifesto Image"
     },
     {
       "type": "header",
       "content": "Historia / Misión / Visión"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Story Section Image"
     },
     {
       "type": "text",
@@ -349,11 +316,6 @@
       "id": "vision_text",
       "label": "Vision Text",
       "default": "Convertirnos en la marca más confiable y accesible de México en bienestar post-fiesta, haciendo posible que más personas disfruten plenamente de la vida sin sacrificar el día siguiente."
-    },
-    {
-      "type": "image_picker",
-      "id": "story_image",
-      "label": "Story Section Image (optional)"
     },
     {
       "type": "header",
@@ -407,12 +369,38 @@
     {
       "type": "image_picker",
       "id": "commitment_image_1",
-      "label": "Commitment Image 1 (optional)"
+      "label": "Collage Image 1 (top-left)"
     },
     {
       "type": "image_picker",
       "id": "commitment_image_2",
-      "label": "Commitment Image 2 (optional)"
+      "label": "Collage Image 2 (top-right)"
+    },
+    {
+      "type": "image_picker",
+      "id": "commitment_image_3",
+      "label": "Collage Image 3 (bottom)"
+    },
+    {
+      "type": "header",
+      "content": "Banner Final"
+    },
+    {
+      "type": "text",
+      "id": "banner_line_1",
+      "label": "Banner Line 1",
+      "default": "Buenacopa"
+    },
+    {
+      "type": "text",
+      "id": "banner_line_2",
+      "label": "Banner Line 2",
+      "default": "Buenos días"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Person Image"
     }
   ],
   "blocks": [
@@ -452,12 +440,12 @@
     {
       "name": "Sobre Nosotros",
       "blocks": [
-        { "type": "value", "settings": { "icon": "balance", "title": "Equilibrio", "description": "Creemos que disfrutar y sentirte bien al día siguiente no son cosas opuestas." } },
-        { "type": "value", "settings": { "icon": "science", "title": "Ciencia", "description": "Cada ingrediente está respaldado por investigación científica, no por promesas vacías." } },
-        { "type": "value", "settings": { "icon": "responsibility", "title": "Responsabilidad", "description": "Promovemos el consumo consciente y responsable en cada momento." } },
-        { "type": "value", "settings": { "icon": "innovation", "title": "Innovación", "description": "Buscamos constantemente mejorar nuestra fórmula con los últimos avances científicos." } },
-        { "type": "value", "settings": { "icon": "wellness", "title": "Bienestar", "description": "Tu bienestar integral es nuestra prioridad, antes, durante y después de celebrar." } },
-        { "type": "value", "settings": { "icon": "accessibility", "title": "Accesibilidad", "description": "Queremos que todos puedan acceder a una solución efectiva y de calidad." } }
+        { "type": "value", "settings": { "icon": "balance", "title": "Equilibrio", "description": "Promovemos la armonía entre el disfrute social y el bienestar personal." } },
+        { "type": "value", "settings": { "icon": "science", "title": "Ciencia", "description": "Basamos nuestras formulaciones en investigación y evidencia, no en mitos o promesas vacías." } },
+        { "type": "value", "settings": { "icon": "responsibility", "title": "Responsabilidad", "description": "Fomentamos un enfoque consciente hacia el consumo y la celebración." } },
+        { "type": "value", "settings": { "icon": "innovation", "title": "Innovación", "description": "Buscamos constantemente nuevas formas de mejorar la experiencia de nuestros usuarios." } },
+        { "type": "value", "settings": { "icon": "wellness", "title": "Bienestar", "description": "Nos preocupamos por la salud integral de quienes confían en nosotros." } },
+        { "type": "value", "settings": { "icon": "accessibility", "title": "Accesibilidad", "description": "Trabajamos para que nuestras soluciones estén al alcance de todos los que celebran." } }
       ]
     }
   ]
