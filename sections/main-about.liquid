@@ -72,7 +72,7 @@
 
       <div class="space-y-10 md:space-y-12" style="color: #071D40;">
         <div>
-          <h3 class="text-3xl md:text-4xl font-display font-black mb-3 leading-tight">
+          <h3 class="text-3xl md:text-4xl font-display font-black mb-4 md:mb-5 leading-tight">
             {{ section.settings.history_heading }}
           </h3>
           <p class="font-sans leading-relaxed text-base md:text-lg" style="color: rgba(7,29,64,0.8);">
@@ -80,7 +80,7 @@
           </p>
         </div>
         <div>
-          <h3 class="text-3xl md:text-4xl font-display font-black mb-3 leading-tight">
+          <h3 class="text-3xl md:text-4xl font-display font-black mb-4 md:mb-5 leading-tight">
             {{ section.settings.mission_heading }}
           </h3>
           <p class="font-sans leading-relaxed text-base md:text-lg" style="color: rgba(7,29,64,0.8);">
@@ -88,7 +88,7 @@
           </p>
         </div>
         <div>
-          <h3 class="text-3xl md:text-4xl font-display font-black mb-3 leading-tight">
+          <h3 class="text-3xl md:text-4xl font-display font-black mb-4 md:mb-5 leading-tight">
             {{ section.settings.vision_heading }}
           </h3>
           <p class="font-sans leading-relaxed text-base md:text-lg" style="color: rgba(7,29,64,0.8);">
@@ -186,17 +186,17 @@
       {%- if c1 -%}
         {%- assign c1_src = c1 | image_url: width: 480 -%}
       {%- else -%}
-        {%- assign c1_src = 'review-1.png' | asset_url -%}
+        {%- assign c1_src = 'step-01-celebra.png' | asset_url -%}
       {%- endif -%}
       {%- if c2 -%}
         {%- assign c2_src = c2 | image_url: width: 480 -%}
       {%- else -%}
-        {%- assign c2_src = 'review-2.png' | asset_url -%}
+        {%- assign c2_src = 'lander-problem-lifestyle.jpg' | asset_url -%}
       {%- endif -%}
       {%- if c3 -%}
         {%- assign c3_src = c3 | image_url: width: 400 -%}
       {%- else -%}
-        {%- assign c3_src = 'review-3.png' | asset_url -%}
+        {%- assign c3_src = 'step-03-despierta.png' | asset_url -%}
       {%- endif -%}
 
       <!-- Mobile: simple 2-col grid -->
@@ -225,12 +225,12 @@
 
 <!-- ═══════ 5. BRAND MOMENT: BUENACOPA / BUENOS DÍAS ═══════ -->
 <section style="background-color: hsl(var(--primary)); overflow: hidden;">
-  <div class="container-custom py-12 md:py-16">
+  <div class="container-custom py-16 md:py-24">
     <div style="position: relative;">
       <!-- Accessible heading -->
       <h2 class="sr-only">{{ section.settings.banner_line_1 }} {{ section.settings.banner_line_2 }}</h2>
       <!-- Decorative display text -->
-      <div class="text-center font-display font-black text-foreground" style="line-height: 0.88; user-select: none;" aria-hidden="true">
+      <div class="text-center font-display font-black text-foreground" style="line-height: 0.9; user-select: none;" aria-hidden="true">
         <div style="font-size: clamp(2.5rem, 9vw, 9rem);">{{ section.settings.banner_line_1 }}</div>
         <div style="font-size: clamp(2.5rem, 9vw, 9rem);">{{ section.settings.banner_line_2 }}</div>
       </div>
