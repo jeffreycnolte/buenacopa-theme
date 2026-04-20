@@ -9,7 +9,7 @@
 
     {%- comment -%}Section label + heading{%- endcomment -%}
     {% if section.settings.label != blank %}
-      {% render 'brand/section-label', text: section.settings.label, align: 'center' %}
+      {% render 'brand-section-label', text: section.settings.label, align: 'center' %}
     {% endif %}
 
     <h2 class="font-display font-black text-center" style="font-size: clamp(1.5rem, 5vw, 2.25rem); line-height: 1.1; color: #001D45; margin-bottom: 32px;">
