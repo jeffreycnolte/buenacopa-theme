@@ -56,7 +56,7 @@
       </p>
     </div>
 
-    <div class="grid lg:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
       {%- for block in section.blocks -%}
         {%- if block.type == 'cause_card' -%}
           <div class="bg-background/80 backdrop-blur-md border border-white/10 rounded-2xl p-8 flex flex-col gap-5" {{ block.shopify_attributes }}>
@@ -71,6 +71,9 @@
                 {%- when 'flame' -%}
                   <!-- Flame / Inflammation icon -->
                   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                {%- when 'drop' -%}
+                  <!-- Drop / Dehydration icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>
                 {%- else -%}
                   <!-- Default shield icon -->
                   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
@@ -207,9 +210,9 @@
                         loading="lazy" decoding="async"
                       >
                     {%- else -%}
-                      {%- assign step_images = 'step-01-celebra.png,step-02-capsulas.jpg,step-03-despierta.png' | split: ',' -%}
+                      {%- assign step_images = 'step-01-celebra.png,step-02-capsulas.jpg,step-03-despierta.png,lander-solution-lifestyle.jpg' | split: ',' -%}
                       {%- assign img_index = step_number | minus: 1 -%}
-                      {%- if img_index < 3 -%}
+                      {%- if img_index < 4 -%}
                         <img
                           src="{{ step_images[img_index] | asset_url }}"
                           alt="{{ block.settings.title }}"
@@ -501,7 +504,8 @@
           "options": [
             { "value": "skull", "label": "Skull (Toxin)" },
             { "value": "brain", "label": "Brain" },
-            { "value": "flame", "label": "Flame (Inflammation)" }
+            { "value": "flame", "label": "Flame (Inflammation)" },
+            { "value": "drop", "label": "Drop (Dehydration)" }
           ],
           "default": "skull"
         },

@@ -36,6 +36,14 @@
             "description": "<p>Tu cuerpo responde al alcohol como a una amenaza, activando una respuesta inflamatoria sistémica que causa dolor muscular, sensibilidad a la luz y agotamiento.</p>"
           }
         },
+        "cause-4": {
+          "type": "cause_card",
+          "settings": {
+            "icon": "drop",
+            "title": "Deshidratación",
+            "description": "<p>El alcohol es diurético — te hace perder más líquidos de los que consumes. Esta deshidratación amplifica el dolor de cabeza, la fatiga y la sensación general de malestar al día siguiente.</p>"
+          }
+        },
         "ingredient-1": {
           "type": "ingredient_card",
           "settings": {
@@ -133,6 +141,7 @@
         "cause-1",
         "cause-2",
         "cause-3",
+        "cause-4",
         "ingredient-1",
         "ingredient-2",
         "ingredient-3",
