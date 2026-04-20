@@ -1,45 +1,55 @@
 {%- comment -%}
-  Brand primary CTA button — approved CTA style.
+  Brand primary CTA button — wraps the theme's canonical `.btn-cta` CSS
+  class (assets/theme.css). Renders as <a> by default; pass tag: 'button'
+  for a <button> element.
 
-  Renders as an <a> tag (the dominant pattern across the theme today).
-  Use for primary calls-to-action: "Ver planes", "Suscribirme", "Comprar".
+  Why .btn-cta: it's the theme's single source of truth for primary
+  buttons — pill shape, accent-green background via HSL CSS var,
+  scale-on-hover, soft shadow. Used across cart, about, contact,
+  404, product-hero subscribe CTA, etc. This snippet exists so call
+  sites don't need to remember the class name + structure.
 
   Usage:
     {% render 'brand-button', text: 'Ver planes →', href: '#lander-buy-box' %}
     {% render 'brand-button', text: 'Suscribirme', href: '#buy', full_width: true %}
-    {% render 'brand-button', text: 'Quiero mis mañanas →', href: '#buy', style_extra: 'min-width: 260px;' %}
+    {% render 'brand-button', tag: 'button', text: 'Agregar al carrito',
+       onclick: 'ProductForm.addToCart()', class_extra: 'flex-1' %}
 
   Params:
     text        (required) — button label.
-    href        (optional) — link target. Default '#'.
-    variant     (optional) — 'primary'. Default 'primary'. (Secondary/ghost/disabled TBD.)
-    full_width  (bool)     — 100% width. Default false.
+    tag         (optional) — 'a' (default) | 'button'.
+    href        (optional) — link target for <a>. Default '#'.
+    type        (optional) — `type` attr for <button>. Default 'button'.
     onclick     (optional) — JS handler string.
+    full_width  (bool)     — 100% width + center contents. Default false.
     id          (optional) — DOM id.
-    class_extra (optional) — extra classes (e.g. 'flex-1' for buybox flex layout).
-    style_extra (optional) — extra inline CSS (e.g. custom padding or min-width).
-    size        (optional) — 'sm' | 'md' | 'lg'. Default 'md'. Controls padding only.
+    class_extra (optional) — extra CSS classes (e.g. 'flex-1 disabled:opacity-50').
+    style_extra (optional) — escape-hatch inline styles (use sparingly).
+
+  Visual contract: .btn-cta in assets/theme.css. If you need a non-CTA
+  variant (secondary/ghost/disabled), don't fork this snippet — extend
+  theme.css with a sibling class and add a `variant` param here.
 
   Source: Buenacopa brand guide.
-  Canonical colors:
-    bg    #00A33C (brand green)
-    hover #009639 (currently hardcoded here — if a brand token is added
-                   for "accent-hover", migrate this snippet to use it.)
-    text  #FFFFFF
 {%- endcomment -%}
-{%- assign _href = href | default: '#' -%}
-{%- assign _size = size | default: 'md' -%}
-{%- case _size -%}
-  {%- when 'sm' -%}{%- assign _pad = 'padding: 10px 20px; font-size: 14px;' -%}
-  {%- when 'lg' -%}{%- assign _pad = 'padding: 16px 40px; font-size: 16px;' -%}
-  {%- else -%}{%- assign _pad = 'padding: 14px 24px; font-size: 16px;' -%}
-{%- endcase -%}
-<a
-  href="{{ _href }}"
+{%- assign _tag = tag | default: 'a' -%}
+{%- assign _classes = 'btn-cta' -%}
+{%- if full_width -%}{%- assign _classes = _classes | append: ' w-full justify-center' -%}{%- endif -%}
+{%- if class_extra != blank -%}{%- assign _classes = _classes | append: ' ' | append: class_extra -%}{%- endif -%}
+{%- if _tag == 'button' -%}
+<button
+  type="{{ type | default: 'button' }}"
   {%- if id %} id="{{ id }}"{% endif -%}
   {%- if onclick %} onclick="{{ onclick }}"{% endif -%}
-  class="{% if full_width %}w-full {% endif %}inline-flex items-center justify-center gap-2 text-white font-bold rounded-xl transition-all {{ class_extra }}"
-  style="background-color: #00A33C; {{ _pad }} text-decoration: none; {{ style_extra }}"
-  onmouseover="this.style.backgroundColor='#009639'"
-  onmouseout="this.style.backgroundColor='#00A33C'"
+  class="{{ _classes }}"
+  {%- if style_extra != blank %} style="{{ style_extra }}"{% endif -%}
+>{{ text }}</button>
+{%- else -%}
+<a
+  href="{{ href | default: '#' }}"
+  {%- if id %} id="{{ id }}"{% endif -%}
+  {%- if onclick %} onclick="{{ onclick }}"{% endif -%}
+  class="{{ _classes }}"
+  {%- if style_extra != blank %} style="{{ style_extra }}"{% endif -%}
 >{{ text }}</a>
+{%- endif -%}

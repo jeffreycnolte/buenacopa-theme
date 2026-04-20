@@ -1,0 +1,1316 @@
+{%- comment -%}
+  Brand Guide — Internal reference page
+  Shows the full Buenacopa brand system: colors, typography, logo usage, do's/don'ts.
+  Source of truth: Faena Brand Identity Book (Feb 2025) + WCAG accessibility audit.
+  Living document — updated continuously. English for cross-team clarity.
+{%- endcomment -%}
+
+<style>
+  .bg-page { background: #f8f9fa; }
+  .bg-section { background: #fff; border-radius: 16px; padding: 32px 24px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .bg-section h2 { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 24px; color: #001D45; margin: 0 0 8px; }
+  .bg-section h3 { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 17px; color: #001D45; margin: 24px 0 12px; }
+  .bg-section p, .bg-section li { font-family: 'Inter', sans-serif; font-size: 14px; color: #4a5568; line-height: 1.7; }
+  .bg-section td, .bg-section th { color: #374151; }
+  .bg-section table { color: #374151; }
+  .bg-section strong { color: #001D45; }
+  .bg-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #001D45; opacity: 0.4; margin-bottom: 16px; display: block; }
+  /* Override theme's white text for the brand guide page */
+  .bg-page, .bg-page * { color: inherit; }
+  .bg-page { color: #374151; }
+
+  /* Color swatches */
+  .bg-swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+  .bg-swatch { border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06); }
+  .bg-swatch-color { height: 80px; display: flex; align-items: flex-end; padding: 8px 12px; }
+  .bg-swatch-info { padding: 10px 12px; background: #fff; }
+  .bg-swatch-name { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 13px; color: #001D45; }
+  .bg-swatch-hex { font-family: 'Inter', monospace; font-size: 12px; color: #6b7280; }
+  .bg-swatch-meta { font-family: 'Inter', sans-serif; font-size: 10px; color: #9ca3af; margin-top: 2px; }
+
+  /* Typography specimens */
+  .bg-type-row { display: flex; align-items: baseline; gap: 16px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+  .bg-type-label { font-family: 'Inter', sans-serif; font-size: 11px; color: #9ca3af; min-width: 60px; flex-shrink: 0; }
+  .bg-type-specimen { color: #001D45; flex: 1; }
+
+  /* Do / Don't grid */
+  .bg-rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) { .bg-rules-grid { grid-template-columns: 1fr; } }
+  .bg-rule { border-radius: 12px; padding: 20px; }
+  .bg-rule-do { background: rgba(0,163,60,0.06); border: 1px solid rgba(0,163,60,0.15); }
+  .bg-rule-dont { background: rgba(220,38,38,0.04); border: 1px solid rgba(220,38,38,0.12); }
+  .bg-rule-label { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; margin-bottom: 8px; }
+  .bg-rule-do .bg-rule-label { color: #00A33C; }
+  .bg-rule-dont .bg-rule-label { color: #dc2626; }
+  .bg-rule p { font-size: 13px; margin: 4px 0; }
+
+  /* Logo grid */
+  .bg-logo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 640px) { .bg-logo-grid { grid-template-columns: 1fr; } }
+  .bg-logo-card { border-radius: 12px; padding: 32px 24px; display: flex; align-items: center; justify-content: center; min-height: 120px; }
+
+  /* Contrast badge */
+  .bg-contrast { display: inline-block; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px; }
+  .bg-contrast-pass { background: rgba(0,163,60,0.1); color: #00A33C; }
+  .bg-contrast-warn { background: rgba(234,179,8,0.1); color: #b45309; }
+  .bg-contrast-fail { background: rgba(220,38,38,0.08); color: #dc2626; }
+</style>
+
+<section class="bg-page" style="padding: 3rem 0; min-height: 100vh;">
+  <div class="container-custom" style="max-width: 860px;">
+
+    {%- comment -%}Header{%- endcomment -%}
+    <div style="margin-bottom: 40px;">
+      <img src="{{ 'logo-azul-oscuro.png' | asset_url }}" alt="Buenacopa" style="height: 32px; margin-bottom: 16px;" loading="eager">
+      <h1 class="font-display font-black" style="font-size: 36px; color: #001D45; line-height: 1.1; margin: 0;">Brand Guide</h1>
+      <p style="font-family: 'Inter', sans-serif; font-size: 15px; color: #6b7280; margin-top: 8px;">
+        Digital brand guide for Buenacopa. Based on the Faena Brand Identity Book (Feb 2025), audited against WCAG 2.1 AA for web and mobile legibility.
+      </p>
+      <p style="font-family: 'Inter', sans-serif; font-size: 12px; color: #9ca3af; margin-top: 4px;">
+        Living document — updated continuously. English for cross-team clarity. Last update: April 2026 · Internal use only
+      </p>
+    </div>
+
+    {%- comment -%}═══ COLOR PALETTE ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Color Palette</span>
+      <h2>Primary Colors</h2>
+      <p>5 brand colors. Green is exclusively for CTAs and functional accents — never as a dominant color.</p>
+
+      <div class="bg-swatch-grid" style="margin-top: 20px;">
+        <div class="bg-swatch">
+          <div class="bg-swatch-color" style="background: #001D45;">
+            <span style="color: #fff; font-size: 11px; font-weight: 600;">Aa</span>
+          </div>
+          <div class="bg-swatch-info">
+            <div class="bg-swatch-name">Dark Navy</div>
+            <div class="bg-swatch-hex">#001D45</div>
+            <div class="bg-swatch-meta">Primary backgrounds, header, footer</div>
+            <span class="bg-contrast bg-contrast-pass">16.6:1 vs white ✓ AAA</span>
+          </div>
+        </div>
+
+        <div class="bg-swatch">
+          <div class="bg-swatch-color" style="background: #0056D0;">
+            <span style="color: #fff; font-size: 11px; font-weight: 600;">Aa</span>
+          </div>
+          <div class="bg-swatch-info">
+            <div class="bg-swatch-name">Blue</div>
+            <div class="bg-swatch-hex">#0056D0</div>
+            <div class="bg-swatch-meta">Brand, cards, secondary backgrounds</div>
+            <span class="bg-contrast bg-contrast-pass">6.5:1 vs white ✓ AA</span>
+          </div>
+        </div>
+
+        <div class="bg-swatch">
+          <div class="bg-swatch-color" style="background: #B8D4F0;">
+            <span style="color: #001D45; font-size: 11px; font-weight: 600;">Aa</span>
+          </div>
+          <div class="bg-swatch-info">
+            <div class="bg-swatch-name">Light Blue</div>
+            <div class="bg-swatch-hex">#B8D4F0</div>
+            <div class="bg-swatch-meta">Decorative, soft backgrounds</div>
+            <span class="bg-contrast bg-contrast-warn">Do not use for text</span>
+          </div>
+        </div>
+
+        <div class="bg-swatch">
+          <div class="bg-swatch-color" style="background: #ECEEE8;">
+            <span style="color: #001D45; font-size: 11px; font-weight: 600;">Aa</span>
+          </div>
+          <div class="bg-swatch-info">
+            <div class="bg-swatch-name">Off-White</div>
+            <div class="bg-swatch-hex">#ECEEE8</div>
+            <div class="bg-swatch-meta">Alternate light backgrounds</div>
+            <span class="bg-contrast bg-contrast-pass">14.9:1 vs navy ✓ AAA</span>
+          </div>
+        </div>
+
+        <div class="bg-swatch">
+          <div class="bg-swatch-color" style="background: #00A33C;">
+            <span style="color: #fff; font-size: 11px; font-weight: 600;">Aa</span>
+          </div>
+          <div class="bg-swatch-info">
+            <div class="bg-swatch-name">Green (CTA)</div>
+            <div class="bg-swatch-hex">#00A33C</div>
+            <div class="bg-swatch-meta">CTAs and functional accents only</div>
+            <span class="bg-contrast bg-contrast-warn">3.3:1 vs white — buttons only</span>
+          </div>
+        </div>
+      </div>
+
+      <h3>Prohibited Colors</h3>
+      <p>Never use: red (#FF0000), pure black (#000000) as background, or the Figma green (#00C64D) which fails WCAG.</p>
+    </div>
+
+    {%- comment -%}═══ TYPOGRAPHY ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Typography</span>
+      <h2>Type Scale</h2>
+      <p>Headlines: <strong>Helvetica Rounded LT Pro</strong> (brand) → <strong>Nunito</strong> (web). Body: <strong>GT Pressura</strong> (brand) → <strong>Inter</strong> (web).</p>
+
+      <div style="margin-top: 20px;">
+        <div class="bg-type-row">
+          <span class="bg-type-label">H1</span>
+          <span class="bg-type-specimen font-display font-black" style="font-size: clamp(28px, 5vw, 48px);">La fiesta sigue.</span>
+        </div>
+        <div class="bg-type-row">
+          <span class="bg-type-label">H2</span>
+          <span class="bg-type-specimen font-display font-black" style="font-size: clamp(22px, 4vw, 36px);">Tres pasos. Cero sacrificios.</span>
+        </div>
+        <div class="bg-type-row">
+          <span class="bg-type-label">H3</span>
+          <span class="bg-type-specimen font-display font-bold" style="font-size: 20px;">Lo que hay adentro importa.</span>
+        </div>
+        <div class="bg-type-row">
+          <span class="bg-type-label">Body</span>
+          <span class="bg-type-specimen" style="font-family: 'Inter', sans-serif; font-size: 16px;">Nuestra fórmula combina DHM y L-Cisteína para acelerar el metabolismo del alcohol.</span>
+        </div>
+        <div class="bg-type-row">
+          <span class="bg-type-label">Small</span>
+          <span class="bg-type-specimen" style="font-family: 'Inter', sans-serif; font-size: 13px; color: #6b7280;">Sin cafeína · Sin azúcar · Fabricado GMP · Regulado por COFEPRIS</span>
+        </div>
+        <div class="bg-type-row">
+          <span class="bg-type-label">Label</span>
+          <span class="bg-type-specimen" style="font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #00A33C;">CÓMO FUNCIONA</span>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%}═══ LOGO USAGE ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Logo</span>
+      <h2>Logo Usage</h2>
+      <p>3 approved variants. Always use the correct version for the background. The logo is a custom wordmark — never recreate it with type.</p>
+
+      <div class="bg-logo-grid" style="margin-top: 20px;">
+        <div class="bg-logo-card" style="background: #001D45;">
+          <img src="{{ 'logo-offwhite.png' | asset_url }}" alt="Light logo" style="height: 28px;">
+        </div>
+        <div class="bg-logo-card" style="background: #ffffff; border: 1px solid #e5e7eb;">
+          <img src="{{ 'logo-azul-oscuro.png' | asset_url }}" alt="Dark navy logo" style="height: 28px;">
+        </div>
+        <div class="bg-logo-card" style="background: #0056D0;">
+          <img src="{{ 'logo-offwhite.png' | asset_url }}" alt="Logo on blue" style="height: 28px;">
+        </div>
+      </div>
+      <p style="margin-top: 12px; font-size: 12px; color: #9ca3af;">Left: on navy. Center: on white/light. Right: on brand blue.</p>
+    </div>
+
+    {%- comment -%}═══ DO'S AND DON'TS ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Usage Rules</span>
+      <h2>Do's and Don'ts</h2>
+
+      <h3>Color</h3>
+      <div class="bg-rules-grid">
+        <div class="bg-rule bg-rule-do">
+          <div class="bg-rule-label">✓ DO</div>
+          <p>Use green <strong>only</strong> on CTA buttons and functional badges</p>
+          <p>Use navy as primary background with white text</p>
+          <p>Use off-white (#ECEEE8) for alternating light sections</p>
+          <p>Use blue #0056D0 for cards and featured blocks</p>
+        </div>
+        <div class="bg-rule bg-rule-dont">
+          <div class="bg-rule-label">✗ DON'T</div>
+          <p>Green as heading or body text color</p>
+          <p>Green (#00C64D from Figma) — fails WCAG on white</p>
+          <p>Light text on light blue — no contrast</p>
+          <p>Pure black (#000) as background — always navy</p>
+        </div>
+      </div>
+
+      <h3>Typography</h3>
+      <div class="bg-rules-grid">
+        <div class="bg-rule bg-rule-do">
+          <div class="bg-rule-label">✓ DO</div>
+          <p>Nunito 800/900 for headlines (web substitute for Helvetica Rounded)</p>
+          <p>Inter 400/600 for body (web substitute for GT Pressura)</p>
+          <p>Labels in UPPERCASE + Inter semibold + letter-spacing</p>
+          <p>Minimum body size: 14px</p>
+        </div>
+        <div class="bg-rule bg-rule-dont">
+          <div class="bg-rule-label">✗ DON'T</div>
+          <p>Mix more than 2 font families</p>
+          <p>Use Nunito at regular weight (400) — always bold/black</p>
+          <p>Body text below 12px on mobile</p>
+          <p>Italics on headlines</p>
+        </div>
+      </div>
+
+      <h3>Logo</h3>
+      <div class="bg-rules-grid">
+        <div class="bg-rule bg-rule-do">
+          <div class="bg-rule-label">✓ DO</div>
+          <p>Light/offwhite version on dark backgrounds</p>
+          <p>Dark navy version on light backgrounds</p>
+          <p>Respect minimum clear space around the logo</p>
+          <p>Minimum 1cm height in print, ~40px in digital</p>
+        </div>
+        <div class="bg-rule bg-rule-dont">
+          <div class="bg-rule-label">✗ DON'T</div>
+          <p>Distort, rotate, or crop the logo</p>
+          <p>Use outline logo on light backgrounds (poor legibility)</p>
+          <p>Add shadows, gradients, or effects to the logo</p>
+          <p>Recreate the logo with type — it is a custom wordmark</p>
+        </div>
+      </div>
+
+      <h3>Photography and Imagery</h3>
+      <div class="bg-rules-grid">
+        <div class="bg-rule bg-rule-do">
+          <div class="bg-rule-label">✓ DO</div>
+          <p>Real lifestyle: friends, celebrations, active mornings</p>
+          <p>Low angles, movement, natural light</p>
+          <p>Mexico demographic 25-40 years, urban, aspirational</p>
+          <p>Organic shapes (wave/blob) as decorative overlay</p>
+        </div>
+        <div class="bg-rule bg-rule-dont">
+          <div class="bg-rule-label">✗ DON'T</div>
+          <p>Generic stock of people toasting with glasses</p>
+          <p>Images of visibly intoxicated or unwell people</p>
+          <p>Photos with plain white backgrounds and no context</p>
+          <p>Images that promote excessive alcohol consumption</p>
+        </div>
+      </div>
+
+      <h3>Illustrations</h3>
+      <div class="bg-rules-grid">
+        <div class="bg-rule bg-rule-do">
+          <div class="bg-rule-label">✓ DO</div>
+          <p>Monochromatic blue style (navy + blue + light blue)</p>
+          <p>Narrative objects: glass, speaker, window, coffee</p>
+          <p>Use as visual complement, not as the main element</p>
+          <p>Include green only on the product (sachet/capsule)</p>
+        </div>
+        <div class="bg-rule bg-rule-dont">
+          <div class="bg-rule-label">✗ DON'T</div>
+          <p>Illustrations with colors outside the brand blues</p>
+          <p>Realistic illustrations — the style is flat/graphic</p>
+          <p>Mix illustration styles (keep Faena consistency)</p>
+          <p>Use generic icons when custom illustrations exist</p>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%}═══ WAVE / ORGANIC SHAPES ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Organic Shapes</span>
+      <h2>Wave / Blob</h2>
+      <p>The organic wave shape is a brand element that connects sections and adds visual movement. Used as a transition between backgrounds or as a clip-path on photography.</p>
+
+      <div style="margin-top: 20px; background: #001D45; border-radius: 12px; overflow: hidden; position: relative; height: 200px;">
+        <div style="position: absolute; bottom: 0; left: 0; right: 0;">
+          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block; width: 100%;">
+            <path d="M0 60C240 120 480 0 720 60C960 120 1200 0 1440 60V120H0V60Z" fill="#0056D0"/>
+          </svg>
+        </div>
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -70%); color: #fff; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; text-align: center; opacity: 0.6;">
+          Navy → Blue wave transition
+        </div>
+      </div>
+
+      <div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div style="background: #0056D0; border-radius: 12px; overflow: hidden; position: relative; height: 140px;">
+          <div style="position: absolute; bottom: 0; left: 0; right: 0;">
+            <svg viewBox="0 0 400 60" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block; width: 100%;">
+              <path d="M0 30C100 60 200 0 300 30C350 45 380 20 400 30V60H0V30Z" fill="#001D45"/>
+            </svg>
+          </div>
+          <div style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 11px; font-weight: 600; opacity: 0.6;">Blue → Navy</div>
+        </div>
+        <div style="background: #ECEEE8; border-radius: 12px; overflow: hidden; position: relative; height: 140px;">
+          <div style="position: absolute; bottom: 0; left: 0; right: 0;">
+            <svg viewBox="0 0 400 60" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block; width: 100%;">
+              <path d="M0 30C100 60 200 0 300 30C350 45 380 20 400 30V60H0V30Z" fill="#001D45"/>
+            </svg>
+          </div>
+          <div style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); color: #001D45; font-size: 11px; font-weight: 600; opacity: 0.5;">Off-white → Navy</div>
+        </div>
+      </div>
+
+      <p style="margin-top: 12px; font-size: 12px; color: #9ca3af;">Waves always go from one brand color to another. The curve is smooth and organic — never geometric or angular.</p>
+    </div>
+
+    {%- comment -%}═══ BUTTON STYLES ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Buttons</span>
+      <h2>CTA Styles</h2>
+
+      <h3>Primary CTA — canonical</h3>
+      <p>The single source of truth for primary buttons across the theme. Pill shape, accent green, scale-on-hover. Defined as <code style="background:#f3f4f6; padding:2px 6px; border-radius:4px; font-size:12px;">.btn-cta</code> in <code style="background:#f3f4f6; padding:2px 6px; border-radius:4px; font-size:12px;">assets/theme.css</code>.</p>
+
+      <div style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+        <a href="#" class="btn-cta" onclick="event.preventDefault()">Suscribirme ahora →</a>
+        <a href="#" class="btn-cta" onclick="event.preventDefault()" style="padding: 0.5rem 1rem; font-size: 14px;">Smaller variant</a>
+      </div>
+
+      <p style="margin-top:16px;"><strong>Use in code via the snippet:</strong></p>
+      <pre style="background:#001D45; color:#a5d8ff; padding:12px 14px; border-radius:8px; font-size:12px; overflow-x:auto;">{% raw %}{% render 'brand-button', text: 'Suscribirme ahora', href: '#buy' %}
+{% render 'brand-button', tag: 'button', text: 'Agregar al carrito',
+   onclick: 'ProductForm.addToCart()', class_extra: 'flex-1' %}{% endraw %}</pre>
+
+      <p style="margin-top:8px; font-size:12px; color:#6b7280;">Never hardcode the green hex, padding, or hover JS at call sites — always render the snippet (or use <code>.btn-cta</code> directly when you need the bare class).</p>
+
+      <h3 style="margin-top:28px;">Secondary / Tertiary (TBD)</h3>
+      <p style="font-size:13px; color:#6b7280;">Secondary (navy fill) and tertiary (outline) variants are not yet shipped as snippets. When a site needs them, add a <code>.btn-secondary</code> / <code>.btn-ghost</code> class to <code>theme.css</code> and extend <code>brand-button</code> with a <code>variant</code> param.</p>
+
+      <h3 style="margin-top:28px;">When to use which</h3>
+      <p><strong>Primary (green pill):</strong> The single main action on the page. Max 1-2 per screen.</p>
+      <p><strong>Secondary (navy):</strong> Complementary actions (alternate add to cart, confirm).</p>
+      <p><strong>Tertiary (outline):</strong> Low-priority actions (see more, expand, dismiss).</p>
+    </div>
+
+    {%- comment -%}═══ BRAND SNIPPETS REFERENCE ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Brand Snippets</span>
+      <h2>Snippet Library — Reference for engineers</h2>
+      <p>Every brand-canonical pattern lives at <code>snippets/brand-*.liquid</code> (flat naming — Shopify rejects subfolders). Render via <code>{% raw %}{% render 'brand-X', ... %}{% endraw %}</code>. Do not duplicate snippet markup at call sites — refactor to use the snippet instead.</p>
+
+      <h3>Copy primitives</h3>
+      <div style="margin-top: 12px; overflow-x: auto;">
+        <table style="width: 100%; font-family: 'Inter', sans-serif; font-size: 13px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid #e5e7eb;">
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Snippet</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Purpose</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;"><code>brand-tagline</code></td>
+              <td style="padding: 10px 12px;">Approved tagline (primary/secondary/long).</td>
+              <td style="padding: 10px 12px; font-size: 11px;"><code>{% raw %}{% render 'brand-tagline' %}{% endraw %}</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;"><code>brand-campaign-hook</code></td>
+              <td style="padding: 10px 12px;">Approved campaign hook (3 variants).</td>
+              <td style="padding: 10px 12px; font-size: 11px;"><code>{% raw %}{% render 'brand-campaign-hook' %}{% endraw %}</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;"><code>brand-disclaimer</code></td>
+              <td style="padding: 10px 12px;">"Bebe de forma responsable."</td>
+              <td style="padding: 10px 12px; font-size: 11px;"><code>{% raw %}{% render 'brand-disclaimer' %}{% endraw %}</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;"><code>brand-claim</code></td>
+              <td style="padding: 10px 12px;">COFEPRIS-aligned claim (id-based — only the 6 approved). Unknown ids render an HTML comment.</td>
+              <td style="padding: 10px 12px; font-size: 11px;"><code>{% raw %}{% render 'brand-claim', id: 'prevents-symptoms' %}{% endraw %}</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top: 28px;">Visual primitives</h3>
+      <div style="margin-top: 12px; overflow-x: auto;">
+        <table style="width: 100%; font-family: 'Inter', sans-serif; font-size: 13px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid #e5e7eb;">
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Snippet</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Purpose</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;"><code>brand-button</code></td>
+              <td style="padding: 10px 12px;">Primary CTA — wraps <code>.btn-cta</code>. Renders <code>&lt;a&gt;</code> by default; <code>tag: 'button'</code> for <code>&lt;button&gt;</code>.</td>
+              <td style="padding: 10px 12px; font-size: 11px;"><code>{% raw %}{% render 'brand-button', text: 'Comprar', href: '#buy' %}{% endraw %}</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;"><code>brand-section-label</code></td>
+              <td style="padding: 10px 12px;">Small green uppercase label above section headings ("LA FÓRMULA", "CÓMO FUNCIONA").</td>
+              <td style="padding: 10px 12px; font-size: 11px;"><code>{% raw %}{% render 'brand-section-label', text: 'LA FÓRMULA' %}{% endraw %}</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;"><code>brand-badge</code></td>
+              <td style="padding: 10px 12px;">Pill badge — <code>best-value</code> (with star) / <code>discount</code> / <code>new</code>.</td>
+              <td style="padding: 10px 12px; font-size: 11px;"><code>{% raw %}{% render 'brand-badge', variant: 'best-value', text: 'MEJOR VALOR' %}{% endraw %}</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top: 28px;">Component primitives</h3>
+      <div style="margin-top: 12px; overflow-x: auto;">
+        <table style="width: 100%; font-family: 'Inter', sans-serif; font-size: 13px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid #e5e7eb;">
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Snippet</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Purpose</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;"><code>brand-quantity-stepper</code></td>
+              <td style="padding: 10px 12px;">−/N/+ quantity control. Coupled to <code>ProductForm</code> JS.</td>
+              <td style="padding: 10px 12px; font-size: 11px;"><code>{% raw %}{% render 'brand-quantity-stepper', quantity_id: 'product-quantity' %}{% endraw %}</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;"><code>brand-trust-bar</code></td>
+              <td style="padding: 10px 12px;">Dotted text trust row ("Envío gratis · Garantía 30 días · Sin riesgo"). Text-only.</td>
+              <td style="padding: 10px 12px; font-size: 11px;"><code>{% raw %}{% render 'brand-trust-bar', item_1: 'A', item_2: 'B' %}{% endraw %}</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;"><code>brand-steps</code></td>
+              <td style="padding: 10px 12px;">Canonical 4-step icon-card grid. Used on homepage, lander, cómo-funciona.</td>
+              <td style="padding: 10px 12px; font-size: 11px;"><code>{% raw %}{% render 'brand-steps', blocks: section.blocks, heading: 'X' %}{% endraw %}</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;"><code>brand-buybox</code></td>
+              <td style="padding: 10px 12px;">Full purchase module: shipping badge, subscription card, one-time variants, stepper + add-to-cart, trust badges. Pure view — section file does Shopify-data work, snippet receives scalars only. See spec below.</td>
+              <td style="padding: 10px 12px; font-size: 11px;"><code>{% raw %}{% render 'brand-buybox', id_prefix: 'lander', ... %}{% endraw %}</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top: 28px;">brand-buybox component spec</h3>
+      <p>The most complex snippet. Architecture: section file ("controller") does ALL Shopify-data work — selling plan lookups, subscription detection, price math in cents, per-serving calcs, variant filtering, i18n string resolution. The snippet ("view") receives only pre-shaped scalars + the variants collection.</p>
+
+      <div style="margin-top: 16px; padding: 16px; background: rgba(59,130,246,0.06); border-radius: 8px; border: 1px solid rgba(59,130,246,0.15);">
+        <p style="font-weight: 700; font-size: 13px; color: #1e40af; margin: 0;">Architectural rule</p>
+        <p style="font-size: 12px; color: #4a5568; margin: 6px 0 0;">Never put <code>product.selling_plan_groups</code>, <code>product.variants</code> filtering, or price math (<code>| divided_by: 100</code>) inside <code>brand-buybox</code>. Section file pre-computes; snippet renders.</p>
+      </div>
+
+      <p style="margin-top:16px;"><strong>Used by:</strong></p>
+      <ul>
+        <li><code>sections/lander-buy-box.liquid</code> — the lander purchase module (<code>id_prefix: 'lander'</code>)</li>
+        <li><em>(Pending)</em> <code>sections/product-hero.liquid</code> — homepage / product page (will use default <code>id_prefix</code>)</li>
+      </ul>
+
+      <p style="margin-top:16px;"><strong>JS contract:</strong></p>
+      <ul>
+        <li><code>ProductForm.selectSubscription(variant_id, plan_id)</code></li>
+        <li><code>ProductForm.selectOneTime(variant_id, button_el)</code></li>
+        <li><code>ProductForm.addToCart()</code></li>
+        <li><code>ProductForm.decrementQty()</code> / <code>.incrementQty()</code> (via <code>brand-quantity-stepper</code>)</li>
+      </ul>
+
+      <p style="margin-top:16px;"><strong>DOM ids emitted</strong> (with optional <code>id_prefix</code>):</p>
+      <p style="font-size:12px;"><code>{prefix-}product-form</code>, <code>{prefix-}subscription-card</code>, <code>{prefix-}variant-selector</code>, <code>{prefix-}onetime-cta</code>, <code>{prefix-}product-quantity</code>, <code>{prefix-}trust-badges</code></p>
+    </div>
+
+    {%- comment -%}═══ ACCESSIBILITY ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Accessibility</span>
+      <h2>WCAG 2.1 AA Contrast</h2>
+      <p>All text combinations must meet a minimum contrast ratio for legibility.</p>
+
+      <div style="margin-top: 20px;">
+        <table style="width: 100%; font-family: 'Inter', sans-serif; font-size: 13px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid #e5e7eb;">
+              <th style="text-align: left; padding: 8px 0; color: #6b7280; font-weight: 600;">Combination</th>
+              <th style="text-align: center; padding: 8px 0; color: #6b7280; font-weight: 600;">Ratio</th>
+              <th style="text-align: center; padding: 8px 0; color: #6b7280; font-weight: 600;">Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 0;">White on Navy #001D45</td>
+              <td style="text-align: center;">16.6:1</td>
+              <td style="text-align: center;"><span class="bg-contrast bg-contrast-pass">AAA ✓</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 0;">White on Blue #0056D0</td>
+              <td style="text-align: center;">6.5:1</td>
+              <td style="text-align: center;"><span class="bg-contrast bg-contrast-pass">AA ✓</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 0;">Navy on Off-White #ECEEE8</td>
+              <td style="text-align: center;">14.9:1</td>
+              <td style="text-align: center;"><span class="bg-contrast bg-contrast-pass">AAA ✓</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 0;">Green #00A33C on white</td>
+              <td style="text-align: center;">3.3:1</td>
+              <td style="text-align: center;"><span class="bg-contrast bg-contrast-warn">AA-large ⚠️</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 0;">Green #00A33C on Navy</td>
+              <td style="text-align: center;">5.0:1</td>
+              <td style="text-align: center;"><span class="bg-contrast bg-contrast-pass">AA ✓</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 0; color: #dc2626;">⚠️ Green #00C64D on white</td>
+              <td style="text-align: center; color: #dc2626;">2.3:1</td>
+              <td style="text-align: center;"><span class="bg-contrast bg-contrast-fail">FAIL ✗</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {%- comment -%}═══ IMAGE GUIDELINES ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Images</span>
+      <h2>Product Photography</h2>
+      <p>Product photography is the most important brand asset. Maintain consistency in backgrounds, lighting, and style.</p>
+
+      <h3>Approved Backgrounds</h3>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px;">
+        <div style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06);">
+          <div style="height: 8px; background: #A8D8EA;"></div>
+          <div style="padding: 12px; text-align: center;">
+            <p style="font-weight: 700; font-size: 13px; color: #001D45; margin: 0;">Light Blue</p>
+            <p style="font-size: 11px; color: #9ca3af; margin: 4px 0 0;">#A8D8EA approx.</p>
+            <p style="font-size: 11px; color: #6b7280; margin: 4px 0 0;">Hero, main gallery</p>
+          </div>
+        </div>
+        <div style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06);">
+          <div style="height: 8px; background: #001D45;"></div>
+          <div style="padding: 12px; text-align: center;">
+            <p style="font-weight: 700; font-size: 13px; color: #001D45; margin: 0;">Navy</p>
+            <p style="font-size: 11px; color: #9ca3af; margin: 4px 0 0;">#001D45</p>
+            <p style="font-size: 11px; color: #6b7280; margin: 4px 0 0;">Infographics, science</p>
+          </div>
+        </div>
+        <div style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06);">
+          <div style="height: 8px; background: #0056D0;"></div>
+          <div style="padding: 12px; text-align: center;">
+            <p style="font-weight: 700; font-size: 13px; color: #001D45; margin: 0;">Blue</p>
+            <p style="font-size: 11px; color: #9ca3af; margin: 4px 0 0;">#0056D0</p>
+            <p style="font-size: 11px; color: #6b7280; margin: 4px 0 0;">Merch, accessories</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>Product Photography — Do vs. Don't</h3>
+
+      {%- comment -%}DO examples{%- endcomment -%}
+      <div style="margin-top: 16px; padding: 16px; background: rgba(0,163,60,0.04); border-radius: 12px; border: 1px solid rgba(0,163,60,0.12);">
+        <div class="bg-rule-label" style="color: #00A33C; margin-bottom: 12px;">✓ DO — Product Photography</div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+          <div>
+            <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 1/1;">
+              <img src="{{ 'product-front.png' | asset_url }}" alt="DO: Clean blue background" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+            </div>
+            <p style="font-size: 11px; color: #4a5568; margin: 6px 0 0; line-height: 1.4;">Clean blue bg, centered, studio lighting</p>
+          </div>
+          <div>
+            <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 1/1;">
+              <img src="{{ 'product-display.jpg' | asset_url }}" alt="DO: Open box with sachets" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+            </div>
+            <p style="font-size: 11px; color: #4a5568; margin: 6px 0 0; line-height: 1.4;">Box open showing sachets — movement, energy</p>
+          </div>
+          <div>
+            <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 1/1;">
+              <img src="{{ 'product-sachet-hand.jpg' | asset_url }}" alt="DO: Sachet in hand" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+            </div>
+            <p style="font-size: 11px; color: #4a5568; margin: 6px 0 0; line-height: 1.4;">Product in hand, clean background, brand colors visible</p>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px;">
+          <div>
+            <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 1/1;">
+              <img src="{{ 'product-boxes-stack.png' | asset_url }}" alt="DO: Product stack" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+            </div>
+            <p style="font-size: 11px; color: #4a5568; margin: 6px 0 0; line-height: 1.4;">Multiple units, consistent blue bg</p>
+          </div>
+          <div>
+            <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 1/1;">
+              <img src="{{ 'product-box-1.png' | asset_url }}" alt="DO: 3/4 angle" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+            </div>
+            <p style="font-size: 11px; color: #4a5568; margin: 6px 0 0; line-height: 1.4;">3/4 angle showing depth, soft shadow</p>
+          </div>
+          <div>
+            <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 1/1;">
+              <img src="{{ 'promo-cap-new.png' | asset_url }}" alt="DO: Merch on brand blue" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+            </div>
+            <p style="font-size: 11px; color: #4a5568; margin: 6px 0 0; line-height: 1.4;">Merch on brand blue #0056D0</p>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%}DON'T examples{%- endcomment -%}
+      <div style="margin-top: 12px; padding: 16px; background: rgba(220,38,38,0.03); border-radius: 12px; border: 1px solid rgba(220,38,38,0.12);">
+        <div class="bg-rule-label" style="color: #dc2626; margin-bottom: 12px;">✗ DON'T — Product Photography</div>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+          <div>
+            <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 4/3; position: relative;">
+              <img src="{{ 'product-hand.png' | asset_url }}" alt="DONT: Cluttered background" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+              <div style="position: absolute; top: 8px; left: 8px; background: #dc2626; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">✗</div>
+            </div>
+            <p style="font-size: 11px; color: #991b1b; margin: 6px 0 0; line-height: 1.4;">Cluttered background (plants, furniture). Product gets lost in the scene.</p>
+          </div>
+          <div>
+            <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 4/3; position: relative;">
+              <img src="{{ 'hero-sachet.jpg' | asset_url }}" alt="DONT: Inconsistent background" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+              <div style="position: absolute; top: 8px; left: 8px; background: #dc2626; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">✗</div>
+            </div>
+            <p style="font-size: 11px; color: #991b1b; margin: 6px 0 0; line-height: 1.4;">White/gray bg inconsistent with the blue bg product gallery. Mixing backgrounds hurts brand coherence.</p>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%}Rules summary{%- endcomment -%}
+      <h3>Product Photography Rules</h3>
+      <div class="bg-rules-grid">
+        <div class="bg-rule bg-rule-do">
+          <div class="bg-rule-label">✓ DO</div>
+          <p>Uniform light blue background (#A8D8EA) for product gallery</p>
+          <p>Navy background for infographics with explanatory text</p>
+          <p>Product centered with breathing room around it</p>
+          <p>Natural shadows, soft diffused lighting</p>
+          <p>Show sachets coming out of the box (action, movement)</p>
+        </div>
+        <div class="bg-rule bg-rule-dont">
+          <div class="bg-rule-label">✗ DON'T</div>
+          <p>Pure white background — the product gets lost visually</p>
+          <p>Cluttered ambient backgrounds (plants, furniture, kitchen)</p>
+          <p>Product cropped at extreme angles</p>
+          <p>Mix background styles within the same gallery</p>
+          <p>Photos with yellow/warm lighting that shifts brand colors</p>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%}═══ LIFESTYLE PHOTOGRAPHY ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Images</span>
+      <h2>Lifestyle Photography</h2>
+      <p>Lifestyle photography communicates the brand promise: celebrate without consequences. The narrative arc is night → product → morning.</p>
+
+      <h3>The Narrative Arc</h3>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px;">
+        <div style="background: #001D45; border-radius: 12px; padding: 16px; text-align: center;">
+          <div style="font-size: 28px; margin-bottom: 8px;">🌙</div>
+          <p style="font-weight: 700; font-size: 14px; color: #fff; margin: 0;">The Night</p>
+          <p style="font-size: 12px; color: rgba(255,255,255,0.6); margin: 6px 0 0;">Friends, celebration, energy. Low angles, movement, ambient light.</p>
+        </div>
+        <div style="background: #0056D0; border-radius: 12px; padding: 16px; text-align: center;">
+          <div style="font-size: 28px; margin-bottom: 8px;">💊</div>
+          <p style="font-weight: 700; font-size: 14px; color: #fff; margin: 0;">The Ritual</p>
+          <p style="font-size: 12px; color: rgba(255,255,255,0.7); margin: 6px 0 0;">Take the capsules, water, get home. Intimate, simple moment.</p>
+        </div>
+        <div style="background: #ECEEE8; border-radius: 12px; padding: 16px; text-align: center;">
+          <div style="font-size: 28px; margin-bottom: 8px;">☀️</div>
+          <p style="font-weight: 700; font-size: 14px; color: #001D45; margin: 0;">The Morning</p>
+          <p style="font-size: 12px; color: rgba(0,29,69,0.5); margin: 6px 0 0;">Wake up well, exercise, brunch, energy. Natural light, warmth.</p>
+        </div>
+      </div>
+
+      <h3>Lifestyle Photography — Do vs. Don't</h3>
+
+      {%- comment -%}DO examples — lifestyle{%- endcomment -%}
+      <div style="margin-top: 16px; padding: 16px; background: rgba(0,163,60,0.04); border-radius: 12px; border: 1px solid rgba(0,163,60,0.12);">
+        <div class="bg-rule-label" style="color: #00A33C; margin-bottom: 12px;">✓ DO — Lifestyle Photography</div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+          <div>
+            <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 1/1;">
+              <img src="{{ 'step-01-celebra.png' | asset_url }}" alt="DO: Energy, celebration" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+            </div>
+            <p style="font-size: 11px; color: #4a5568; margin: 6px 0 0; line-height: 1.4;">Low angle, energy, celebration moment. Real and authentic.</p>
+          </div>
+          <div>
+            <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 1/1;">
+              <img src="{{ 'step-03-despierta.png' | asset_url }}" alt="DO: Morning after" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+            </div>
+            <p style="font-size: 11px; color: #4a5568; margin: 6px 0 0; line-height: 1.4;">Morning light, relaxed, natural. The payoff.</p>
+          </div>
+          <div>
+            <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 1/1;">
+              <img src="{{ 'banner-buenacopa.png' | asset_url }}" alt="DO: Movement, confidence" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+            </div>
+            <p style="font-size: 11px; color: #4a5568; margin: 6px 0 0; line-height: 1.4;">Movement, confidence, low angle. Brand energy.</p>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%}DON'T examples — lifestyle{%- endcomment -%}
+      <div style="margin-top: 12px; padding: 16px; background: rgba(220,38,38,0.03); border-radius: 12px; border: 1px solid rgba(220,38,38,0.12);">
+        <div class="bg-rule-label" style="color: #dc2626; margin-bottom: 12px;">✗ DON'T — Lifestyle Photography</div>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+          <div>
+            <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 4/3; position: relative; background: #f3f4f6; display: flex; align-items: center; justify-content: center;">
+              <div style="text-align: center; padding: 20px;">
+                <div style="font-size: 32px;">🍷🥂</div>
+                <p style="font-size: 12px; color: #991b1b; margin: 8px 0 0; font-weight: 600;">Generic stock toast</p>
+              </div>
+              <div style="position: absolute; top: 8px; left: 8px; background: #dc2626; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">✗</div>
+            </div>
+            <p style="font-size: 11px; color: #991b1b; margin: 6px 0 0; line-height: 1.4;">Generic stock of people toasting with glasses. No brand identity, could be any brand.</p>
+          </div>
+          <div>
+            <div style="border-radius: 8px; overflow: hidden; aspect-ratio: 4/3; position: relative; background: #f3f4f6; display: flex; align-items: center; justify-content: center;">
+              <div style="text-align: center; padding: 20px;">
+                <div style="font-size: 32px;">🤢😵</div>
+                <p style="font-size: 12px; color: #991b1b; margin: 8px 0 0; font-weight: 600;">Hungover/unwell people</p>
+              </div>
+              <div style="position: absolute; top: 8px; left: 8px; background: #dc2626; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">✗</div>
+            </div>
+            <p style="font-size: 11px; color: #991b1b; margin: 6px 0 0; line-height: 1.4;">Never show visibly intoxicated or unwell people. We sell the morning, not the hangover.</p>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%}Rules summary{%- endcomment -%}
+      <h3>Lifestyle Photography Rules</h3>
+      <div class="bg-rules-grid">
+        <div class="bg-rule bg-rule-do">
+          <div class="bg-rule-label">✓ DO</div>
+          <p>Low angles (hero shot) — empowerment</p>
+          <p>Natural light, golden hour for mornings</p>
+          <p>Real people 25-40 years, urban Mexico</p>
+          <p>Movement and energy (no static poses)</p>
+          <p>Diversity of gender, body type, and skin tone</p>
+          <p>Contexts: rooftop, concert, wedding, brunch, gym</p>
+        </div>
+        <div class="bg-rule bg-rule-dont">
+          <div class="bg-rule-label">✗ DON'T</div>
+          <p>Generic stock of people toasting with glasses</p>
+          <p>Visibly intoxicated or unwell people</p>
+          <p>Images that glorify excessive consumption</p>
+          <p>Photos with watermarks or low resolution</p>
+          <p>Models that don't represent the MX market</p>
+          <p>Studio photos with infinite white background</p>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%}═══ TEXT ON IMAGES ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Images</span>
+      <h2>Text on Photography</h2>
+      <p>When placing brand copy over photos, readability comes from choosing the right photo and placement — not from adding effects.</p>
+
+      <div class="bg-rules-grid">
+        <div class="bg-rule bg-rule-do">
+          <div class="bg-rule-label">✓ DO</div>
+          <p>Place text over darker or less busy areas of the photo</p>
+          <p>Choose photos with natural dark zones (sky, shadows, surfaces) for text placement</p>
+          <p>Use white text on dark photo areas, navy text on light photo areas</p>
+          <p>Keep text short when overlaying photos — taglines only, not paragraphs</p>
+          <p>Test readability at the actual size it will appear (mobile, feed, story)</p>
+        </div>
+        <div class="bg-rule bg-rule-dont">
+          <div class="bg-rule-label">✗ DON'T</div>
+          <p>Add drop shadows to text</p>
+          <p>Add dark overlays or gradient scrims to photos</p>
+          <p>Place text over busy/detailed areas of the photo</p>
+          <p>Use thin font weights on photos — always bold/black for overlay text</p>
+          <p>Put long copy on photos — move it to a solid-color panel instead</p>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%}═══ REAL-WORLD EXAMPLES ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Quality Control</span>
+      <h2>Real-World Asset Review</h2>
+      <p>Common issues we've identified in existing content. Use these as reference for what to fix and what to replicate.</p>
+
+      <h3>✅ What Good Looks Like</h3>
+      <div style="margin-top: 12px; padding: 16px; background: rgba(0,163,60,0.04); border-radius: 12px; border: 1px solid rgba(0,163,60,0.12);">
+        <p style="font-weight: 700; font-size: 14px; color: #001D45; margin: 0 0 8px;">Sachets on table with cocktails + tagline</p>
+        <ul style="margin: 0; padding-left: 20px;">
+          <li>Real social moment — feels authentic, not staged</li>
+          <li>Product integrated naturally into the scene</li>
+          <li>Uses the primary brand tagline correctly</li>
+          <li>Text placed on a naturally darker zone of the photo</li>
+        </ul>
+        <p style="font-size: 12px; color: #6b7280; margin: 10px 0 0;"><strong>Replicate this:</strong> Product visible in real social contexts where people are celebrating.</p>
+      </div>
+
+      <div style="margin-top: 12px; padding: 16px; background: rgba(0,163,60,0.04); border-radius: 12px; border: 1px solid rgba(0,163,60,0.12);">
+        <p style="font-weight: 700; font-size: 14px; color: #001D45; margin: 0 0 8px;">Capsule ingredient diagram on light blue</p>
+        <ul style="margin: 0; padding-left: 20px;">
+          <li>Clean, scannable layout</li>
+          <li>3D capsule rendering matches established infographic style</li>
+          <li>Green annotation dots — correct accent color usage</li>
+          <li>Navy text on light blue — readable</li>
+        </ul>
+        <p style="font-size: 12px; color: #6b7280; margin: 10px 0 0;"><strong>One fix:</strong> The primary version should be on navy background (as per infographic rules). Light blue version acceptable for social variation.</p>
+      </div>
+
+      <h3 style="margin-top: 28px;">⚠️ Needs Refinement</h3>
+      <div style="margin-top: 12px; padding: 16px; background: rgba(234,179,8,0.04); border-radius: 12px; border: 1px solid rgba(234,179,8,0.15);">
+        <p style="font-weight: 700; font-size: 14px; color: #001D45; margin: 0 0 8px;">4-step "Modo de Uso" grid</p>
+        <ul style="margin: 0; padding-left: 20px;">
+          <li><strong>✅ Correct:</strong> Navy cards, green step numbers, 4-step flow in order, 2×2 grid layout</li>
+          <li><strong>❌ Wrong icons:</strong> Uses glossy 3D emoji-style icons (disco ball, water glass, sleepy moon, smiley badge). Should use the flat monochrome brand illustrations from Faena</li>
+          <li><strong>⚠️ Copy check needed:</strong> Step 2 says "Tómalo antes de dormir" — need to confirm this is the approved wording vs. "Toma las 3 cápsulas + 1 vaso con agua"</li>
+        </ul>
+        <p style="font-size: 12px; color: #6b7280; margin: 10px 0 0;"><strong>Fix:</strong> Replace glossy icons with flat brand icons. Verify step copy with Nat/Priscila.</p>
+      </div>
+
+      <div style="margin-top: 12px; padding: 16px; background: rgba(234,179,8,0.04); border-radius: 12px; border: 1px solid rgba(234,179,8,0.15);">
+        <p style="font-weight: 700; font-size: 14px; color: #001D45; margin: 0 0 8px;">Capsules-in-hand with icon overlay</p>
+        <ul style="margin: 0; padding-left: 20px;">
+          <li><strong>✅ Correct:</strong> Real product moment, correct brand copy, good photography</li>
+          <li><strong>❌ Icon mismatch:</strong> The moon and smiley icons have a glossy 3D effect that conflicts with the flat monochrome style used on the website and in the brand book</li>
+          <li><strong>⚠️ Layout:</strong> The arrow between icons looks improvised — needs a standardized treatment</li>
+        </ul>
+        <p style="font-size: 12px; color: #6b7280; margin: 10px 0 0;"><strong>Fix:</strong> Use flat brand icons. Create a standardized icon-overlay template for social.</p>
+      </div>
+
+      <h3 style="margin-top: 28px;">❌ Does Not Meet Standards</h3>
+      <div style="margin-top: 12px; padding: 16px; background: rgba(220,38,38,0.04); border-radius: 12px; border: 1px solid rgba(220,38,38,0.12);">
+        <p style="font-weight: 700; font-size: 14px; color: #001D45; margin: 0 0 8px;">Product boxes with wine glasses on marble table (garden setting)</p>
+        <ul style="margin: 0; padding-left: 20px;">
+          <li><strong>❌ Background:</strong> Cluttered garden/plants — not an approved background</li>
+          <li><strong>❌ Typography:</strong> "Bienestar Post-fiesta" overlay uses a generic font, not the brand typeface</li>
+          <li><strong>❌ Product styling:</strong> Boxes crammed together at angles — doesn't match clean centered product shots</li>
+          <li><strong>❌ Photography:</strong> Static, no energy or movement. Feels like a user photo</li>
+        </ul>
+        <p style="font-size: 12px; color: #6b7280; margin: 10px 0 0;"><strong>Action:</strong> Do not use as official brand content. Acceptable only as unedited UGC (without text overlays).</p>
+      </div>
+
+      <h3 style="margin-top: 28px;">The #1 Recurring Issue</h3>
+      <div style="padding: 16px; background: rgba(59,130,246,0.06); border-radius: 8px; border: 1px solid rgba(59,130,246,0.15); margin-top: 12px;">
+        <p style="font-weight: 700; font-size: 14px; color: #1e40af; margin: 0;">Icon style inconsistency</p>
+        <p style="font-size: 13px; color: #4a5568; margin: 8px 0 0;">The brand has flat monochrome blue illustrations from Faena. But social content is using glossy 3D emoji-style icons. These are two completely different visual languages. <strong>Pick one and use it everywhere.</strong> The Faena flat style is the canonical brand direction.</p>
+      </div>
+    </div>
+
+    {%- comment -%}═══ INFOGRAPHICS ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Images</span>
+      <h2>Infographics and Science</h2>
+      <p>Educational assets (ingredients, how it works, data) follow a specific visual style.</p>
+
+      <h3>Infographics — Do vs. Don't</h3>
+
+      {%- comment -%}DO examples — infographics{%- endcomment -%}
+      <div style="margin-top: 16px; padding: 16px; background: rgba(0,163,60,0.04); border-radius: 12px; border: 1px solid rgba(0,163,60,0.12);">
+        <div class="bg-rule-label" style="color: #00A33C; margin-bottom: 12px;">✓ DO — Infographics</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div>
+            <div style="border-radius: 8px; overflow: hidden;">
+              <img src="{{ 'product-science.jpg' | asset_url }}" alt="DO: Navy bg, capsule, clean" style="width: 100%; height: auto;" loading="lazy">
+            </div>
+            <p style="font-size: 11px; color: #4a5568; margin: 6px 0 0; line-height: 1.4;">Navy background, 3D capsule, clean annotations, scannable data</p>
+          </div>
+          <div>
+            <div style="border-radius: 8px; overflow: hidden;">
+              <img src="{{ 'product-info.jpg' | asset_url }}" alt="DO: Product breakdown" style="width: 100%; height: auto;" loading="lazy">
+            </div>
+            <p style="font-size: 11px; color: #4a5568; margin: 6px 0 0; line-height: 1.4;">Product breakdown with green annotation lines, navy bg, quantifiable data</p>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%}DON'T examples — infographics{%- endcomment -%}
+      <div style="margin-top: 12px; padding: 16px; background: rgba(220,38,38,0.03); border-radius: 12px; border: 1px solid rgba(220,38,38,0.12);">
+        <div class="bg-rule-label" style="color: #dc2626; margin-bottom: 12px;">✗ DON'T — Infographics</div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+          <div>
+            <div style="border-radius: 8px; aspect-ratio: 1/1; position: relative; background: #f3f4f6; display: flex; align-items: center; justify-content: center;">
+              <div style="text-align: center; padding: 16px;">
+                <div style="font-size: 24px;">⚗️🧬</div>
+                <p style="font-size: 11px; color: #991b1b; margin: 6px 0 0; font-weight: 600;">Molecular diagrams</p>
+              </div>
+              <div style="position: absolute; top: 6px; left: 6px; background: #dc2626; color: #fff; font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 3px;">✗</div>
+            </div>
+            <p style="font-size: 10px; color: #991b1b; margin: 4px 0 0;">Too clinical. We're not pharma.</p>
+          </div>
+          <div>
+            <div style="border-radius: 8px; aspect-ratio: 1/1; position: relative; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #e5e7eb;">
+              <div style="text-align: center; padding: 16px;">
+                <div style="font-size: 24px;">💊</div>
+                <p style="font-size: 11px; color: #991b1b; margin: 6px 0 0; font-weight: 600;">White/light bg</p>
+              </div>
+              <div style="position: absolute; top: 6px; left: 6px; background: #dc2626; color: #fff; font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 3px;">✗</div>
+            </div>
+            <p style="font-size: 10px; color: #991b1b; margin: 4px 0 0;">Infographics always on navy.</p>
+          </div>
+          <div>
+            <div style="border-radius: 8px; aspect-ratio: 1/1; position: relative; background: #f3f4f6; display: flex; align-items: center; justify-content: center;">
+              <div style="text-align: center; padding: 12px;">
+                <p style="font-size: 8px; color: #6b7280; margin: 0; line-height: 1.3;">Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam...</p>
+              </div>
+              <div style="position: absolute; top: 6px; left: 6px; background: #dc2626; color: #fff; font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 3px;">✗</div>
+            </div>
+            <p style="font-size: 10px; color: #991b1b; margin: 4px 0 0;">Wall of text. Data must be scannable.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>Infographic Rules</h3>
+      <div class="bg-rules-grid">
+        <div class="bg-rule bg-rule-do">
+          <div class="bg-rule-label">✓ DO</div>
+          <p>Navy background (#001D45) with white text</p>
+          <p>3D capsule as the central element</p>
+          <p>Simple icons with green details for ingredients</p>
+          <p>Clean annotations with thin lines</p>
+          <p>Quantifiable data: "10 servings", "3 capsules"</p>
+        </div>
+        <div class="bg-rule bg-rule-dont">
+          <div class="bg-rule-label">✗ DON'T</div>
+          <p>Light backgrounds for science infographics</p>
+          <p>Complex molecular diagrams (we're not a pharma company)</p>
+          <p>Long text — every data point must be scannable</p>
+          <p>More than 2 accent colors per infographic</p>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%}═══ IMAGE SPECIFICATIONS ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Technical Specifications</span>
+      <h2>Formats and Dimensions</h2>
+
+      <div style="margin-top: 16px; overflow-x: auto;">
+        <table style="width: 100%; font-family: 'Inter', sans-serif; font-size: 13px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid #e5e7eb;">
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Usage</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Dimensions</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Format</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Max size</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Product gallery</td>
+              <td style="padding: 10px 12px;">1024 × 1024px (1:1)</td>
+              <td style="padding: 10px 12px;">PNG or JPG</td>
+              <td style="padding: 10px 12px;">500KB</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Hero / Banner</td>
+              <td style="padding: 10px 12px;">1920 × 1080px (16:9)</td>
+              <td style="padding: 10px 12px;">JPG</td>
+              <td style="padding: 10px 12px;">400KB</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Lifestyle (lander)</td>
+              <td style="padding: 10px 12px;">1200 × 900px (4:3)</td>
+              <td style="padding: 10px 12px;">JPG</td>
+              <td style="padding: 10px 12px;">300KB</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Infographic</td>
+              <td style="padding: 10px 12px;">720 × 720px (1:1)</td>
+              <td style="padding: 10px 12px;">JPG</td>
+              <td style="padding: 10px 12px;">200KB</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Review avatar</td>
+              <td style="padding: 10px 12px;">200 × 200px (1:1)</td>
+              <td style="padding: 10px 12px;">JPG</td>
+              <td style="padding: 10px 12px;">50KB</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Icons / badges</td>
+              <td style="padding: 10px 12px;">Min. 96 × 96px</td>
+              <td style="padding: 10px 12px;">SVG preferred, PNG @2x</td>
+              <td style="padding: 10px 12px;">10KB</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Logo</td>
+              <td style="padding: 10px 12px;">Min. 400px wide</td>
+              <td style="padding: 10px 12px;">SVG preferred, PNG @2x</td>
+              <td style="padding: 10px 12px;">60KB</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Instagram feed</td>
+              <td style="padding: 10px 12px;">1080 × 1080px (1:1)</td>
+              <td style="padding: 10px 12px;">JPG</td>
+              <td style="padding: 10px 12px;">500KB</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Instagram story / reel</td>
+              <td style="padding: 10px 12px;">1080 × 1920px (9:16)</td>
+              <td style="padding: 10px 12px;">JPG / MP4</td>
+              <td style="padding: 10px 12px;">1MB / 15MB</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Optimization</h3>
+      <ul style="margin-top: 8px; padding-left: 20px;">
+        <li>All web images must be optimized (TinyPNG, Squoosh, or similar)</li>
+        <li>Images > 1MB should <strong>never</strong> be uploaded to the theme — Shopify serves them without additional compression</li>
+        <li>Use srcset to serve responsive sizes (400w, 800w, 1200w)</li>
+        <li>Hero images: include fetchpriority="high" and preload for LCP</li>
+        <li>Everything else: loading="lazy" + decoding="async"</li>
+      </ul>
+    </div>
+
+    {%- comment -%}═══ PRODUCT USAGE STEPS ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Product Usage</span>
+      <h2>The 4-Step Consumption Flow</h2>
+      <p>This is the core product narrative. Every touchpoint — website, social, ads, packaging, email — should reinforce these 4 steps in the same order, with the same icons and language.</p>
+
+      <h3>The Steps</h3>
+      <h3>Desktop Layout</h3>
+      <div style="margin-top: 12px; border-radius: 12px; overflow: hidden;">
+        <img src="{{ 'brand-steps-desktop.png' | asset_url }}" alt="4-step consumption flow — desktop" style="width: 100%; height: auto;" loading="lazy">
+      </div>
+
+      <h3>Mobile Layout</h3>
+      <div style="margin-top: 12px; max-width: 360px;">
+        <div style="border-radius: 12px; overflow: hidden;">
+          <img src="{{ 'brand-steps-mobile.png' | asset_url }}" alt="4-step consumption flow — mobile" style="width: 100%; height: auto;" loading="lazy">
+        </div>
+      </div>
+
+      <h3>The 4 Branded Icons</h3>
+      <div style="margin-top: 12px; overflow-x: auto;">
+        <table style="width: 100%; font-family: 'Inter', sans-serif; font-size: 13px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid #e5e7eb;">
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Step</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Icon</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Style</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;">1. Celebrate</td>
+              <td style="padding: 10px 12px;">Disco ball / Globe with sparkles</td>
+              <td style="padding: 10px 12px;">Monochrome blue, flat with subtle shading, light blue highlights on navy</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;">2. Take capsules</td>
+              <td style="padding: 10px 12px;">Capsules falling into water glass</td>
+              <td style="padding: 10px 12px;">Same monochrome blue style, white capsule detail, dynamic angle</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;">3. Sleep</td>
+              <td style="padding: 10px 12px;">Crescent moon on dark circle</td>
+              <td style="padding: 10px 12px;">Two-tone blue (dark navy + brand blue), simple and bold</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;">4. Wake up</td>
+              <td style="padding: 10px 12px;">Smiley face badge (bottle cap shape)</td>
+              <td style="padding: 10px 12px;">Light blue face on brand blue badge, friendly expression</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 11px; color: #9ca3af; margin-top: 8px;">These are the only approved icons for the usage steps. Do not substitute with emojis, generic icons, or 3D renderings.</p>
+
+      <h3>Step Copy Variations</h3>
+      <p>Approved copy for each step. Use these exact phrasings — don't invent new ones.</p>
+      <div style="margin-top: 12px; overflow-x: auto;">
+        <table style="width: 100%; font-family: 'Inter', sans-serif; font-size: 13px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid #e5e7eb;">
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Step</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Website (Spanish)</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Short (ads/social)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;">1. Celebrate</td>
+              <td style="padding: 10px 12px;">Bebe de forma responsable</td>
+              <td style="padding: 10px 12px;">Celebra</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;">2. Take</td>
+              <td style="padding: 10px 12px;">Toma las 3 cápsulas + 1 vaso con agua</td>
+              <td style="padding: 10px 12px;">Toma tus 3 cápsulas</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;">3. Sleep</td>
+              <td style="padding: 10px 12px;">Actúa mientras duermes</td>
+              <td style="padding: 10px 12px;">Duerme</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;">4. Wake up</td>
+              <td style="padding: 10px 12px;">Después de un buen descanso, despierta y ten un buen día asegurado</td>
+              <td style="padding: 10px 12px;">Despierta y conquista</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Where to Use This Flow</h3>
+      <div style="margin-top: 12px; overflow-x: auto;">
+        <table style="width: 100%; font-family: 'Inter', sans-serif; font-size: 13px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid #e5e7eb;">
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Channel</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Format</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Steps shown</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Homepage</td>
+              <td style="padding: 10px 12px;">How It Works section (timeline with images)</td>
+              <td style="padding: 10px 12px;">3 steps (Celebrate → Take → Wake up)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Cómo Funciona page</td>
+              <td style="padding: 10px 12px;">Full 4-step cards with branded icons on navy bg</td>
+              <td style="padding: 10px 12px;">All 4 steps</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Lander</td>
+              <td style="padding: 10px 12px;">Compact numbered list</td>
+              <td style="padding: 10px 12px;">3 steps (Celebrate → Take → Wake up)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Instagram carousel</td>
+              <td style="padding: 10px 12px;">4 slides, one step per slide, icon + short copy</td>
+              <td style="padding: 10px 12px;">All 4 steps</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Meta ads</td>
+              <td style="padding: 10px 12px;">Single image with all 4 icons in a row</td>
+              <td style="padding: 10px 12px;">All 4 steps</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Product packaging</td>
+              <td style="padding: 10px 12px;">Back of box, sachet insert</td>
+              <td style="padding: 10px 12px;">3 steps (short form)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 500;">Email (Klaviyo)</td>
+              <td style="padding: 10px 12px;">Welcome flow, post-purchase</td>
+              <td style="padding: 10px 12px;">All 4 steps</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Usage Step Rules</h3>
+      <div class="bg-rules-grid">
+        <div class="bg-rule bg-rule-do">
+          <div class="bg-rule-label">✓ DO</div>
+          <p>Always show steps in order: 1 → 2 → 3 → 4</p>
+          <p>Use the branded icons (cheers, capsule, moon, smiley) — not generic alternatives</p>
+          <p>Navy background (#001D45) for the step cards</p>
+          <p>Green step numbers, white text</p>
+          <p>Include the disclaimer: "designed to support responsible consumption, not to counteract excess"</p>
+          <p>When condensing to 3 steps, drop step 3 (Sleep) — it's implicit</p>
+        </div>
+        <div class="bg-rule bg-rule-dont">
+          <div class="bg-rule-label">✗ DON'T</div>
+          <p>Reorder the steps</p>
+          <p>Skip step 2 (Take capsules) — it's the product moment</p>
+          <p>Show steps on light backgrounds — always navy cards</p>
+          <p>Use different icons than the branded set</p>
+          <p>Imply the product makes it safe to drink excessively</p>
+          <p>Change the copy without approval</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px; padding: 16px; background: rgba(59,130,246,0.06); border-radius: 8px; border: 1px solid rgba(59,130,246,0.15);">
+        <p style="font-weight: 700; font-size: 13px; color: #1e40af; margin: 0;">⚠️ Branded Step Icons Needed as Separate SVGs</p>
+        <p style="font-size: 12px; color: #6b7280; margin: 6px 0 0;">The 4 step icons (cheers, capsule+water, moon, smiley) are currently uploaded to Shopify as individual images via the theme customizer. They need to be exported as SVGs for consistent use across all channels. Request from Faena or recreate in the brand style (monochrome blue, flat, rounded).</p>
+      </div>
+    </div>
+
+    {%- comment -%}═══ BRAND ILLUSTRATIONS ═══{%- endcomment -%}
+    <div class="bg-section">
+      <span class="bg-label">Illustrations</span>
+      <h2>Brand Illustration System</h2>
+      <p>Custom illustrations by Faena Studio. Monochrome blue palette only (navy + blue + light blue). Green appears exclusively on the product (sachet/capsule). These tell the brand story: Night → Product → Morning.</p>
+
+      <h3>The Full Set</h3>
+      <div style="margin-top: 12px; border-radius: 12px; overflow: hidden; background: #ECEEE8;">
+        <img src="{{ 'illustrations-full-set.png' | asset_url }}" alt="Buenacopa brand illustrations" style="width: 100%; height: auto;" loading="lazy">
+      </div>
+
+      <h3>Individual Icons & Their Meaning</h3>
+      <div style="margin-top: 12px; overflow-x: auto;">
+        <table style="width: 100%; font-family: 'Inter', sans-serif; font-size: 13px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid #e5e7eb;">
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Illustration</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Represents</th>
+              <th style="text-align: left; padding: 8px 12px; color: #6b7280; font-weight: 600;">Use For</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;">🍸 Martini Glass</td>
+              <td style="padding: 10px 12px;">The night out, celebration</td>
+              <td style="padding: 10px 12px;">Step 1 "Celebrate", social media night content</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;">🔊 Speaker</td>
+              <td style="padding: 10px 12px;">Music, energy, the party</td>
+              <td style="padding: 10px 12px;">Event content, party context, lifestyle posts</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;">📦 Box + Capsules</td>
+              <td style="padding: 10px 12px;">The product, the ritual</td>
+              <td style="padding: 10px 12px;">Step 2 "Take your capsules", product education</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;">🌙 Night Window</td>
+              <td style="padding: 10px 12px;">Going to sleep, trust</td>
+              <td style="padding: 10px 12px;">The transition moment, "works while you sleep"</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;">☕ Coffee Cup</td>
+              <td style="padding: 10px 12px;">The morning after, payoff</td>
+              <td style="padding: 10px 12px;">Step 3 "Wake up and conquer", morning content</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #f3f4f6;">
+              <td style="padding: 10px 12px; font-weight: 600;">💊 Capsule</td>
+              <td style="padding: 10px 12px;">Science, ingredients, formula</td>
+              <td style="padding: 10px 12px;">Infographics, ingredient education, how-it-works</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Illustration Rules</h3>
+      <div class="bg-rules-grid">
+        <div class="bg-rule bg-rule-do">
+          <div class="bg-rule-label">✓ DO</div>
+          <p>Use only the blue monochrome palette (navy, blue, light blue)</p>
+          <p>Green appears ONLY on the product sachet/capsule — nowhere else</p>
+          <p>Use as supporting elements, not primary content</p>
+          <p>Maintain the flat, geometric style — no gradients or 3D effects</p>
+          <p>Use on light gray (#ECEEE8) or white backgrounds</p>
+        </div>
+        <div class="bg-rule bg-rule-dont">
+          <div class="bg-rule-label">✗ DON'T</div>
+          <p>Recolor illustrations outside the blue palette</p>
+          <p>Mix these with other illustration styles or generic icons</p>
+          <p>Use as hero images — they're supporting graphics</p>
+          <p>Add shadows, outlines, or effects to the illustrations</p>
+          <p>Recreate or modify — always use the original Faena assets</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px; padding: 16px; background: rgba(59,130,246,0.06); border-radius: 8px; border: 1px solid rgba(59,130,246,0.15);">
+        <p style="font-weight: 700; font-size: 13px; color: #1e40af; margin: 0;">⚠️ Source Files Needed</p>
+        <p style="font-size: 12px; color: #6b7280; margin: 6px 0 0;">The individual illustration SVGs need to be requested from Faena Studio. The PDF only contains rasterized composites. Ask for: individual SVGs with transparent backgrounds, each illustration as a separate file.</p>
+      </div>
+    </div>
+
+    {%- comment -%}═══ QUICK REFERENCE ═══{%- endcomment -%}
+    <div class="bg-section" style="background: #001D45; color: #fff;">
+      <span class="bg-label" style="color: rgba(255,255,255,0.4);">Quick Reference</span>
+      <h2 style="color: #fff;">Theme CSS Variables</h2>
+      <pre style="font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; line-height: 1.8; color: rgba(255,255,255,0.7); overflow-x: auto; margin-top: 16px; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+--background:    #001D45  /* Navy — primary backgrounds */
+--primary:       #0056D0  /* Blue — brand, cards */
+--accent:        #00A33C  /* Green — CTAs only */
+--light-blue:    #B8D4F0  /* Decorative */
+--off-white:     #ECEEE8  /* Light sections */
+
+/* Fonts */
+font-display:    'Nunito', sans-serif  /* Headlines */
+font-body:       'Inter', sans-serif   /* Body */</pre>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand Guide",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Brand Guide"
+    }
+  ]
+}
+{% endschema %}

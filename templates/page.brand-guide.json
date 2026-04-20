@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "brand-guide": {
+      "type": "brand-guide",
+      "settings": {}
+    }
+  },
+  "order": ["brand-guide"]
+}

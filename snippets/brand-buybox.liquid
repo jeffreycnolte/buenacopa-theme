@@ -299,15 +299,12 @@
     <div id="{{ _id_onetime }}" class="mt-3" style="display:none;">
       <div style="display:flex; gap:10px; align-items:stretch;">
         {% render 'brand-quantity-stepper', quantity_id: _id_qty %}
-        <button
-          onclick="ProductForm.addToCart()"
-          class="flex-1 flex items-center justify-center gap-2.5 text-white font-bold text-base rounded-xl transition-colors disabled:opacity-50"
-          style="background-color: #00A33C; padding:12px 0;"
-          onmouseover="this.style.backgroundColor='#009639'"
-          onmouseout="this.style.backgroundColor='#00A33C'"
-        >
-          {{ _add_to_cart }}
-        </button>
+        {% render 'brand-button',
+          tag: 'button',
+          text: _add_to_cart,
+          onclick: 'ProductForm.addToCart()',
+          class_extra: 'flex-1 disabled:opacity-50'
+        %}
       </div>
     </div>
   </div>
