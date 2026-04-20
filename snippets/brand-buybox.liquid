@@ -1,0 +1,334 @@
+{%- comment -%}
+  Brand buy-box — pure view component for the canonical purchase module.
+
+  Architecture:
+    The section file ("controller") does ALL Shopify-data work — selling
+    plan lookups, subscription detection, price math in cents,
+    per-serving calcs, variant filtering, i18n string resolution. This
+    snippet ("view") receives only pre-shaped scalars and renders.
+
+    The one concession: this snippet iterates `variants` (a collection
+    passed in) for the one-time tile rendering. It reads variant.id,
+    .title, .price, .compare_at_price, .available — variant-shape
+    knowledge only, no business logic about selling plans or
+    subscriptions. The per-toma parsing of variant.title for a serving
+    count is display formatting, not business logic.
+
+  Usage:
+    {% render 'brand-buybox',
+       id_prefix: 'lander',
+       product_id: product.id,
+       has_subscription: has_subscription,
+       sub_variant_id: sub_variant.id,
+       sub_plan_id: sub_plan.id,
+       sub_price_raw: sub_price,
+       sub_servings: sub_servings,
+       sub_price_whole: sub_price_whole,
+       sub_price_cents: sub_price_cents,
+       sub_compare_whole: sub_compare_whole,
+       sub_per_whole: sub_per_whole,
+       variants: product.variants
+    %}
+
+  Params (all optional unless noted):
+    id_prefix         — DOM id namespace; e.g. 'lander' → ids like 'lander-product-form'.
+                        Empty/blank → ids like 'product-form' (default homepage style).
+    product_id        — Shopify product id (data attribute only).
+
+    Subscription card (omit `has_subscription` or pass false to hide entire card):
+      has_subscription   (bool) — gate; when false, card is not rendered.
+      sub_variant_id     (int)  — variant id (passed to ProductForm.selectSubscription).
+      sub_plan_id        (int)  — selling plan id.
+      sub_price_raw      (int)  — price in cents (data-price attr).
+      sub_servings       (int)  — for "Suscripción (N sobres)" label.
+      sub_price_whole    (int)  — whole-pesos portion of monthly price.
+      sub_price_cents    (int)  — cents portion (omit/0 to hide).
+      sub_compare_whole  (int)  — strikethrough compare-at; 0 hides.
+      sub_per_whole      (int)  — per-toma whole pesos.
+      sub_cta_text       (str)  — default 'Suscribirme ahora'.
+      sub_benefit_1..4   (str)  — defaults to canonical 4 benefits;
+                                  benefit_3 falls back to "${{ sub_per_whole }} por toma".
+
+    One-time variants:
+      variants           (collection) — required for one-time section.
+                                        Snippet filters out subscription-only variants by
+                                        title-substring match on 'suscripción'/'subscription'.
+      onetime_heading    (str)  — default 'Compra única'.
+
+    Trust badges (text — caller resolves i18n):
+      shipping_text   (str) — default 'Envíos a todo México'.
+      trust_ssl       (str) — default 'Pago seguro SSL'.
+      trust_shipping  (str) — default 'Envío gratis'.
+      trust_guarantee (str) — default 'Garantía 30 días'.
+
+    Add-to-cart:
+      add_to_cart_text (str) — default 'Agregar al carrito'.
+
+  DOM ids the snippet emits (using id_prefix):
+    {prefix-}product-form, {prefix-}subscription-card, {prefix-}variant-selector,
+    {prefix-}onetime-cta, {prefix-}product-quantity, {prefix-}trust-badges
+    (no leading dash if prefix is blank)
+
+  JS contract:
+    ProductForm.selectSubscription(variant_id, plan_id)
+    ProductForm.selectOneTime(variant_id, button_el)
+    ProductForm.addToCart()
+    ProductForm.decrementQty() / .incrementQty()  (via brand-quantity-stepper)
+
+  Source: Buenacopa brand guide.
+{%- endcomment -%}
+
+{%- comment -%}─── Resolve defaults ───{%- endcomment -%}
+{%- assign _shipping_text   = shipping_text   | default: 'Envíos a todo México' -%}
+{%- assign _onetime_heading = onetime_heading | default: 'Compra única' -%}
+{%- assign _sub_cta_text    = sub_cta_text    | default: 'Suscribirme ahora' -%}
+{%- assign _add_to_cart     = add_to_cart_text | default: 'Agregar al carrito' -%}
+{%- assign _trust_ssl       = trust_ssl       | default: 'Pago seguro SSL' -%}
+{%- assign _trust_shipping  = trust_shipping  | default: 'Envío gratis' -%}
+{%- assign _trust_guarantee = trust_guarantee | default: 'Garantía 30 días' -%}
+{%- assign _ben_1 = sub_benefit_1 | default: '40% off primeros 2 meses' -%}
+{%- assign _ben_2 = sub_benefit_2 | default: '15% off de por vida' -%}
+{%- capture _ben_3_default -%}${{ sub_per_whole }} por toma{%- endcapture -%}
+{%- assign _ben_3 = sub_benefit_3 | default: _ben_3_default -%}
+{%- assign _ben_4 = sub_benefit_4 | default: 'Cancela cuando quieras' -%}
+
+{%- comment -%}─── DOM id helpers ───{%- endcomment -%}
+{%- if id_prefix != blank -%}
+  {%- capture _id_form -%}{{ id_prefix }}-product-form{%- endcapture -%}
+  {%- capture _id_sub -%}{{ id_prefix }}-subscription-card{%- endcapture -%}
+  {%- capture _id_variant_sel -%}{{ id_prefix }}-variant-selector{%- endcapture -%}
+  {%- capture _id_onetime -%}{{ id_prefix }}-onetime-cta{%- endcapture -%}
+  {%- capture _id_qty -%}{{ id_prefix }}-product-quantity{%- endcapture -%}
+  {%- capture _id_trust -%}{{ id_prefix }}-trust-badges{%- endcapture -%}
+{%- else -%}
+  {%- assign _id_form = 'product-form' -%}
+  {%- assign _id_sub = 'subscription-card' -%}
+  {%- assign _id_variant_sel = 'variant-selector' -%}
+  {%- assign _id_onetime = 'onetime-cta-row' -%}
+  {%- assign _id_qty = 'product-quantity' -%}
+  {%- assign _id_trust = 'trust-badges' -%}
+{%- endif -%}
+
+<div class="space-y-3 mx-auto" style="max-width: 520px;" id="{{ _id_form }}" data-product-id="{{ product_id }}">
+
+  {%- comment -%}─── Shipping badge ───{%- endcomment -%}
+  <div class="flex items-center gap-2 text-background/50">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+    <span style="font-size:12px" class="font-medium">{{ _shipping_text }}</span>
+  </div>
+
+  {%- comment -%}─── Subscription card ───{%- endcomment -%}
+  {%- if has_subscription and sub_variant_id != blank -%}
+    <div
+      id="{{ _id_sub }}"
+      class="relative rounded-xl border-2 border-accent cursor-pointer transition-all"
+      style="background: linear-gradient(180deg, rgba(0,171,67,0.06) 0%, rgba(0,171,67,0.02) 100%); padding: 24px 16px 14px;"
+      onclick="ProductForm.selectSubscription({{ sub_variant_id }}, {{ sub_plan_id }})"
+      data-variant-id="{{ sub_variant_id }}"
+      data-selling-plan-id="{{ sub_plan_id }}"
+      data-price="{{ sub_price_raw }}"
+    >
+      {% render 'brand-badge', variant: 'best-value', text: 'MEJOR VALOR', class_extra: 'absolute left-3', style_extra: 'top:-11px;' %}
+
+      <div class="flex items-baseline justify-between">
+        <p class="font-bold text-background" style="font-size:14px">Suscripción ({{ sub_servings }} sobres)</p>
+        <div style="text-align:right; white-space:nowrap;">
+          {%- if sub_compare_whole != blank and sub_compare_whole > sub_price_whole -%}
+            <span style="font-size:13px; color:rgba(7,29,64,0.4); text-decoration:line-through; font-weight:600; margin-right:4px;">${{ sub_compare_whole }}</span>
+          {%- endif -%}
+          <span class="font-display font-black text-background" style="font-size:22px">${{ sub_price_whole }}</span>{%- if sub_price_cents != blank and sub_price_cents > 0 -%}<span class="font-display font-black text-background" style="font-size:14px">.{{ sub_price_cents }}</span>{%- endif -%}<span style="font-size:11px; color:rgba(7,29,64,0.4); font-weight:600; margin-left:2px">/mes</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2" style="margin-top:8px; gap:3px 12px">
+        <div style="display:flex; align-items:center; gap:6px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+          <span style="font-size:11px; color:rgba(7,29,64,0.65)"><strong>{{ _ben_1 }}</strong></span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+          <span style="font-size:11px; color:rgba(7,29,64,0.65)"><strong>{{ _ben_2 }}</strong></span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+          <span style="font-size:11px; color:rgba(7,29,64,0.65)">{{ _ben_3 }}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+          <span style="font-size:11px; color:rgba(7,29,64,0.65)">{{ _ben_4 }}</span>
+        </div>
+      </div>
+
+      <button
+        onclick="event.stopPropagation(); ProductForm.selectSubscription({{ sub_variant_id }}, {{ sub_plan_id }}); ProductForm.addToCart();"
+        class="w-full btn-cta flex items-center justify-center gap-2"
+        style="margin-top:14px; font-size:14px; padding:10px 0"
+      >
+        {{ _sub_cta_text }}
+        <span class="inline-flex">{% render 'icon-arrow-right', size: 16 %}</span>
+      </button>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%}─── One-time variants ───{%- endcomment -%}
+  <div>
+    <div class="flex items-center gap-3" style="margin-top:4px">
+      <p class="font-bold text-background shrink-0" style="font-size:14px">{{ _onetime_heading }}</p>
+      <div class="flex-1 h-px bg-background/10"></div>
+    </div>
+
+    <div id="{{ _id_variant_sel }}">
+      {%- comment -%}First row: 2-column grid (first 2 non-subscription variants){%- endcomment -%}
+      <div class="grid grid-cols-2 gap-2" style="margin-top:8px">
+        {%- assign rendered = 0 -%}
+        {%- for variant in variants -%}
+          {%- liquid
+            assign variant_title_lower = variant.title | downcase
+            assign is_sub_only = false
+            if variant_title_lower contains 'suscripción' or variant_title_lower contains 'suscripcion' or variant_title_lower contains 'subscription'
+              assign is_sub_only = true
+            endif
+            assign servings = 0
+            assign title_words = variant.title | split: ' '
+            for word in title_words
+              assign word_as_number = word | plus: 0
+              if word_as_number > 0
+                assign servings = word_as_number
+                break
+              endif
+            endfor
+            if servings == 0
+              assign servings = 1
+            endif
+            if variant.price > 0 and servings > 0
+              assign per_serving = variant.price | divided_by: servings
+            else
+              assign per_serving = 0
+            endif
+          -%}
+          {%- unless is_sub_only -%}
+            {%- assign rendered = rendered | plus: 1 -%}
+            {%- if rendered <= 2 -%}
+              <button
+                type="button"
+                onclick="ProductForm.selectOneTime({{ variant.id }}, this)"
+                data-variant-id="{{ variant.id }}"
+                data-variant-price="{{ variant.price }}"
+                data-variant-available="{{ variant.available }}"
+                class="variant-btn flex items-center justify-between rounded-xl border-2 transition-all duration-200 border-background/15 bg-background/5 hover:border-background/25 {% unless variant.available %}opacity-50 cursor-not-allowed{% endunless %}"
+                style="padding:10px 12px"
+                {% unless variant.available %}disabled{% endunless %}
+              >
+                <span class="font-bold text-background" style="font-size:13px">{{ variant.title }}</span>
+                <div style="text-align:right">
+                  {%- assign v_whole = variant.price | divided_by: 100 -%}
+                  {%- capture v_formatted -%}{%- if v_whole >= 1000 -%}{{ v_whole | divided_by: 1000 }},{{ v_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ v_whole }}{%- endif -%}{%- endcapture -%}
+                  {% if variant.compare_at_price > variant.price %}
+                    {%- assign cap_whole = variant.compare_at_price | divided_by: 100 -%}
+                    <span class="text-background/30" style="font-size:11px; text-decoration:line-through">${{ cap_whole }}</span>
+                  {% endif %}
+                  <span class="font-display font-black text-background" style="font-size:15px">${{ v_formatted }}</span>
+                  {% if per_serving > 0 %}
+                    {%- assign ps_whole = per_serving | divided_by: 100 -%}
+                    <div class="text-background/40" style="font-size:9px; text-align:right">${{ ps_whole }}/toma</div>
+                  {% endif %}
+                </div>
+              </button>
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%}Subsequent rows: full-width tiles (3rd+ non-subscription variants){%- endcomment -%}
+      {%- assign rendered = 0 -%}
+      {%- for variant in variants -%}
+        {%- liquid
+          assign variant_title_lower = variant.title | downcase
+          assign is_sub_only = false
+          if variant_title_lower contains 'suscripción' or variant_title_lower contains 'suscripcion' or variant_title_lower contains 'subscription'
+            assign is_sub_only = true
+          endif
+          assign servings = 0
+          assign title_words = variant.title | split: ' '
+          for word in title_words
+            assign word_as_number = word | plus: 0
+            if word_as_number > 0
+              assign servings = word_as_number
+              break
+            endif
+          endfor
+          if servings == 0
+            assign servings = 1
+          endif
+          if variant.price > 0 and servings > 0
+            assign per_serving = variant.price | divided_by: servings
+          else
+            assign per_serving = 0
+          endif
+        -%}
+        {%- unless is_sub_only -%}
+          {%- assign rendered = rendered | plus: 1 -%}
+          {%- if rendered > 2 -%}
+            <button
+              type="button"
+              onclick="ProductForm.selectOneTime({{ variant.id }}, this)"
+              data-variant-id="{{ variant.id }}"
+              data-variant-price="{{ variant.price }}"
+              data-variant-available="{{ variant.available }}"
+              class="variant-btn w-full flex items-center justify-between rounded-xl border-2 transition-all duration-200 text-left border-background/15 bg-background/5 hover:border-background/25 {% unless variant.available %}opacity-50 cursor-not-allowed{% endunless %}"
+              style="padding:10px 12px; margin-top:8px; min-height:48px"
+              {% unless variant.available %}disabled{% endunless %}
+            >
+              <span class="font-bold text-background" style="font-size:13px">{{ variant.title }}</span>
+              <div style="text-align:right">
+                {%- assign v_whole = variant.price | divided_by: 100 -%}
+                {%- capture v_formatted -%}{%- if v_whole >= 1000 -%}{{ v_whole | divided_by: 1000 }},{{ v_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ v_whole }}{%- endif -%}{%- endcapture -%}
+                <span class="font-display font-black text-background" style="font-size:15px">${{ v_formatted }}</span>
+                {% if per_serving > 0 %}
+                  {%- assign ps_whole = per_serving | divided_by: 100 -%}
+                  <div class="text-background/40" style="font-size:9px; text-align:right">${{ ps_whole }}/toma</div>
+                {% endif %}
+              </div>
+            </button>
+          {%- endif -%}
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%}Quantity stepper + Add-to-cart row (hidden until variant selected by JS){%- endcomment -%}
+    <div id="{{ _id_onetime }}" class="mt-3" style="display:none;">
+      <div style="display:flex; gap:10px; align-items:stretch;">
+        {% render 'brand-quantity-stepper', quantity_id: _id_qty %}
+        <button
+          onclick="ProductForm.addToCart()"
+          class="flex-1 flex items-center justify-center gap-2.5 text-white font-bold text-base rounded-xl transition-colors disabled:opacity-50"
+          style="background-color: #00A33C; padding:12px 0;"
+          onmouseover="this.style.backgroundColor='#009639'"
+          onmouseout="this.style.backgroundColor='#00A33C'"
+        >
+          {{ _add_to_cart }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%}─── Trust badges (icon row) ───{%- endcomment -%}
+  <div class="flex items-center justify-center text-background/50" id="{{ _id_trust }}" style="gap:12px; padding:8px 0; font-size:10px">
+    <style>@media(min-width:1024px) { #{{ _id_trust }} { font-size: 12px !important; } #{{ _id_trust }} svg { width: 14px; height: 14px; } }</style>
+    <div class="flex items-center whitespace-nowrap" style="gap:5px; font-weight:500">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="shrink-0"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      {{ _trust_ssl }}
+    </div>
+    <span class="text-background/20">|</span>
+    <div class="flex items-center whitespace-nowrap" style="gap:5px; font-weight:500">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="shrink-0"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+      {{ _trust_shipping }}
+    </div>
+    <span class="text-background/20">|</span>
+    <div class="flex items-center whitespace-nowrap" style="gap:5px; font-weight:500">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      {{ _trust_guarantee }}
+    </div>
+  </div>
+
+</div>
