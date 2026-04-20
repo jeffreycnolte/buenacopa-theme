@@ -1,3 +1,29 @@
+{%- comment -%}
+  FAQPage JSON-LD for rich results in Google SERPs.
+  Emitted before the section markup so the structured data is in the DOM early.
+{%- endcomment -%}
+{%- assign faq_blocks = section.blocks | where: 'type', 'faq_item' -%}
+{%- if faq_blocks.size > 0 -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {%- for block in faq_blocks -%}
+        {
+          "@type": "Question",
+          "name": {{ block.settings.question | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ block.settings.answer | strip_html | json }}
+          }
+        }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ]
+  }
+  </script>
+{%- endif -%}
+
 <section id="faq" class="section-padding bg-secondary overflow-hidden">
   <div class="container-custom">
     <div class="text-center mb-12 md:mb-16">
