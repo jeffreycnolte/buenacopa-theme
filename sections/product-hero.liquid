@@ -583,11 +583,7 @@
           <!-- Quantity + One-time CTA -->
           <div id="onetime-cta-row" class="mt-3" style="display:none;">
             <div style="display:flex; gap:10px; align-items:stretch;">
-              <div style="display:flex; align-items:center; border:1px solid rgba(7,29,64,0.15); border-radius:12px; overflow:hidden; flex-shrink:0;">
-                <button onclick="ProductForm.decrementQty()" aria-label="Menos" style="padding:10px 14px; background:none; border:none; cursor:pointer; font-size:18px; color:#001D45; font-weight:700; line-height:1;">−</button>
-                <span id="product-quantity" style="font-family:'Nunito',sans-serif; font-weight:800; font-size:15px; color:#001D45; min-width:24px; text-align:center;">1</span>
-                <button onclick="ProductForm.incrementQty()" aria-label="Más" style="padding:10px 14px; background:none; border:none; cursor:pointer; font-size:18px; color:#001D45; font-weight:700; line-height:1;">+</button>
-              </div>
+              {% render 'brand/quantity-stepper', quantity_id: 'product-quantity' %}
               <button
                 id="add-to-cart-btn"
                 onclick="ProductForm.addToCart()"
