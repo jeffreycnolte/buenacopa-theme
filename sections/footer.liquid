@@ -12,7 +12,7 @@
           {% endif %}
         </a>
         <p class="text-muted-foreground text-sm leading-relaxed">
-          {{ section.settings.tagline | default: 'Bienestar post-fiesta. Celebra hoy, conquista mañana.' }}
+          {% render 'brand/tagline', override: section.settings.tagline %}
         </p>
 
         <div class="flex gap-3 mt-4">
@@ -104,7 +104,7 @@
       "type": "text",
       "id": "tagline",
       "label": "Tagline",
-      "default": "Bienestar post-fiesta. Celebra hoy, conquista mañana."
+      "default": "Buenacopa, bienestar post-fiesta."
     },
     {
       "type": "checkbox",

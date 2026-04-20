@@ -1,0 +1,24 @@
+{%- comment -%}
+  Brand campaign hook — approved marketing hooks.
+
+  Usage:
+    {% render 'brand/campaign-hook' %}
+    {% render 'brand/campaign-hook', variant: 'fiesta-vs-cruda' %}
+    {% render 'brand/campaign-hook', override: section.settings.heading %}
+
+  Params:
+    variant  (string, optional) — 'fiesta-sigue' | 'fiesta-vs-cruda' | 'despierta-sin-cruda'. Defaults to 'fiesta-sigue'.
+    override (string, optional) — customizer value; wins over canonical when non-blank.
+
+  Source of truth: Buenacopa — Approved Copy & Communication Guidelines (HEADERS / HOOKS).
+  Do not hardcode hook strings elsewhere. Use this snippet.
+{%- endcomment -%}
+{%- assign _variant = variant | default: 'fiesta-sigue' -%}
+{%- if override != blank -%}{{ override }}{%- else -%}
+{%- case _variant -%}
+{%- when 'fiesta-sigue' -%}La fiesta sigue. La cruda no.
+{%- when 'fiesta-vs-cruda' -%}Fiesta 100 — Cruda 0
+{%- when 'despierta-sin-cruda' -%}Despierta sin cruda
+{%- else -%}La fiesta sigue. La cruda no.
+{%- endcase -%}
+{%- endif -%}

@@ -28,7 +28,7 @@
         "type": "text",
         "id": "brand_tagline",
         "label": "Eslogan de marca",
-        "default": "Bienestar post-fiesta. Celebra hoy, conquista mañana."
+        "default": "Buenacopa, bienestar post-fiesta."
       }
     ]
   },

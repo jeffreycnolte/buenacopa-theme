@@ -10,9 +10,24 @@
   {%- if content_for_header contains 'tapita-seo-script-tags' -%}{%- render 'tapita-seo-schema' -%}{%- endif -%}
 
   <title>{{ page_title }}{% unless page_title contains shop.name %} – {{ shop.name }}{% endunless %}</title>
-  {% if page_description %}
-    <meta name="description" content="{{ page_description | escape }}">
-  {% endif %}
+  {%- comment -%}
+    Meta description: prefer per-page value (Shopify admin → Search engine listing),
+    fall back to shop.description so pages without a custom SEO description still
+    get something crawlable. Fixes P4 thin-content flag in GSC.
+  {%- endcomment -%}
+  {%- assign meta_description = page_description | default: shop.description -%}
+  {%- if meta_description != blank -%}
+    <meta name="description" content="{{ meta_description | escape }}">
+  {%- endif -%}
+
+  {%- comment -%}
+    /collections list page renders empty on a one-product store — Google flags it
+    as a soft 404. Noindex so crawl budget goes to real pages. Canonical override
+    to the homepage is handled in snippets/meta-tags.liquid.
+  {%- endcomment -%}
+  {%- if request.page_type == 'list_collections' -%}
+    <meta name="robots" content="noindex, follow">
+  {%- endif -%}
 
   {%- comment -%}Favicon{%- endcomment -%}
   {%- if settings.favicon -%}

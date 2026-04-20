@@ -1,0 +1,24 @@
+{%- comment -%}
+  Brand tagline — approved canonical copy.
+
+  Usage:
+    {% render 'brand/tagline' %}
+    {% render 'brand/tagline', variant: 'secondary' %}
+    {% render 'brand/tagline', override: section.settings.tagline %}
+
+  Params:
+    variant  (string, optional) — 'primary' | 'secondary' | 'long'. Defaults to 'primary'.
+    override (string, optional) — customizer value; wins over canonical when non-blank.
+
+  Source of truth: Buenacopa — Approved Copy & Communication Guidelines.
+  Do not hardcode tagline strings elsewhere. Use this snippet.
+{%- endcomment -%}
+{%- assign _variant = variant | default: 'primary' -%}
+{%- if override != blank -%}{{ override }}{%- else -%}
+{%- case _variant -%}
+{%- when 'primary' -%}Buenacopa, bienestar post-fiesta.
+{%- when 'secondary' -%}Buenacopa. Buenos días.
+{%- when 'long' -%}Porque una Buenacopa merece terminar con un buen día.
+{%- else -%}Buenacopa, bienestar post-fiesta.
+{%- endcase -%}
+{%- endif -%}

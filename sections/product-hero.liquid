@@ -95,7 +95,7 @@
         <span class="text-accent-contrast">{{ section.settings.heading_line_2 | default: 'La cruda no.' }}</span>
       </h1>
       <p class="text-background/60 font-semibold" style="font-size: clamp(0.75rem, 1.5vw, 0.95rem); max-width: 24rem; margin-top: 4px; line-height: 1.45;">
-        {{ section.settings.subheading | default: 'Bienestar post-fiesta. Celebra hoy. Conquista mañana.' }}
+        {%- if section.settings.subheading != blank -%}{{ section.settings.subheading }}{%- else -%}{% render 'brand/tagline' %}{%- endif -%}
       </p>
 
       <div class="flex items-center gap-2 justify-start" style="margin-top: 6px;">
@@ -788,7 +788,7 @@
       "type": "html",
       "id": "subheading",
       "label": "Subheading",
-      "default": "Bienestar post-fiesta. Celebra hoy. Conquista mañana."
+      "default": "Buenacopa, bienestar post-fiesta."
     },
     {
       "type": "text",

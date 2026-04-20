@@ -1,0 +1,33 @@
+{%- comment -%}
+  Brand COFEPRIS-aligned claim — approved regulatory copy.
+
+  Usage:
+    {% render 'brand/claim', id: 'prevents-symptoms' %}
+
+  Params:
+    id (required) — one of:
+      'prevents-symptoms'       → Ayuda a prevenir los síntomas de la cruda
+      'attacks-root'            → Ayuda a tu cuerpo a atacar la cruda desde la raíz
+      'acts-while-sleeping'     → Actúa mientras duermes
+      'processes-alcohol'       → Apoya a tu cuerpo a procesar el alcohol
+      'post-party-wellness'     → Bienestar post-fiesta
+      'preventive-approach'     → Enfoque preventivo
+
+  Source of truth: Buenacopa — Approved Copy & Communication Guidelines
+  (CLAIMS WE CAN MAKE — COFEPRIS-ALIGNED).
+
+  ⚠️ REGULATORY: Only these claims are COFEPRIS-aligned. Unknown ids
+  render an HTML comment as a safe no-op — never invent new claim text
+  outside this snippet. Forbidden variants (cura la cruda, elimina la
+  cruda, garantiza, permite beber más, evita los efectos del alcohol,
+  sustituye el descanso) are not supported here by design.
+{%- endcomment -%}
+{%- case id -%}
+{%- when 'prevents-symptoms' -%}Ayuda a prevenir los síntomas de la cruda
+{%- when 'attacks-root' -%}Ayuda a tu cuerpo a atacar la cruda desde la raíz
+{%- when 'acts-while-sleeping' -%}Actúa mientras duermes
+{%- when 'processes-alcohol' -%}Apoya a tu cuerpo a procesar el alcohol
+{%- when 'post-party-wellness' -%}Bienestar post-fiesta
+{%- when 'preventive-approach' -%}Enfoque preventivo
+{%- else -%}<!-- brand/claim: unknown id '{{ id }}' — add to snippets/brand/claim.liquid if this is a newly approved claim -->
+{%- endcase -%}
