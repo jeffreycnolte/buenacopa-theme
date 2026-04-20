@@ -121,10 +121,21 @@ The brief mentioned Merchant Center but didn't list specific tasks. Spot-check t
 
 - [ ] Merchant Center → **Products → Diagnostics**. Any disapprovals? Note top 3 error types.
 - [ ] Product titles include brand + descriptor (e.g., "Buenacopa — Bienestar post-fiesta, 10 sobres").
-- [ ] GTIN or MPN set on the product (Shopify admin → Product → Variants → Barcode field).
+- [ ] **GTIN on the product** (Shopify admin → Product → Variants → Barcode field — paste the 12/13/14-digit GTIN there).
+- [ ] **MPN on the product** (if no GTIN exists — Shopify admin → Product → Variants → SKU field is NOT the MPN; see metafield setup below).
 - [ ] Product images ≥ 800×800, white/neutral background, no text overlays.
 - [ ] Shipping configured in Merchant Center settings.
 - [ ] Tax configured (Mexico).
+
+### Custom metafields for Product JSON-LD
+
+The theme's Product JSON-LD reads `product.metafields.custom.gtin` and `product.metafields.custom.mpn`. If we want these emitted in structured data (vs just surfaced to Merchant Center via the barcode field), create the metafield definitions once:
+
+- [ ] Shopify admin → **Settings → Custom data → Products → Add definition**
+  - Namespace and key: `custom.gtin` — Type: single-line text — Validations: numbers only, 8–14 chars
+  - Namespace and key: `custom.mpn` — Type: single-line text
+- [ ] Open the product → scroll to **Metafields** → fill `gtin` (use the same value as the Barcode field) and/or `mpn`. Save.
+- [ ] Verify: load `https://buenacopa.mx/products/buenacopa-bienestar-post-fiesta`, view-source, search for `"gtin"` — should show your value in the JSON-LD block.
 
 ---
 

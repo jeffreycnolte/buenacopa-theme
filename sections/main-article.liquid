@@ -1,3 +1,41 @@
+{%- comment -%}
+  BlogPosting JSON-LD for article rich results. Helps the ~20 articles under
+  /blogs/news get properly categorized and surfaces headline/author/date in SERPs.
+  Publisher.logo uses the theme logo; falls back to the default offwhite asset.
+{%- endcomment -%}
+{%- if article -%}
+  {%- assign publisher_logo = settings.logo | default: 'logo-offwhite.png' -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": {{ article.title | json }},
+    "description": {{ article.excerpt_or_content | strip_html | truncate: 300 | json }},
+    {%- if article.image -%}
+    "image": "https:{{ article.image | image_url: width: 1200 }}",
+    {%- endif -%}
+    "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+    "dateModified": {{ article.updated_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+    "author": {
+      "@type": "Person",
+      "name": {{ article.author | default: shop.name | json }}
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": {{ shop.name | json }},
+      "logo": {
+        "@type": "ImageObject",
+        "url": {{ publisher_logo | asset_url | prepend: 'https:' | json }}
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": {{ canonical_url | json }}
+    }
+  }
+  </script>
+{%- endif -%}
+
 <article class="section-padding bg-background overflow-hidden">
   <div class="container-custom">
     <div class="max-w-3xl mx-auto">

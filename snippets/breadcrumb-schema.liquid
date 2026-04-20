@@ -1,0 +1,78 @@
+{%- comment -%}
+  BreadcrumbList JSON-LD — emits structured breadcrumbs for rich results.
+
+  Detects page type from `request.page_type` and builds the trail:
+    - product  → Home > [Collection if routed via /collections/handle/products/slug] > Product
+    - article  → Home > Blog > Article
+    - blog     → Home > Blog
+    - collection → Home > Collection
+    - page     → Home > Page
+
+  Does not render visible breadcrumbs — only the schema. Add a visual
+  breadcrumb separately if/when needed.
+{%- endcomment -%}
+{%- assign home_name = shop.name -%}
+{%- assign home_url = shop.url -%}
+
+{%- if request.page_type == 'product' and product -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": {{ home_name | json }}, "item": {{ home_url | json }} }
+      {%- if collection and collection.title -%}
+        ,{ "@type": "ListItem", "position": 2, "name": {{ collection.title | json }}, "item": "{{ shop.url }}{{ collection.url }}" }
+        ,{ "@type": "ListItem", "position": 3, "name": {{ product.title | json }}, "item": "{{ shop.url }}{{ product.url }}" }
+      {%- else -%}
+        ,{ "@type": "ListItem", "position": 2, "name": {{ product.title | json }}, "item": "{{ shop.url }}{{ product.url }}" }
+      {%- endif -%}
+    ]
+  }
+  </script>
+{%- elsif request.page_type == 'article' and article and blog -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": {{ home_name | json }}, "item": {{ home_url | json }} },
+      { "@type": "ListItem", "position": 2, "name": {{ blog.title | json }}, "item": "{{ shop.url }}{{ blog.url }}" },
+      { "@type": "ListItem", "position": 3, "name": {{ article.title | json }}, "item": "{{ shop.url }}{{ article.url }}" }
+    ]
+  }
+  </script>
+{%- elsif request.page_type == 'blog' and blog -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": {{ home_name | json }}, "item": {{ home_url | json }} },
+      { "@type": "ListItem", "position": 2, "name": {{ blog.title | json }}, "item": "{{ shop.url }}{{ blog.url }}" }
+    ]
+  }
+  </script>
+{%- elsif request.page_type == 'collection' and collection -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": {{ home_name | json }}, "item": {{ home_url | json }} },
+      { "@type": "ListItem", "position": 2, "name": {{ collection.title | json }}, "item": "{{ shop.url }}{{ collection.url }}" }
+    ]
+  }
+  </script>
+{%- elsif request.page_type == 'page' and page -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": {{ home_name | json }}, "item": {{ home_url | json }} },
+      { "@type": "ListItem", "position": 2, "name": {{ page.title | json }}, "item": "{{ shop.url }}{{ page.url }}" }
+    ]
+  }
+  </script>
+{%- endif -%}

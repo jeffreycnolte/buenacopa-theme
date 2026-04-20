@@ -725,7 +725,17 @@
   </button>
 </div>
 
-<!-- Product JSON-LD -->
+{%- comment -%}
+  Product JSON-LD — powers Google rich results and Merchant Center feed inference.
+
+  Hardening vs the original (for Merchant Center disapproval-free listings):
+  - Price emitted as pure numeric (decimal-only), no thousand-separator comma.
+  - `sku` included per Offer — required by Google for product results.
+  - `itemCondition` set to NewCondition — required field for Merchant.
+  - Brand falls back to product.vendor when set, then shop.name.
+  - GTIN and MPN pulled from custom metafields when present (see admin runbook
+    step P5.17 for how to set these in Shopify admin).
+{%- endcomment -%}
 {% if product %}
 <script type="application/ld+json">
 {
@@ -734,17 +744,26 @@
   "name": {{ product.title | json }},
   "image": "https:{{ product.featured_image | image_url: width: 1200 }}",
   "description": {{ product.description | strip_html | truncate: 5000 | json }},
+  {%- assign brand_name = product.vendor | default: shop.name -%}
   "brand": {
     "@type": "Brand",
-    "name": {{ shop.name | json }}
+    "name": {{ brand_name | json }}
   },
+  {%- if product.metafields.custom.gtin -%}
+  "gtin": {{ product.metafields.custom.gtin | json }},
+  {%- endif -%}
+  {%- if product.metafields.custom.mpn -%}
+  "mpn": {{ product.metafields.custom.mpn | json }},
+  {%- endif -%}
   "offers": [
     {% for variant in product.variants %}
     {
       "@type": "Offer",
       "name": {{ variant.title | json }},
-      "price": "{{ variant.price | money_without_currency | strip }}",
+      "sku": {{ variant.sku | json }},
+      "price": "{{ variant.price | money_without_currency | replace: ',', '' | strip }}",
       "priceCurrency": "{{ cart.currency.iso_code }}",
+      "itemCondition": "https://schema.org/NewCondition",
       "availability": "{% if variant.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
       "url": "{{ shop.url }}{{ product.url }}?variant={{ variant.id }}"
     }{% unless forloop.last %},{% endunless %}

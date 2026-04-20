@@ -104,6 +104,9 @@
     {%- endif -%}
   }
   </script>
+
+  {%- comment -%}BreadcrumbList JSON-LD — per-page type, emits for product/article/blog/collection/page{%- endcomment -%}
+  {% render 'breadcrumb-schema' %}
 </head>
 <body class="min-h-screen bg-background text-foreground font-sans antialiased">
   <a class="skip-to-content" href="#main-content">{{ 'general.skip_to_content' | t }}</a>
