@@ -44,7 +44,7 @@
 </section>
 
 <!-- ═══════ 2. HISTORIA / MISIÓN / VISIÓN ═══════ -->
-<section class="bg-white overflow-hidden">
+<section class="bg-white">
   <div class="container-custom py-16 md:py-24 lg:py-28">
     <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
 
@@ -55,7 +55,7 @@
             srcset="{{ section.settings.story_image | image_url: width: 500 }} 500w, {{ section.settings.story_image | image_url: width: 1000 }} 1000w"
             sizes="(max-width: 1024px) 100vw, 50vw"
             alt="{{ section.settings.history_heading }}"
-            class="w-full rounded-2xl object-cover sticky top-8"
+            class="w-full rounded-2xl object-cover lg:sticky lg:top-8"
             style="aspect-ratio: 4/5;"
             loading="lazy" width="1000" height="1250" decoding="async"
           >
@@ -63,7 +63,7 @@
           <img
             src="{{ 'lander-solution-lifestyle.jpg' | asset_url }}"
             alt="{{ section.settings.history_heading }}"
-            class="w-full rounded-2xl object-cover sticky top-8"
+            class="w-full rounded-2xl object-cover lg:sticky lg:top-8"
             style="aspect-ratio: 4/5;"
             loading="lazy" width="1000" height="1250" decoding="async"
           >
@@ -106,7 +106,7 @@
   <div class="container-custom py-16 md:py-24 lg:py-28">
     <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16 text-foreground">
       {%- if section.settings.values_subheading != blank -%}
-        <p class="text-foreground/70 font-sans font-bold text-xs tracking-[0.2em] uppercase mb-4">
+        <p class="text-foreground/70 font-sans font-bold text-xs uppercase mb-4" style="letter-spacing: 0.2em;">
           {{ section.settings.values_subheading }}
         </p>
       {%- endif -%}
@@ -180,33 +180,42 @@
       </div>
 
       <!-- Image collage -->
-      <div class="relative" style="height: 520px;">
-        {%- assign c1 = section.settings.commitment_image_1 -%}
-        {%- assign c2 = section.settings.commitment_image_2 -%}
-        {%- assign c3 = section.settings.commitment_image_3 -%}
+      {%- assign c1 = section.settings.commitment_image_1 -%}
+      {%- assign c2 = section.settings.commitment_image_2 -%}
+      {%- assign c3 = section.settings.commitment_image_3 -%}
+      {%- if c1 -%}
+        {%- assign c1_src = c1 | image_url: width: 480 -%}
+      {%- else -%}
+        {%- assign c1_src = 'review-1.png' | asset_url -%}
+      {%- endif -%}
+      {%- if c2 -%}
+        {%- assign c2_src = c2 | image_url: width: 480 -%}
+      {%- else -%}
+        {%- assign c2_src = 'review-2.png' | asset_url -%}
+      {%- endif -%}
+      {%- if c3 -%}
+        {%- assign c3_src = c3 | image_url: width: 400 -%}
+      {%- else -%}
+        {%- assign c3_src = 'review-3.png' | asset_url -%}
+      {%- endif -%}
 
+      <!-- Mobile: simple 2-col grid -->
+      <div class="grid grid-cols-2 gap-4 lg:hidden">
+        <img src="{{ c1_src }}" alt="" class="w-full rounded-2xl object-cover shadow-lg" style="aspect-ratio: 4/3;" loading="lazy" width="480" height="360" decoding="async">
+        <img src="{{ c2_src }}" alt="" class="w-full rounded-2xl object-cover shadow-lg" style="aspect-ratio: 4/3;" loading="lazy" width="480" height="360" decoding="async">
+        <img src="{{ c3_src }}" alt="" class="col-span-2 w-full rounded-2xl object-cover shadow-lg" style="aspect-ratio: 16/7;" loading="lazy" width="800" height="350" decoding="async">
+      </div>
+
+      <!-- Desktop: offset collage -->
+      <div class="relative hidden lg:block" style="height: 520px;">
         <div class="absolute" style="top: 0; left: 0; width: 52%; z-index: 1; transform: rotate(-3deg);">
-          {%- if c1 -%}
-            <img src="{{ c1 | image_url: width: 480 }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 4/3;" loading="lazy" width="480" height="360" decoding="async">
-          {%- else -%}
-            <img src="{{ 'review-1.png' | asset_url }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 4/3;" loading="lazy" width="480" height="360" decoding="async">
-          {%- endif -%}
+          <img src="{{ c1_src }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 4/3;" loading="lazy" width="480" height="360" decoding="async">
         </div>
-
         <div class="absolute" style="top: 30px; right: 0; width: 52%; z-index: 2; transform: rotate(2deg);">
-          {%- if c2 -%}
-            <img src="{{ c2 | image_url: width: 480 }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 3/4;" loading="lazy" width="480" height="640" decoding="async">
-          {%- else -%}
-            <img src="{{ 'review-2.png' | asset_url }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 3/4;" loading="lazy" width="480" height="640" decoding="async">
-          {%- endif -%}
+          <img src="{{ c2_src }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 3/4;" loading="lazy" width="480" height="640" decoding="async">
         </div>
-
         <div class="absolute" style="bottom: 0; left: 8%; width: 42%; z-index: 3; transform: rotate(1deg);">
-          {%- if c3 -%}
-            <img src="{{ c3 | image_url: width: 400 }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 3/4;" loading="lazy" width="400" height="533" decoding="async">
-          {%- else -%}
-            <img src="{{ 'review-3.png' | asset_url }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 3/4;" loading="lazy" width="400" height="533" decoding="async">
-          {%- endif -%}
+          <img src="{{ c3_src }}" alt="" class="w-full rounded-2xl object-cover shadow-xl" style="aspect-ratio: 3/4;" loading="lazy" width="400" height="533" decoding="async">
         </div>
       </div>
 
@@ -218,8 +227,10 @@
 <section class="bg-primary relative overflow-hidden">
   <div class="container-custom py-12 md:py-16 lg:py-20">
     <div class="relative">
-      <!-- Massive text -->
-      <div class="text-center font-display font-black text-foreground leading-none tracking-tight select-none pointer-events-none" aria-hidden="true">
+      <!-- Accessible heading (visually hidden) -->
+      <h2 class="sr-only">{{ section.settings.banner_line_1 }} {{ section.settings.banner_line_2 }}</h2>
+      <!-- Decorative display text -->
+      <div class="text-center font-display font-black text-foreground leading-none tracking-tight select-none" aria-hidden="true">
         <div style="font-size: clamp(4rem, 18vw, 14rem); line-height: 0.88;">
           {{ section.settings.banner_line_1 }}
         </div>
