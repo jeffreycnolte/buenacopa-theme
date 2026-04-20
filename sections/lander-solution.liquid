@@ -14,7 +14,7 @@
       </p>
     {% endif %}
 
-    <h2 class="font-display font-black text-center" style="font-size: clamp(1.5rem, 5vw, 2.25rem); line-height: 1.1; max-width: 520px; margin: 0 auto; color: #071D40;">
+    <h2 class="font-display font-black text-center" style="font-size: clamp(1.5rem, 5vw, 2.25rem); line-height: 1.1; max-width: 520px; margin: 0 auto; color: #001D45;">
       {{ section.settings.heading | default: 'Buenacopa trabaja mientras duermes' }}
     </h2>
 
@@ -26,9 +26,9 @@
         {% if outcome_text != blank %}
           <div class="flex items-center gap-3" style="padding: 10px 0;">
             <div class="shrink-0 flex items-center justify-center rounded-full" style="width: 28px; height: 28px; background-color: rgba(0,171,67,0.1);">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00AB43" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00A33C" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
-            <span class="font-bold" style="font-size: 16px; color: #071D40;">{{ outcome_text }}</span>
+            <span class="font-bold" style="font-size: 16px; color: #001D45;">{{ outcome_text }}</span>
           </div>
         {% endif %}
       {% endfor %}

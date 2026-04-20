@@ -215,7 +215,7 @@
             transition: background 0.2s, transform 0.2s;
           }
           .bc-gallery-dot.active {
-            background: #00AB43;
+            background: #00A33C;
             transform: scale(1.25);
           }
           /* Hide dots on desktop, show thumbnails instead */
@@ -394,7 +394,7 @@
             data-selling-plan-id="{{ sub_plan.id }}"
             data-price="{{ sub_price }}"
           >
-            <span class="absolute left-3" style="top:-11px; font-size:11px; letter-spacing:0.05em; display:inline-flex; align-items:center; gap:5px; background:#00AB43; color:#fff; font-weight:700; text-transform:uppercase; padding:3px 10px; border-radius:999px;">
+            <span class="absolute left-3" style="top:-11px; font-size:11px; letter-spacing:0.05em; display:inline-flex; align-items:center; gap:5px; background:#00A33C; color:#fff; font-weight:700; text-transform:uppercase; padding:3px 10px; border-radius:999px;">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
               MEJOR VALOR
             </span>
@@ -584,17 +584,17 @@
           <div id="onetime-cta-row" class="mt-3" style="display:none;">
             <div style="display:flex; gap:10px; align-items:stretch;">
               <div style="display:flex; align-items:center; border:1px solid rgba(7,29,64,0.15); border-radius:12px; overflow:hidden; flex-shrink:0;">
-                <button onclick="ProductForm.decrementQty()" aria-label="Menos" style="padding:10px 14px; background:none; border:none; cursor:pointer; font-size:18px; color:#071D40; font-weight:700; line-height:1;">−</button>
-                <span id="product-quantity" style="font-family:'Nunito',sans-serif; font-weight:800; font-size:15px; color:#071D40; min-width:24px; text-align:center;">1</span>
-                <button onclick="ProductForm.incrementQty()" aria-label="Más" style="padding:10px 14px; background:none; border:none; cursor:pointer; font-size:18px; color:#071D40; font-weight:700; line-height:1;">+</button>
+                <button onclick="ProductForm.decrementQty()" aria-label="Menos" style="padding:10px 14px; background:none; border:none; cursor:pointer; font-size:18px; color:#001D45; font-weight:700; line-height:1;">−</button>
+                <span id="product-quantity" style="font-family:'Nunito',sans-serif; font-weight:800; font-size:15px; color:#001D45; min-width:24px; text-align:center;">1</span>
+                <button onclick="ProductForm.incrementQty()" aria-label="Más" style="padding:10px 14px; background:none; border:none; cursor:pointer; font-size:18px; color:#001D45; font-weight:700; line-height:1;">+</button>
               </div>
               <button
                 id="add-to-cart-btn"
                 onclick="ProductForm.addToCart()"
                 class="flex-1 flex items-center justify-center gap-2.5 text-white font-bold text-base rounded-xl transition-colors disabled:opacity-50"
-                style="background-color: #00AB43; padding:12px 0;"
+                style="background-color: #00A33C; padding:12px 0;"
                 onmouseover="this.style.backgroundColor='#009639'"
-                onmouseout="this.style.backgroundColor='#00AB43'"
+                onmouseout="this.style.backgroundColor='#00A33C'"
               >
                 Agregar al carrito
               </button>

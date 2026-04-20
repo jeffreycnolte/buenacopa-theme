@@ -35,11 +35,11 @@
 </style>
 
 <div id="lander-sticky-cta">
-  <div style="background-color: #071D40; box-shadow: 0 -4px 20px rgba(0,0,0,0.25); padding: 8px 16px 12px;">
+  <div style="background-color: #001D45; box-shadow: 0 -4px 20px rgba(0,0,0,0.25); padding: 8px 16px 12px;">
     <a
       href="#lander-buy-box"
       onclick="event.preventDefault(); document.getElementById('lander-subscription-card').scrollIntoView({behavior:'smooth', block:'start'});"
-      style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background-color: #00AB43; color: #fff; font-weight: 700; font-size: 15px; padding: 12px 0; border-radius: 12px; text-decoration: none;"
+      style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background-color: #00A33C; color: #fff; font-weight: 700; font-size: 15px; padding: 12px 0; border-radius: 12px; text-decoration: none;"
     >
       {% render 'icon-cart', size: 18 %}
       <span>Suscribirme{% if sticky_price_whole %} – ${{ sticky_price_whole }}/mes{% endif %}</span>

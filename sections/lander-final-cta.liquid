@@ -3,7 +3,7 @@
   Full image visible above the CTA copy. Emotional close.
 {%- endcomment -%}
 
-<section class="overflow-hidden" style="background-color: #071D40;">
+<section class="overflow-hidden" style="background-color: #001D45;">
 
   {%- comment -%}Full image — visible, not cropped behind overlay{%- endcomment -%}
   {% if section.settings.bg_image %}
@@ -42,9 +42,9 @@
       <a
         href="#lander-buy-box"
         class="inline-flex items-center justify-center gap-2 text-white font-bold rounded-xl transition-all"
-        style="background-color: #00AB43; padding: 16px 40px; font-size: 16px; text-decoration: none; min-width: 260px;"
+        style="background-color: #00A33C; padding: 16px 40px; font-size: 16px; text-decoration: none; min-width: 260px;"
         onmouseover="this.style.backgroundColor='#009639'"
-        onmouseout="this.style.backgroundColor='#00AB43'"
+        onmouseout="this.style.backgroundColor='#00A33C'"
         onclick="event.preventDefault(); document.getElementById('lander-subscription-card').scrollIntoView({behavior:'smooth', block:'start'});"
       >
         {{ section.settings.cta_text | default: 'Quiero mis mañanas →' }}

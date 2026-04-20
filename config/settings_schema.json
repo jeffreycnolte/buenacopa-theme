@@ -43,7 +43,7 @@
         "type": "color",
         "id": "color_background",
         "label": "Fondo principal",
-        "default": "#071D40"
+        "default": "#001D45"
       },
       {
         "type": "color",
@@ -83,13 +83,13 @@
         "type": "color",
         "id": "color_accent",
         "label": "Color acento",
-        "default": "#00AB43"
+        "default": "#00A33C"
       },
       {
         "type": "color",
         "id": "color_cta_green",
         "label": "Verde CTA (botón de compra)",
-        "default": "#00AB43"
+        "default": "#00A33C"
       },
       {
         "type": "header",
@@ -99,13 +99,13 @@
         "type": "color",
         "id": "color_header_bg",
         "label": "Fondo del encabezado",
-        "default": "#071D40"
+        "default": "#001D45"
       },
       {
         "type": "color",
         "id": "color_hero_bg",
         "label": "Fondo del hero",
-        "default": "#071D40"
+        "default": "#001D45"
       },
       {
         "type": "color",
@@ -217,7 +217,7 @@
         "type": "color",
         "id": "announcement_bg_color",
         "label": "Color de fondo de la barra",
-        "default": "#00AB43"
+        "default": "#00A33C"
       },
       {
         "type": "color",

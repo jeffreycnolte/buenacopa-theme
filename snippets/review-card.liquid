@@ -7,9 +7,9 @@
 {%- if mobile -%}{%- assign card_class = 'bc-review-card-mobile' -%}{%- endif -%}
 
 {%- comment -%}Avatar color based on gender{%- endcomment -%}
-{%- assign avatar_bg = 'linear-gradient(135deg, #00AB43 0%, #009639 100%)' -%}
+{%- assign avatar_bg = 'linear-gradient(135deg, #00A33C 0%, #009639 100%)' -%}
 {%- if block.settings.gender == 'male' -%}
-  {%- assign avatar_bg = 'linear-gradient(135deg, #071D40 0%, #1E3A5F 100%)' -%}
+  {%- assign avatar_bg = 'linear-gradient(135deg, #001D45 0%, #1E3A5F 100%)' -%}
 {%- elsif block.settings.gender == 'female' -%}
   {%- assign avatar_bg = 'linear-gradient(135deg, #D4477A 0%, #E8637A 100%)' -%}
 {%- endif -%}
@@ -33,7 +33,7 @@
       {%- assign block_rating = block.settings.rating | default: 5 -%}
       {%- for i in (1..5) -%}
         {%- if block_rating >= i -%}
-          <svg width="16" height="16" viewBox="0 0 20 20" fill="#00AB43"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="#00A33C"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
         {%- else -%}
           <svg width="16" height="16" viewBox="0 0 20 20" fill="#D1D5DB"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.51.91-5.32L2.27 6.69l5.34-.78L10 1z"/></svg>
         {%- endif -%}
@@ -48,7 +48,7 @@
 
   {%- comment -%}Title{%- endcomment -%}
   {%- if block.settings.title != blank -%}
-    <p style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; color: #071D40; margin: 0 0 6px;">
+    <p style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; color: #001D45; margin: 0 0 6px;">
       {{ block.settings.title }}
     </p>
   {%- endif -%}
