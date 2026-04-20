@@ -8,7 +8,7 @@
 
     {%- comment -%}Section label{%- endcomment -%}
     {% if section.settings.label != blank %}
-      <p class="font-bold uppercase tracking-wider text-center" style="font-size: 11px; letter-spacing: 0.12em; margin-bottom: 10px; color: #00AB43;">
+      <p class="font-bold uppercase tracking-wider text-center" style="font-size: 11px; letter-spacing: 0.12em; margin-bottom: 10px; color: #00A33C;">
         {{ section.settings.label }}
       </p>
     {% endif %}
@@ -24,11 +24,11 @@
         {% if block.type == 'step' %}
           <div
             class="relative"
-            style="background-color: #071D40; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 28px 20px 26px;"
+            style="background-color: #001D45; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 28px 20px 26px;"
             {{ block.shopify_attributes }}
           >
             {%- comment -%}Green step number top-left{%- endcomment -%}
-            <span class="font-display font-black" style="position: absolute; top: 14px; left: 20px; font-size: 28px; line-height: 1; color: #00AB43;">
+            <span class="font-display font-black" style="position: absolute; top: 14px; left: 20px; font-size: 28px; line-height: 1; color: #00A33C;">
               {{ block.settings.number | default: forloop.index }}
             </span>
 
