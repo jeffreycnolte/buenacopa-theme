@@ -1,0 +1,33 @@
+{%- comment -%}
+  Brand badge — small pill label with optional icon.
+
+  Usage:
+    {% render 'brand/badge', variant: 'best-value', text: 'MEJOR VALOR' %}
+    {% render 'brand/badge', variant: 'discount', text: '-40%' %}
+    {% render 'brand/badge', variant: 'new', text: 'NUEVO' %}
+    {% render 'brand/badge', text: 'MEJOR VALOR', class_extra: 'absolute left-3', style_extra: 'top:-11px;' %}
+
+  Params:
+    variant     (optional) — 'best-value' | 'discount' | 'new'. Default 'best-value'.
+    text        (required) — badge text (uppercase recommended).
+    show_icon   (optional) — bool. For 'best-value', renders a star. Default true for best-value, false otherwise.
+    class_extra (optional) — extra CSS classes (e.g. positioning).
+    style_extra (optional) — extra inline styles (e.g. 'top:-11px;' for absolute positioning).
+
+  Source: Buenacopa brand guide. Canonical palette:
+    best-value → #00A33C (brand green)
+    discount   → #dc2626 (destructive red — not a brand color; review if ever adopted broadly)
+    new        → #0056D0 (brand blue)
+{%- endcomment -%}
+{%- assign _variant = variant | default: 'best-value' -%}
+{%- case _variant -%}
+  {%- when 'best-value' -%}{%- assign _bg = '#00A33C' -%}{%- assign _default_icon = true -%}
+  {%- when 'discount' -%}{%- assign _bg = '#dc2626' -%}{%- assign _default_icon = false -%}
+  {%- when 'new' -%}{%- assign _bg = '#0056D0' -%}{%- assign _default_icon = false -%}
+  {%- else -%}{%- assign _bg = '#00A33C' -%}{%- assign _default_icon = true -%}
+{%- endcase -%}
+{%- if show_icon == nil -%}{%- assign _show_icon = _default_icon -%}{%- else -%}{%- assign _show_icon = show_icon -%}{%- endif -%}
+<span class="{{ class_extra }}" style="font-size:11px; letter-spacing:0.05em; display:inline-flex; align-items:center; gap:5px; background:{{ _bg }}; color:#fff; font-weight:700; text-transform:uppercase; padding:3px 10px; border-radius:999px; {{ style_extra }}">
+  {%- if _show_icon and _variant == 'best-value' -%}<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{%- endif -%}
+  {{ text }}
+</span>
