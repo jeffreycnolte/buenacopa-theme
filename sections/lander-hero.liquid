@@ -130,13 +130,10 @@
     </div>
 
     {%- comment -%}Trust bar{%- endcomment -%}
-    <div class="flex items-center justify-center gap-3 text-background/40" style="padding: 12px 0 16px; font-size: 11px; font-weight: 500;">
-      <span>{{ section.settings.trust_1 | default: 'Envío gratis' }}</span>
-      <span class="text-background/20">·</span>
-      <span>{{ section.settings.trust_2 | default: 'Garantía 30 días' }}</span>
-      <span class="text-background/20">·</span>
-      <span>{{ section.settings.trust_3 | default: 'Sin riesgo' }}</span>
-    </div>
+    {%- assign _trust_1 = section.settings.trust_1 | default: 'Envío gratis' -%}
+    {%- assign _trust_2 = section.settings.trust_2 | default: 'Garantía 30 días' -%}
+    {%- assign _trust_3 = section.settings.trust_3 | default: 'Sin riesgo' -%}
+    {% render 'brand-trust-bar', item_1: _trust_1, item_2: _trust_2, item_3: _trust_3 %}
 
   </div>
 

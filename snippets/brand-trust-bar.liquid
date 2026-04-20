@@ -1,0 +1,34 @@
+{%- comment -%}
+  Brand trust bar — short row of trust claims separated by "·" dots.
+
+  Used below primary CTAs as lightweight social proof / reassurance.
+  Example: "Envío gratis · Garantía 30 días · Sin riesgo"
+
+  Usage:
+    {% render 'brand-trust-bar',
+       item_1: 'Envío gratis',
+       item_2: 'Garantía 30 días',
+       item_3: 'Sin riesgo' %}
+
+  Params:
+    item_1, item_2, item_3 (at least one required) — the trust strings.
+      Empty items are skipped (so a 2-item bar renders correctly too).
+    class_extra (optional) — extra classes (e.g. for layout tweaks).
+    size        (optional) — 'sm' | 'md'. Default 'sm' (matches current lander hero).
+
+  NOTE: This is the text-only variant. The icon + text variant used on the
+  homepage product-hero (SSL badge, free shipping, guarantee) is a
+  different component — not consolidated here yet.
+
+  Source: Buenacopa brand guide.
+{%- endcomment -%}
+{%- assign _size = size | default: 'sm' -%}
+{%- case _size -%}
+  {%- when 'md' -%}{%- assign _fs = '13px' -%}
+  {%- else -%}{%- assign _fs = '11px' -%}
+{%- endcase -%}
+<div class="flex items-center justify-center gap-3 text-background/40 {{ class_extra }}" style="padding: 12px 0 16px; font-size: {{ _fs }}; font-weight: 500;">
+  {%- if item_1 != blank -%}<span>{{ item_1 }}</span>{%- endif -%}
+  {%- if item_2 != blank -%}{%- if item_1 != blank -%}<span class="text-background/20">·</span>{%- endif -%}<span>{{ item_2 }}</span>{%- endif -%}
+  {%- if item_3 != blank -%}{%- if item_1 != blank or item_2 != blank -%}<span class="text-background/20">·</span>{%- endif -%}<span>{{ item_3 }}</span>{%- endif -%}
+</div>

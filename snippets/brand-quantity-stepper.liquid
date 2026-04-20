@@ -1,0 +1,24 @@
+{%- comment -%}
+  Brand quantity stepper — canonical -/N/+ quantity control.
+
+  Coupled to the theme's global ProductForm JS (window.ProductForm):
+  - Decrement button calls ProductForm.decrementQty()
+  - Increment button calls ProductForm.incrementQty()
+  - The current quantity is read/written via the DOM id passed as `quantity_id`.
+
+  Usage:
+    {% render 'brand-quantity-stepper', quantity_id: 'product-quantity' %}
+    {% render 'brand-quantity-stepper', quantity_id: 'lander-product-quantity', initial: 1 %}
+
+  Params:
+    quantity_id (required) — DOM id of the quantity <span>. ProductForm JS reads/writes it.
+    initial     (optional) — initial quantity shown. Default 1.
+
+  Source: Buenacopa brand guide. Uses canonical navy #001D45 and Nunito display font.
+{%- endcomment -%}
+{%- assign _initial = initial | default: 1 -%}
+<div style="display:flex; align-items:center; border:1px solid rgba(7,29,64,0.15); border-radius:12px; overflow:hidden; flex-shrink:0;">
+  <button onclick="ProductForm.decrementQty()" aria-label="Menos" style="padding:10px 14px; background:none; border:none; cursor:pointer; font-size:18px; color:#001D45; font-weight:700; line-height:1;">−</button>
+  <span id="{{ quantity_id }}" style="font-family:'Nunito',sans-serif; font-weight:800; font-size:15px; color:#001D45; min-width:24px; text-align:center;">{{ _initial }}</span>
+  <button onclick="ProductForm.incrementQty()" aria-label="Más" style="padding:10px 14px; background:none; border:none; cursor:pointer; font-size:18px; color:#001D45; font-weight:700; line-height:1;">+</button>
+</div>
