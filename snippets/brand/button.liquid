@@ -1,0 +1,45 @@
+{%- comment -%}
+  Brand primary CTA button — approved CTA style.
+
+  Renders as an <a> tag (the dominant pattern across the theme today).
+  Use for primary calls-to-action: "Ver planes", "Suscribirme", "Comprar".
+
+  Usage:
+    {% render 'brand/button', text: 'Ver planes →', href: '#lander-buy-box' %}
+    {% render 'brand/button', text: 'Suscribirme', href: '#buy', full_width: true %}
+    {% render 'brand/button', text: 'Quiero mis mañanas →', href: '#buy', style_extra: 'min-width: 260px;' %}
+
+  Params:
+    text        (required) — button label.
+    href        (optional) — link target. Default '#'.
+    variant     (optional) — 'primary'. Default 'primary'. (Secondary/ghost/disabled TBD.)
+    full_width  (bool)     — 100% width. Default false.
+    onclick     (optional) — JS handler string.
+    id          (optional) — DOM id.
+    class_extra (optional) — extra classes (e.g. 'flex-1' for buybox flex layout).
+    style_extra (optional) — extra inline CSS (e.g. custom padding or min-width).
+    size        (optional) — 'sm' | 'md' | 'lg'. Default 'md'. Controls padding only.
+
+  Source: Buenacopa brand guide.
+  Canonical colors:
+    bg    #00A33C (brand green)
+    hover #009639 (currently hardcoded here — if a brand token is added
+                   for "accent-hover", migrate this snippet to use it.)
+    text  #FFFFFF
+{%- endcomment -%}
+{%- assign _href = href | default: '#' -%}
+{%- assign _size = size | default: 'md' -%}
+{%- case _size -%}
+  {%- when 'sm' -%}{%- assign _pad = 'padding: 10px 20px; font-size: 14px;' -%}
+  {%- when 'lg' -%}{%- assign _pad = 'padding: 16px 40px; font-size: 16px;' -%}
+  {%- else -%}{%- assign _pad = 'padding: 14px 24px; font-size: 16px;' -%}
+{%- endcase -%}
+<a
+  href="{{ _href }}"
+  {%- if id %} id="{{ id }}"{% endif -%}
+  {%- if onclick %} onclick="{{ onclick }}"{% endif -%}
+  class="{% if full_width %}w-full {% endif %}inline-flex items-center justify-center gap-2 text-white font-bold rounded-xl transition-all {{ class_extra }}"
+  style="background-color: #00A33C; {{ _pad }} text-decoration: none; {{ style_extra }}"
+  onmouseover="this.style.backgroundColor='#009639'"
+  onmouseout="this.style.backgroundColor='#00A33C'"
+>{{ text }}</a>

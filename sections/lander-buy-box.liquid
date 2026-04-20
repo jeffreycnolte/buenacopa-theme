@@ -131,10 +131,7 @@
           data-selling-plan-id="{{ sub_plan.id }}"
           data-price="{{ sub_price }}"
         >
-          <span class="absolute left-3" style="top:-11px; font-size:11px; letter-spacing:0.05em; display:inline-flex; align-items:center; gap:5px; background:#00A33C; color:#fff; font-weight:700; text-transform:uppercase; padding:3px 10px; border-radius:999px;">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            MEJOR VALOR
-          </span>
+          {% render 'brand/badge', variant: 'best-value', text: 'MEJOR VALOR', class_extra: 'absolute left-3', style_extra: 'top:-11px;' %}
 
           <div class="flex items-baseline justify-between">
             <p class="font-bold text-background" style="font-size:14px">Suscripción ({{ sub_servings }} sobres)</p>

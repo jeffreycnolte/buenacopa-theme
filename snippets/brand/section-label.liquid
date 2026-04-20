@@ -1,0 +1,21 @@
+{%- comment -%}
+  Brand section label — small uppercase green accent text rendered above
+  a heading to label a section (e.g., "LA FÓRMULA", "CÓMO FUNCIONA",
+  "ELIGE TU PLAN").
+
+  Usage:
+    {% render 'brand/section-label', text: 'LA FÓRMULA' %}
+    {% render 'brand/section-label', text: 'CÓMO FUNCIONA', align: 'center' %}
+
+  Params:
+    text  (required) — label text (uppercase recommended).
+    align (optional) — 'left' | 'center'. Default 'center'.
+    id    (optional) — DOM id for the <p>.
+    margin_bottom (optional) — pixel value; default 6.
+
+  Source: Buenacopa brand guide. Uses `text-accent` (canonical brand
+  green) — do not hardcode the color at call sites.
+{%- endcomment -%}
+{%- assign _align = align | default: 'center' -%}
+{%- assign _mb = margin_bottom | default: 6 -%}
+<p class="font-bold uppercase tracking-wider text-accent"{% if id %} id="{{ id }}"{% endif %} style="font-size: 11px; letter-spacing: 0.1em; margin-bottom: {{ _mb }}px; text-align: {{ _align }};">{{ text }}</p>
