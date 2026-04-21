@@ -159,14 +159,21 @@
         </div>
       </div>
 
-      <button
-        onclick="event.stopPropagation(); ProductForm.selectSubscription({{ sub_variant_id }}, {{ sub_plan_id }}); ProductForm.addToCart();"
-        class="w-full btn-cta flex items-center justify-center gap-2"
-        style="margin-top:14px; font-size:14px; padding:10px 0"
-      >
-        {{ _sub_cta_text }}
-        <span class="inline-flex">{% render 'icon-arrow-right', size: 16 %}</span>
-      </button>
+      {%- comment -%}
+        Subscription CTA — canonical brand-button (uses .btn-cta).
+        Pre-assign onclick because filter chains in render-tag args
+        don't always evaluate; same pattern as the i18n strings.
+      {%- endcomment -%}
+      {%- capture _sub_onclick -%}event.stopPropagation(); ProductForm.selectSubscription({{ sub_variant_id }}, {{ sub_plan_id }}); ProductForm.addToCart();{%- endcapture -%}
+      {%- assign _sub_cta_label = _sub_cta_text | append: ' →' -%}
+      <div style="margin-top:14px;">
+        {% render 'brand-button',
+          tag: 'button',
+          text: _sub_cta_label,
+          onclick: _sub_onclick,
+          full_width: true
+        %}
+      </div>
     </div>
   {%- endif -%}
 

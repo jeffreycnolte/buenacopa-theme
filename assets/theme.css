@@ -102,26 +102,31 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ===== Component Classes ===== */
+/* .btn-cta — single source of truth for primary buttons across the theme.
+   Spec from the brand guide (sections/brand-guide.liquid Buttons section):
+   green (accent), Nunito 800, 14px/32px padding, 12px border-radius (rounded-rect, NOT pill),
+   subtle hover (color shift only — no scale, no big shadow). */
 .btn-cta {
   background-color: hsl(var(--accent));
   color: hsl(var(--accent-foreground));
-  font-weight: 700;
-  padding: 1rem 2rem;
-  border-radius: 9999px;
-  transition: transform 0.3s, opacity 0.3s, box-shadow 0.3s;
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+  font-family: 'Nunito', 'Inter', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  padding: 14px 32px;
+  border-radius: 12px;
+  transition: background-color 0.2s, opacity 0.2s;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
 }
 .btn-cta:hover {
-  will-change: transform;
-  opacity: 0.9;
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
-  transform: scale(1.05);
+  opacity: 0.92;
 }
 .btn-cta:active {
-  transform: scale(1);
+  opacity: 0.85;
 }
 
 .btn-secondary {
