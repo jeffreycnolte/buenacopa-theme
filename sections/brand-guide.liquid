@@ -56,6 +56,90 @@
   .bg-contrast-fail { background: rgba(220,38,38,0.08); color: #dc2626; }
 </style>
 
+{%- comment -%}
+  ─── Buy-box demo controller ───
+  Mirrors sections/lander-buy-box.liquid — shapes product data (subscription
+  detection, selling-plan lookup, price math) into scalars so the
+  brand-buybox snippet can render as a live demo further down the page.
+  Data stays here (controller); snippet stays pure view.
+{%- endcomment -%}
+{%- assign bg_product = section.settings.buybox_product -%}
+{%- if bg_product == blank -%}
+  {%- assign bg_product = collections.all.products.first -%}
+{%- endif -%}
+{%- liquid
+  assign bg_has_sub = false
+  assign bg_sub_variant = nil
+  assign bg_sub_plan = nil
+  assign bg_sub_price = 0
+  assign bg_sub_servings = 0
+
+  if bg_product
+    for group in bg_product.selling_plan_groups
+      if group.selling_plans.size > 0
+        assign bg_has_sub = true
+        assign bg_sub_plan = group.selling_plans[0]
+        for variant in bg_product.variants
+          for allocation in variant.selling_plan_allocations
+            if allocation.selling_plan.id == bg_sub_plan.id
+              assign bg_sub_variant = variant
+              assign bg_sub_price = allocation.price
+              break
+            endif
+          endfor
+          if bg_sub_variant
+            break
+          endif
+        endfor
+        break
+      endif
+    endfor
+
+    if bg_sub_variant
+      assign bg_sub_title_words = bg_sub_variant.title | split: ' '
+      for word in bg_sub_title_words
+        assign word_num = word | plus: 0
+        if word_num > 0
+          assign bg_sub_servings = word_num
+          break
+        endif
+      endfor
+    endif
+    if bg_sub_servings == 0
+      assign bg_sub_servings = 1
+    endif
+
+    if bg_sub_price > 0 and bg_sub_servings > 0
+      assign bg_sub_per_serving = bg_sub_price | divided_by: bg_sub_servings
+    else
+      assign bg_sub_per_serving = 0
+    endif
+
+    assign bg_sub_price_whole = bg_sub_price | divided_by: 100
+    assign bg_sub_price_cents = bg_sub_price | modulo: 100
+    assign bg_sub_per_whole = bg_sub_per_serving | divided_by: 100
+
+    assign bg_sub_compare_price = 0
+    for variant in bg_product.variants
+      assign v_title_lower = variant.title | downcase
+      unless v_title_lower contains 'suscri'
+        assign v_words = variant.title | split: ' '
+        for w in v_words
+          assign w_num = w | plus: 0
+          if w_num == bg_sub_servings
+            assign bg_sub_compare_price = variant.price
+            break
+          endif
+        endfor
+      endunless
+      if bg_sub_compare_price > 0
+        break
+      endif
+    endfor
+    assign bg_sub_compare_whole = bg_sub_compare_price | divided_by: 100
+  endif
+-%}
+
 <section class="bg-page" style="padding: 3rem 0; min-height: 100vh;">
   <div class="container-custom" style="max-width: 860px;">
 
@@ -515,6 +599,36 @@
 
       <p style="margin-top:16px;"><strong>DOM ids emitted</strong> (with optional <code>id_prefix</code>):</p>
       <p style="font-size:12px;"><code>{prefix-}product-form</code>, <code>{prefix-}subscription-card</code>, <code>{prefix-}variant-selector</code>, <code>{prefix-}onetime-cta</code>, <code>{prefix-}product-quantity</code>, <code>{prefix-}trust-badges</code></p>
+
+      <h3 style="margin-top: 28px;">Live render</h3>
+      <p style="font-size: 12px; color: #6b7280; margin-top: 4px;">Real product data from <code>{%- if bg_product -%}{{ bg_product.handle }}{%- else -%}(no product available){%- endif -%}</code>. Shaped above by the section-level <code>{%- raw -%}{%- liquid -%}{%- endraw -%}</code> block, mirroring <code>sections/lander-buy-box.liquid</code>. Use <code>id_prefix: 'brand-guide'</code> to avoid DOM collisions if multiple buyboxes share a page.</p>
+      <div style="margin-top: 16px; padding: 20px; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;">
+        {%- if bg_product -%}
+          {%- assign bg_t_ssl = 'general.security.ssl_badge' | t -%}
+          {%- assign bg_t_shipping = 'general.security.free_shipping_badge' | t -%}
+          {%- assign bg_t_guarantee = 'general.security.guarantee_badge' | t -%}
+          {% render 'brand-buybox',
+            id_prefix: 'brand-guide',
+            product_id: bg_product.id,
+            has_subscription: bg_has_sub,
+            sub_variant_id: bg_sub_variant.id,
+            sub_plan_id: bg_sub_plan.id,
+            sub_price_raw: bg_sub_price,
+            sub_servings: bg_sub_servings,
+            sub_price_whole: bg_sub_price_whole,
+            sub_price_cents: bg_sub_price_cents,
+            sub_compare_whole: bg_sub_compare_whole,
+            sub_per_whole: bg_sub_per_whole,
+            variants: bg_product.variants,
+            trust_ssl: bg_t_ssl,
+            trust_shipping: bg_t_shipping,
+            trust_guarantee: bg_t_guarantee
+          %}
+        {%- else -%}
+          <p style="font-size: 13px; color: #9ca3af; text-align: center; padding: 24px 0;">No product available to render the live buybox demo. Assign one in the theme editor → Brand Guide section → Buy-box product.</p>
+        {%- endif -%}
+      </div>
+      <p style="font-size: 11px; color: #9ca3af; margin-top: 8px;">Buttons wire to <code>ProductForm.*</code> on the page's global script. Clicking "Agregar al carrito" on this demo will actually add to cart — same as production.</p>
     </div>
 
     {%- comment -%}═══ ACCESSIBILITY ═══{%- endcomment -%}
@@ -1063,17 +1177,16 @@
       <h2>The 4-Step Consumption Flow</h2>
       <p>This is the core product narrative. Every touchpoint — website, social, ads, packaging, email — should reinforce these 4 steps in the same order, with the same icons and language.</p>
 
-      <h3>The Steps</h3>
-      <h3>Desktop Layout</h3>
-      <div style="margin-top: 12px; border-radius: 12px; overflow: hidden;">
-        <img src="{{ 'brand-steps-desktop.png' | asset_url }}" alt="4-step consumption flow — desktop" style="width: 100%; height: auto;" loading="lazy">
-      </div>
-
-      <h3>Mobile Layout</h3>
-      <div style="margin-top: 12px; max-width: 360px;">
-        <div style="border-radius: 12px; overflow: hidden;">
-          <img src="{{ 'brand-steps-mobile.png' | asset_url }}" alt="4-step consumption flow — mobile" style="width: 100%; height: auto;" loading="lazy">
-        </div>
+      <h3>Live render</h3>
+      <p style="font-size: 12px; color: #6b7280; margin-top: 4px;">This is the canonical <code>brand-steps</code> snippet rendered with real blocks. Resize the browser: it stacks at &lt;768px and lays out horizontally at ≥768px. Source of truth for homepage, lander, and /pages/como-funciona.</p>
+      <div style="margin-top: 16px; border-radius: 12px; overflow: hidden;">
+        {%- assign bg_step_blocks = section.blocks | where: 'type', 'step' -%}
+        {% render 'brand-steps',
+          blocks: bg_step_blocks,
+          label: 'CÓMO USARLO',
+          heading: 'Tu ritual en 4 pasos',
+          id: 'brand-guide-steps-demo'
+        %}
       </div>
 
       <h3>The 4 Branded Icons</h3>
@@ -1233,8 +1346,9 @@
       <p>Custom illustrations by Faena Studio. Monochrome blue palette only (navy + blue + light blue). Green appears exclusively on the product (sachet/capsule). These tell the brand story: Night → Product → Morning.</p>
 
       <h3>The Full Set</h3>
-      <div style="margin-top: 12px; border-radius: 12px; overflow: hidden; background: #ECEEE8;">
-        <img src="{{ 'illustrations-full-set.png' | asset_url }}" alt="Buenacopa brand illustrations" style="width: 100%; height: auto;" loading="lazy">
+      <div style="margin-top: 12px; padding: 24px; background: rgba(251,191,36,0.08); border: 1px dashed rgba(251,191,36,0.4); border-radius: 12px; text-align: center;">
+        <p style="font-weight: 700; font-size: 13px; color: #92400e; margin: 0;">⚠️ Asset pending — <code>assets/illustrations-full-set.png</code></p>
+        <p style="font-size: 12px; color: #78350f; margin: 6px 0 0;">Export composite from Faena Studio and upload to the theme assets directory. Until then, this placeholder displays instead of a broken image.</p>
       </div>
 
       <h3>Individual Icons & Their Meaning</h3>
@@ -1330,10 +1444,98 @@ font-body:       'Inter', sans-serif   /* Body */</pre>
 {% schema %}
 {
   "name": "Brand Guide",
-  "settings": [],
+  "settings": [
+    {
+      "type": "product",
+      "id": "buybox_product",
+      "label": "Buy-box demo product",
+      "info": "Product rendered in the live brand-buybox demo. Leave blank to fall back to the first product in Collections → All."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step (brand-steps demo)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Step Number",
+          "default": "01"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "select",
+          "id": "default_icon",
+          "label": "Canonical icon",
+          "options": [
+            { "value": "", "label": "Auto (by step order)" },
+            { "value": "world", "label": "Disco / world" },
+            { "value": "glass", "label": "Capsule / glass" },
+            { "value": "moon", "label": "Moon" },
+            { "value": "sun", "label": "Sun" }
+          ],
+          "default": "",
+          "info": "Canonical 4-step order: world → glass → moon → sun."
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Custom icon (overrides canonical)"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Brand Guide"
+      "name": "Brand Guide",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "number": "1",
+            "title": "Celebra tu noche",
+            "description": "Bebe de forma responsable. Buenacopa acompaña tus mejores noches.",
+            "default_icon": "world"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "number": "2",
+            "title": "Toma tus 3 cápsulas antes de dormir",
+            "description": "Con un vaso de agua, después de tu última copa.",
+            "default_icon": "glass"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "number": "3",
+            "title": "Actúa mientras duermes",
+            "description": "Buenacopa procesa el alcohol mientras descansas.",
+            "default_icon": "moon"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "number": "4",
+            "title": "Despierta y conquista tu día",
+            "description": "Después de un buen descanso, despierta y ten un buen día asegurado.",
+            "default_icon": "sun"
+          }
+        }
+      ]
     }
   ]
 }
