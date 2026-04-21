@@ -56,7 +56,7 @@
             { "value": "sun", "label": "Sun" }
           ],
           "default": "",
-          "info": "Brand book: 3-step configs should use world → glass → sun (skip moon)."
+          "info": "Canonical 4-step order: world → glass → moon → sun."
         },
         {
           "type": "image_picker",
@@ -74,27 +74,41 @@
   "presets": [
     {
       "name": "How It Works",
+      "settings": {
+        "heading": "Tu ritual en 4 pasos"
+      },
       "blocks": [
         {
           "type": "step",
           "settings": {
-            "number": "01",
+            "number": "1",
             "title": "Celebra tu noche",
-            "description": "Disfruta de forma responsable. Buenacopa está diseñado para acompañar tus mejores noches."
+            "description": "Disfruta de forma responsable. Buenacopa está diseñado para acompañar tus mejores noches.",
+            "default_icon": "world"
           }
         },
         {
           "type": "step",
           "settings": {
-            "number": "02",
+            "number": "2",
             "title": "Toma tus 3 cápsulas antes de dormir",
-            "description": "Con un vaso de agua, después de tu última copa. Buenacopa actúa mientras duermes."
+            "description": "Con un vaso de agua, después de tu última copa.",
+            "default_icon": "glass"
           }
         },
         {
           "type": "step",
           "settings": {
-            "number": "03",
+            "number": "3",
+            "title": "Actúa mientras duermes",
+            "description": "Buenacopa procesa el alcohol mientras descansas.",
+            "default_icon": "moon"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "number": "4",
             "title": "Despierta y conquista tu día",
             "description": "Sin cruda, sin náuseas, sin dolor de cabeza. Tu mañana es tuya.",
             "default_icon": "sun"

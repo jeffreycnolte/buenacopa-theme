@@ -115,7 +115,8 @@
           "settings": {
             "number": "1",
             "title": "Celebra tu noche",
-            "description": "Disfruta de forma responsable. Buenacopa está diseñado para acompañar tus mejores noches."
+            "description": "Disfruta de forma responsable. Buenacopa está diseñado para acompañar tus mejores noches.",
+            "default_icon": "world"
           }
         },
         "step-2": {
@@ -123,25 +124,37 @@
           "settings": {
             "number": "2",
             "title": "Toma tus 3 cápsulas antes de dormir",
-            "description": "Con un vaso de agua, después de tu última copa. Buenacopa actúa mientras duermes."
+            "description": "Con un vaso de agua, después de tu última copa.",
+            "default_icon": "glass"
           }
         },
         "step-3": {
           "type": "step",
           "settings": {
             "number": "3",
+            "title": "Actúa mientras duermes",
+            "description": "Buenacopa procesa el alcohol mientras descansas.",
+            "default_icon": "moon"
+          }
+        },
+        "step-4": {
+          "type": "step",
+          "settings": {
+            "number": "4",
             "title": "Despierta y conquista tu día",
-            "description": "Sin cruda, sin náuseas, sin dolor de cabeza. Tu mañana es tuya."
+            "description": "Sin cruda, sin náuseas, sin dolor de cabeza. Tu mañana es tuya.",
+            "default_icon": "sun"
           }
         }
       },
       "block_order": [
         "step-1",
         "step-2",
-        "step-3"
+        "step-3",
+        "step-4"
       ],
       "settings": {
-        "heading": "Tu ritual en 3 pasos"
+        "heading": "Tu ritual en 4 pasos"
       }
     },
     "available-in": {
