@@ -93,10 +93,11 @@ When refactoring sections to use these, **do not put Shopify-data logic inside s
 
 ## CI — deploy gate
 
-Every PR and every push to `main` runs `.github/workflows/theme-check.yml`, which has two jobs:
+Every PR and every push to `main` runs `.github/workflows/theme-check.yml`, which has three jobs:
 
 1. **`shopify theme check --fail-level error`** — fails on any theme-check error. Suppressed rules are declared in `.theme-check.yml`; edit that file (not the workflow) to tune.
-2. **Locale key parity** — compares the key sets of `locales/en.json` and `locales/es.default.json`. Fails if they diverge. Fix by adding the missing key on both sides with matching structure; values can differ (they're the translations) but keys must not.
+2. **Tailwind CSS in sync** — runs `npm ci && npm run build:css` and fails if `assets/tailwind.min.css` differs from what the source produces. If you add a new utility class in Liquid, rebuild and commit, or CI will reject.
+3. **Locale key parity** — compares the key sets of `locales/en.json` and `locales/es.default.json`. Fails if they diverge. Fix by adding the missing key on both sides with matching structure; values can differ (they're the translations) but keys must not.
 
 **Run the same checks locally before pushing:**
 

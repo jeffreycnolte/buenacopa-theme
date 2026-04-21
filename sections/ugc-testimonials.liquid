@@ -17,7 +17,7 @@
         {%- when 5 -%}{%- assign _video = section.settings.video_5 -%}{%- assign _name = section.settings.name_5 -%}{%- assign _quote = section.settings.quote_5 -%}
       {%- endcase -%}
       {%- if _video != blank -%}
-        <div class="flex-shrink-0 w-[260px]">
+        <div class="shrink-0 w-[260px]">
           <div
             class="video-card aspect-[9/16] rounded-2xl relative flex items-center justify-center group cursor-pointer overflow-hidden bg-muted"
             data-video-src="{{ _video.sources[0].url }}"
@@ -60,7 +60,7 @@
           {%- when 5 -%}{%- assign _video = section.settings.video_5 -%}{%- assign _name = section.settings.name_5 -%}{%- assign _quote = section.settings.quote_5 -%}
         {%- endcase -%}
         {%- if _video != blank -%}
-          <div class="flex-shrink-0 w-[55vw] sm:w-[40vw] snap-center">
+          <div class="shrink-0 w-[55vw] sm:w-[40vw] snap-center">
             <div
               class="video-card aspect-[9/16] rounded-2xl relative flex items-center justify-center group cursor-pointer overflow-hidden bg-muted"
               data-video-src="{{ _video.sources[0].url }}"
