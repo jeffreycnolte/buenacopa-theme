@@ -91,6 +91,27 @@ When refactoring sections to use these, **do not put Shopify-data logic inside s
 
 ---
 
+## CI — deploy gate
+
+Every PR and every push to `main` runs `.github/workflows/theme-check.yml`, which has two jobs:
+
+1. **`shopify theme check --fail-level error`** — fails on any theme-check error. Suppressed rules are declared in `.theme-check.yml`; edit that file (not the workflow) to tune.
+2. **Locale key parity** — compares the key sets of `locales/en.json` and `locales/es.default.json`. Fails if they diverge. Fix by adding the missing key on both sides with matching structure; values can differ (they're the translations) but keys must not.
+
+**Run the same checks locally before pushing:**
+
+```bash
+shopify theme check --fail-level error
+diff <(jq -r 'paths(scalars) | join(".")' locales/en.json | sort) \
+     <(jq -r 'paths(scalars) | join(".")' locales/es.default.json | sort)
+```
+
+Both must exit 0. If either fails in CI, the PR can't merge once branch protection is enabled on `main`.
+
+**Shopify CLI is pinned to `@shopify/cli@3`** in both CI and `.claude/hooks/session-start.sh` so web sessions, local dev, and CI use the same major version. Bump deliberately.
+
+---
+
 ## Local dev workflow
 
 ```bash
