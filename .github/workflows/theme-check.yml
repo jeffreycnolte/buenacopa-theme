@@ -1,0 +1,57 @@
+name: theme-check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Least-privilege: CI only needs to read source.
+permissions:
+  contents: read
+
+# Cancel older runs for the same PR/branch when new commits land.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  theme-check:
+    name: Shopify theme check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Shopify CLI (pinned to v3)
+        run: npm install -g @shopify/cli@3
+
+      - name: shopify theme check --fail-level error
+        run: shopify theme check --fail-level error
+
+  locale-parity:
+    name: Locale key parity (en.json vs es.default.json)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check locale keys match
+        run: |
+          en_keys=$(jq -r 'paths(scalars) | join(".")' locales/en.json | sort)
+          es_keys=$(jq -r 'paths(scalars) | join(".")' locales/es.default.json | sort)
+
+          if diff -q <(echo "$en_keys") <(echo "$es_keys") >/dev/null; then
+            echo "✓ Locale keys match ($(echo "$en_keys" | wc -l) keys)"
+            exit 0
+          fi
+
+          echo "::error::Locale keys diverge between en.json and es.default.json"
+          echo ""
+          echo "Keys only in en.json:"
+          comm -23 <(echo "$en_keys") <(echo "$es_keys") | sed 's/^/  /'
+          echo ""
+          echo "Keys only in es.default.json:"
+          comm -13 <(echo "$en_keys") <(echo "$es_keys") | sed 's/^/  /'
+          exit 1
