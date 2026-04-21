@@ -1,0 +1,19 @@
+# Theme Check configuration — Buena Copa theme
+# https://shopify.dev/docs/themes/tools/theme-check/configuration
+#
+# Default ruleset. Overrides below.
+
+extends: :default
+
+# Rules below are disabled intentionally. Re-evaluate when the underlying
+# code convention changes.
+VariableName:
+  # The brand-* snippets use a _leading-underscore convention to mark
+  # internal/computed locals (e.g., _tag, _classes, _id_form). This is
+  # a deliberate choice in the brand primitives and triggers ~120 warnings
+  # across snippets/brand-*.liquid, sections/brand-*.liquid, sections/ugc-testimonials.liquid,
+  # and snippets/tapita-seo-schema.liquid. Suppress until a rename sweep is done.
+  enabled: false
+
+# Fail the build on errors only. Warnings are advisory.
+# CI should run: shopify theme check --fail-level error

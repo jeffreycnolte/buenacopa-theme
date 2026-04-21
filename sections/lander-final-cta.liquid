@@ -12,6 +12,8 @@
       srcset="{{ section.settings.bg_image | image_url: width: 600 }} 600w, {{ section.settings.bg_image | image_url: width: 1200 }} 1200w"
       sizes="100vw"
       alt=""
+      width="{{ section.settings.bg_image.width }}"
+      height="{{ section.settings.bg_image.height }}"
       class="w-full h-auto"
       loading="lazy"
       decoding="async"
@@ -20,6 +22,8 @@
     <img
       src="{{ 'banner-buenacopa.png' | asset_url }}"
       alt=""
+      width="1920"
+      height="1081"
       class="w-full h-auto"
       loading="lazy"
       decoding="async"

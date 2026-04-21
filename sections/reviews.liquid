@@ -40,7 +40,7 @@
         {%- assign ml_rating = section.settings.ml_rating | plus: 0.0 -%}
         <div class="bc-ratings-item">
           {%- if section.settings.ml_logo != blank -%}
-            <img src="{{ section.settings.ml_logo | image_url: width: 120 }}" alt="Mercado Libre" class="bc-ratings-logo" loading="lazy">
+            <img src="{{ section.settings.ml_logo | image_url: width: 120 }}" alt="Mercado Libre" width="{{ section.settings.ml_logo.width }}" height="{{ section.settings.ml_logo.height }}" class="bc-ratings-logo" loading="lazy">
           {%- else -%}
             <span class="bc-ratings-name">Mercado Libre</span>
           {%- endif -%}
@@ -65,7 +65,7 @@
         {%- assign amz_rating = section.settings.amz_rating | plus: 0.0 -%}
         <div class="bc-ratings-item">
           {%- if section.settings.amz_logo != blank -%}
-            <img src="{{ section.settings.amz_logo | image_url: width: 120 }}" alt="Amazon" class="bc-ratings-logo" loading="lazy">
+            <img src="{{ section.settings.amz_logo | image_url: width: 120 }}" alt="Amazon" width="{{ section.settings.amz_logo.width }}" height="{{ section.settings.amz_logo.height }}" class="bc-ratings-logo" loading="lazy">
           {%- else -%}
             <span class="bc-ratings-name">Amazon</span>
           {%- endif -%}

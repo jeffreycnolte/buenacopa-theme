@@ -8,7 +8,7 @@
         {% if block.type == 'marketplace' %}
           <a href="{{ block.settings.url }}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center hover:opacity-70 transition-opacity" style="opacity: 0.5;" {{ block.shopify_attributes }}>
             {% if block.settings.logo %}
-              <img src="{{ block.settings.logo | image_url: width: 288 }}" alt="{{ block.settings.label }}" style="height: 36px; width: auto; object-fit: contain;" loading="lazy" decoding="async">
+              <img src="{{ block.settings.logo | image_url: width: 288 }}" alt="{{ block.settings.label }}" width="{{ block.settings.logo.width }}" height="{{ block.settings.logo.height }}" style="height: 36px; width: auto; object-fit: contain;" loading="lazy" decoding="async">
             {% else %}
               <span class="text-foreground font-bold" style="font-size: 14px;">{{ block.settings.label }}</span>
             {% endif %}
