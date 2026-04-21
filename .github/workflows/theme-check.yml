@@ -31,6 +31,33 @@ jobs:
       - name: shopify theme check --fail-level error
         run: shopify theme check --fail-level error
 
+  tailwind-build:
+    name: Tailwind CSS is in sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Rebuild CSS and check no diff
+        run: |
+          npm run build:css
+          if ! git diff --quiet assets/tailwind.min.css; then
+            echo "::error::assets/tailwind.min.css is out of sync with src/ or tailwind.config.js."
+            echo "Run 'npm run build:css' locally and commit the updated tailwind.min.css."
+            echo ""
+            echo "=== Diff ==="
+            git --no-pager diff --stat assets/tailwind.min.css
+            exit 1
+          fi
+          echo "✓ tailwind.min.css is up to date"
+
   locale-parity:
     name: Locale key parity (en.json vs es.default.json)
     runs-on: ubuntu-latest

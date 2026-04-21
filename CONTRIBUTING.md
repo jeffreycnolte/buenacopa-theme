@@ -19,8 +19,26 @@ brew install node
 ### 3. Install Shopify CLI
 
 ```bash
-npm install -g @shopify/cli @shopify/theme
+npm install -g @shopify/cli@3
 ```
+
+The major version is pinned to `3` in CI and the Claude Code session-start hook. Use the same major locally so builds match.
+
+### 3.1. Install theme dependencies (for Tailwind build)
+
+```bash
+cd buenacopa-theme
+npm install
+```
+
+This installs Tailwind and the typography plugin. Rebuild CSS with:
+
+```bash
+npm run build:css    # one-shot minified build
+npm run watch:css    # rebuilds on file save during dev
+```
+
+Any time you add Tailwind utility classes to Liquid (especially new color/opacity combinations like `bg-accent/20`), run `build:css` and commit the updated `assets/tailwind.min.css`. CI will fail the PR if it's out of sync.
 
 ### 4. Install Claude Code
 
