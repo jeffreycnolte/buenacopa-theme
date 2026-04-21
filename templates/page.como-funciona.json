@@ -16,32 +16,24 @@
           "type": "cause_card",
           "settings": {
             "icon": "skull",
-            "title": "Acetaldehído",
-            "description": "<p>Cuando bebes, tu cuerpo convierte el alcohol en acetaldehído — una toxina hasta 30 veces más tóxica que el alcohol mismo. Es el principal responsable de las náuseas, el dolor de cabeza y el malestar general.</p>"
+            "title": "Acetaldehído: el verdadero villano",
+            "description": "<p>Tu hígado transforma el alcohol en acetaldehído, 20 veces más tóxico. Provoca los síntomas clásicos: náusea y dolor de cabeza.</p>"
           }
         },
         "cause-2": {
           "type": "cause_card",
           "settings": {
             "icon": "brain",
-            "title": "Desequilibrio Neuroquímico",
-            "description": "<p>El alcohol altera tus neurotransmisores — sube la dopamina y el GABA mientras bebes, pero al día siguiente caen en picada, causando ansiedad, irritabilidad y fatiga mental.</p>"
+            "title": "Desequilibrio neuroquímico",
+            "description": "<p>El alcohol altera los neurotransmisores GABA y glutamato. Cuando el efecto desaparece, el cerebro “rebota”: ansiedad, insomnio y nerviosismo.</p>"
           }
         },
         "cause-3": {
           "type": "cause_card",
           "settings": {
             "icon": "flame",
-            "title": "Respuesta Inflamatoria",
-            "description": "<p>Tu cuerpo responde al alcohol como a una amenaza, activando una respuesta inflamatoria sistémica que causa dolor muscular, sensibilidad a la luz y agotamiento.</p>"
-          }
-        },
-        "cause-4": {
-          "type": "cause_card",
-          "settings": {
-            "icon": "drop",
-            "title": "Deshidratación",
-            "description": "<p>El alcohol es diurético — te hace perder más líquidos de los que consumes. Esta deshidratación amplifica el dolor de cabeza, la fatiga y la sensación general de malestar al día siguiente.</p>"
+            "title": "Respuesta inflamatoria",
+            "description": "<p>Tu cuerpo interpreta el alcohol como una amenaza y activa una respuesta inflamatoria. Por eso te sientes “enfermo” o sin energía al día siguiente.</p>"
           }
         },
         "ingredient-1": {
@@ -59,7 +51,7 @@
             "icon": "shield",
             "title": "L-Cisteína",
             "subtitle": "Aminoácido Esencial",
-            "description": "<p>Se une directamente al acetaldehído para neutralizarlo. Precursor del glutatión, el antioxidante maestro de tu cuerpo. Reduce significativamente las náuseas y el dolor de cabeza.</p>"
+            "description": "<p>Ayuda a neutralizar el acetaldehído. Precursor del glutatión, el antioxidante maestro de tu cuerpo. Reduce significativamente las náuseas y el dolor de cabeza.</p>"
           }
         },
         "ingredient-3": {
@@ -97,7 +89,7 @@
         "step-3": {
           "type": "usage_step",
           "settings": {
-            "title": "Buenacopa trabaja",
+            "title": "Buenacopa trabaja mientras duermes",
             "description": "Mientras duermes, la fórmula neutraliza toxinas y equilibra tu cuerpo."
           }
         },
@@ -141,7 +133,6 @@
         "cause-1",
         "cause-2",
         "cause-3",
-        "cause-4",
         "ingredient-1",
         "ingredient-2",
         "ingredient-3",
@@ -155,7 +146,9 @@
         "faq-3",
         "faq-4"
       ],
-      "settings": {}
+      "settings": {
+        "causes_text": "Cuando bebes alcohol, tu cuerpo pasa por varios procesos que provocan el malestar del día siguiente. Estas son las causas reales de la cruda — y cada una es lo que Buenacopa está diseñado para atacar:"
+      }
     }
   },
   "order": [
