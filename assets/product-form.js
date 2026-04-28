@@ -58,12 +58,12 @@ var ProductForm = {
   },
 
   updateCartCTA: function () {
-    var btn = document.getElementById('add-to-cart-btn');
-    if (!btn) return;
+    var label = document.getElementById('add-to-cart-label');
+    if (!label) return;
     var prefix = this.selectedCtaPrefix || 'Agregar al carrito';
     var suffix = this.selectedCtaSuffix || '';
     var price = this.formatPrice(this.selectedPrice);
-    btn.textContent = price ? (prefix + ' – ' + price + suffix) : prefix;
+    label.textContent = price ? (prefix + ' – ' + price + suffix) : prefix;
   },
 
   updateUI: function () {
