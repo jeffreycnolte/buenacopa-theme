@@ -44,7 +44,8 @@
       assign sub_servings = 1
     endif
     if sub_price > 0 and sub_servings > 0
-      assign sub_per_serving = sub_price | divided_by: sub_servings | divided_by: 100
+      # Per-toma in pesos, rounded to nearest peso (e.g. \$51.92 → \$52).
+      assign sub_per_serving = sub_price | divided_by: sub_servings | plus: 50 | divided_by: 100
     endif
   endif
 -%}
@@ -140,7 +141,7 @@
 </section>
 
 {%- comment -%}Sticky CTA — rendered OUTSIDE the hero section to avoid overflow:hidden clipping{%- endcomment -%}
-{% render 'lander-sticky-cta', product: product, sub_price: sub_price %}
+{% render 'brand-sticky-cta', target_id: 'lander-product-form', sub_price: sub_price %}
 
 {% schema %}
 {

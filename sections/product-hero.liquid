@@ -506,26 +506,7 @@
   </div>
 </section>
 
-<!-- Mobile Sticky CTA -->
-<div id="mobile-sticky-cta" class="fixed left-0 right-0 z-50 lg:hidden bg-accent px-4 pt-2 pb-3 shadow-[0_-4px_20px_rgba(0,0,0,0.15)]" style="bottom: 0;">
-<style>
-  @media(max-width:1023px) {
-    /* Ensure WhatsApp widget clears the sticky CTA */
-    iframe[title*="chat"], iframe[src*="coco"],
-    div[class*="widget"][style*="fixed"],
-    div[style*="position: fixed"][style*="bottom"][style*="right"] {
-      bottom: 60px !important;
-    }
-  }
-</style>
-  <button
-    onclick="ProductForm.addToCart()"
-    class="w-full flex items-center justify-center gap-2 text-white font-bold text-base py-3 rounded-xl disabled:opacity-50"
-  >
-    <span class="inline-flex">{% render 'icon-cart', size: 20 %}</span>
-    <span id="mobile-cta-text">Suscribirme – {% if sub_price > 0 %}{%- render 'price', amount: sub_price -%}/mes{% else %}{%- render 'price', amount: product.selected_or_first_available_variant.price -%}{% endif %}</span>
-  </button>
-</div>
+{% render 'brand-sticky-cta', target_id: 'product-form', sub_price: sub_price %}
 
 <!-- Product JSON-LD -->
 {% if product %}

@@ -1,0 +1,100 @@
+{%- comment -%}
+  Brand Sticky CTA — mobile-only floating button that appears once the
+  buy-box scrolls out of view, and scrolls back to it on tap.
+
+  Used on both the homepage (product-hero) and the lander page.
+  The label is initialized server-side from `sub_price` and then kept
+  in sync with the user's selection by ProductForm.updateMobileCTA
+  (which targets the #mobile-cta-text id).
+
+  Usage:
+    {% render 'brand-sticky-cta',
+       target_id: 'product-form',  # or 'lander-product-form'
+       sub_price: sub_price        # cents; used only for initial label
+    %}
+
+  Params:
+    target_id  (required) — id of the buy-box container to scroll to.
+                            Bar shows when this element is NOT in viewport.
+    sub_price  (optional) — initial price in cents for the label.
+{%- endcomment -%}
+
+{%- assign _target_id = target_id | default: 'product-form' -%}
+
+{%- if sub_price > 0 -%}
+  {%- assign sticky_price_whole = sub_price | divided_by: 100 -%}
+  {%- assign sticky_price_cents = sub_price | modulo: 100 -%}
+{%- endif -%}
+
+<style>
+  #brand-sticky-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: -80px;
+    z-index: 50;
+    transition: bottom 0.3s ease;
+  }
+  #brand-sticky-cta.is-visible { bottom: 0; }
+  @media (min-width: 1024px) {
+    #brand-sticky-cta { display: none !important; }
+  }
+  @media (max-width: 1023px) {
+    /* Lift any fixed-bottom widgets (chat, WhatsApp) above the bar when shown. */
+    body.brand-sticky-visible iframe[title*="chat"],
+    body.brand-sticky-visible iframe[src*="coco"],
+    body.brand-sticky-visible div[class*="widget"][style*="fixed"],
+    body.brand-sticky-visible div[style*="position: fixed"][style*="bottom"][style*="right"] {
+      bottom: 64px !important;
+    }
+  }
+</style>
+
+<div id="brand-sticky-cta" data-target-id="{{ _target_id }}">
+  <div style="background-color: #001D45; box-shadow: 0 -4px 20px rgba(0,0,0,0.25); padding: 8px 16px 12px;">
+    <a
+      href="#{{ _target_id }}"
+      onclick="event.preventDefault(); var t = document.getElementById('{{ _target_id }}'); if (t) t.scrollIntoView({behavior:'smooth', block:'start'});"
+      style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background-color: #00A33C; color: #fff; font-weight: 700; font-size: 15px; padding: 12px 0; border-radius: 12px; text-decoration: none;"
+    >
+      {% render 'icon-cart', size: 18 %}
+      <span id="mobile-cta-text">Suscribirme{% if sticky_price_whole %} – ${{ sticky_price_whole }}{%- if sticky_price_cents and sticky_price_cents > 0 -%},{{ sticky_price_cents | prepend: '00' | slice: -2, 2 }}{%- endif -%}/mes{% endif %}</span>
+    </a>
+  </div>
+</div>
+
+<script>
+(function() {
+  function init() {
+    var bar = document.getElementById('brand-sticky-cta');
+    if (!bar) return;
+    var targetId = bar.dataset.targetId;
+    var target = targetId && document.getElementById(targetId);
+    if (!target) return;
+
+    var inView = true;
+    var SCROLL_THRESHOLD = 100;
+
+    function update() {
+      var show = !inView && window.scrollY > SCROLL_THRESHOLD;
+      if (show) {
+        bar.classList.add('is-visible');
+        document.body.classList.add('brand-sticky-visible');
+      } else {
+        bar.classList.remove('is-visible');
+        document.body.classList.remove('brand-sticky-visible');
+      }
+    }
+
+    new IntersectionObserver(function(entries) {
+      inView = entries[0].isIntersecting;
+      update();
+    }, { threshold: 0 }).observe(target);
+
+    window.addEventListener('scroll', update, { passive: true });
+  }
+
+  if (document.readyState === 'complete') init();
+  else window.addEventListener('load', init);
+})();
+</script>
