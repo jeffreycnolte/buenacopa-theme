@@ -179,7 +179,8 @@ if (!Shopify.formatMoney) {
   Shopify.formatMoney = function (cents) {
     if (typeof cents === 'string') cents = cents.replace('.', '');
     var value = (parseInt(cents, 10) / 100);
+    var hasDecimals = value % 1 !== 0;
     var lang = document.documentElement.lang || 'es';
-    return '$' + value.toLocaleString(lang, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' MXN';
+    return '$' + value.toLocaleString(lang, { minimumFractionDigits: hasDecimals ? 2 : 0, maximumFractionDigits: 2 }) + ' MXN';
   };
 }

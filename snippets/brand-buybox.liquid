@@ -68,7 +68,7 @@
 
   {%- comment -%}─── Pre-decision trust bullets (cheers-pattern) ───{%- endcomment -%}
   <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
-    {%- assign _bullets = 'Toma 3 cápsulas después de tu última copa o antes de dormir|Despierta como si hubieras bebido la mitad — o te devolvemos tu dinero|Ataca la cruda desde la raíz mientras apoya tu hígado' | split: '|' -%}
+    {%- assign _bullets = 'Toma 3 cápsulas después de tu última copa o antes de dormir|Despierta sintiéndote bien — o te devolvemos tu dinero|Apoya tu hígado mientras descansas — DHM, L-cisteína y vitamina C' | split: '|' -%}
     {%- for b in _bullets -%}
       <li style="display:flex; align-items:flex-start; gap:10px; color:#001D45; font-size:14px; line-height:1.4;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#001D45" stroke-width="3" aria-hidden="true" style="flex-shrink:0; margin-top:2px;"><polyline points="20 6 9 17 4 12"/></svg>
@@ -109,7 +109,8 @@
         <li style="display:flex; align-items:center; gap:6px; font-size:11px; color:rgba(7,29,64,0.7); font-weight:500">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>
           {%- if sub_savings_whole != blank and sub_savings_whole > 0 -%}
-            Ahorras ${{ sub_savings_whole }} cada mes
+            {%- capture _sav -%}${{ sub_savings_whole }}{%- if sub_savings_cents != blank and sub_savings_cents > 0 -%},{{ sub_savings_cents | prepend: '00' | slice: -2, 2 }}{%- endif -%}{%- endcapture -%}
+            Ahorras {{ _sav }} cada mes
           {%- else -%}
             20% de descuento de por vida
           {%- endif -%}
