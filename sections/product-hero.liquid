@@ -79,6 +79,7 @@
   assign ot_price = onetime_variant.price | default: 0
   assign ot_compare = onetime_variant.compare_at_price | default: 0
   assign ot_price_whole = ot_price | divided_by: 100
+  assign ot_price_cents = ot_price | modulo: 100
   assign ot_compare_whole = ot_compare | divided_by: 100
   if ot_price > 0 and servings > 0
     assign ot_per_serving = ot_price | divided_by: servings
@@ -411,6 +412,7 @@
           onetime_variant_title: onetime_variant.title,
           onetime_price_raw: ot_price,
           onetime_price_whole: ot_price_whole,
+          onetime_price_cents: ot_price_cents,
           onetime_compare_whole: ot_compare_whole,
           onetime_per_whole: ot_per_whole,
           onetime_available: onetime_variant.available,
