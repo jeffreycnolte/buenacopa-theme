@@ -72,38 +72,7 @@
     <span style="font-size:12px" class="font-medium">{{ _shipping_text }}</span>
   </div>
 
-  {%- comment -%}─── Tile 1: One-Time (anchor) ───{%- endcomment -%}
-  {%- if onetime_variant_id != blank -%}
-    <button
-      type="button"
-      class="bc-buybox-tile w-full text-left rounded-xl border-2 border-background/15 transition-all cursor-pointer {% unless onetime_available %}opacity-50 cursor-not-allowed{% endunless %}"
-      style="padding:14px 16px;"
-      data-variant-id="{{ onetime_variant_id }}"
-      data-price="{{ onetime_price_raw }}"
-      data-variant-price="{{ onetime_price_raw }}"
-      data-variant-available="{{ onetime_available }}"
-      onclick="ProductForm.selectOption(this)"
-      {% unless onetime_available %}disabled{% endunless %}
-    >
-      <div style="display:flex; align-items:flex-start; gap:12px;">
-        <span class="bc-radio" aria-hidden="true"></span>
-        <div style="flex:1; min-width:0;">
-          <div class="flex items-baseline justify-between" style="gap:12px;">
-            <p class="font-bold text-background" style="font-size:14px">{{ _onetime_heading }}</p>
-            <div style="text-align:right; white-space:nowrap;">
-              <span class="font-display font-black text-background" style="font-size:20px">${{ _ot_formatted }}</span>
-            </div>
-          </div>
-          <p style="font-size:11px; font-weight:500; margin-top:2px; color:rgba(7,29,64,0.55);">
-            Una sola entrega · Sin recurrencia
-            {%- if onetime_per_whole != blank and onetime_per_whole > 0 %} · ${{ onetime_per_whole }}/toma{% endif -%}
-          </p>
-        </div>
-      </div>
-    </button>
-  {%- endif -%}
-
-  {%- comment -%}─── Tile 2: Subscription (default) ───{%- endcomment -%}
+  {%- comment -%}─── Tile 1: Subscription (default, recommended) ───{%- endcomment -%}
   {%- if has_subscription and sub_variant_id != blank -%}
     <button
       type="button"
@@ -112,6 +81,8 @@
       data-variant-id="{{ sub_variant_id }}"
       data-selling-plan-id="{{ sub_plan_id }}"
       data-price="{{ sub_price_raw }}"
+      data-cta-prefix="Suscribirme"
+      data-cta-suffix="/mes"
       data-default="true"
       onclick="ProductForm.selectOption(this)"
     >
@@ -145,6 +116,38 @@
               Llega cada mes — pausa o cancela cuando quieras
             </li>
           </ul>
+        </div>
+      </div>
+    </button>
+  {%- endif -%}
+
+  {%- comment -%}─── Tile 2: One-Time ───{%- endcomment -%}
+  {%- if onetime_variant_id != blank -%}
+    <button
+      type="button"
+      class="bc-buybox-tile w-full text-left rounded-xl border-2 border-background/15 transition-all cursor-pointer {% unless onetime_available %}opacity-50 cursor-not-allowed{% endunless %}"
+      style="padding:14px 16px;"
+      data-variant-id="{{ onetime_variant_id }}"
+      data-price="{{ onetime_price_raw }}"
+      data-variant-price="{{ onetime_price_raw }}"
+      data-variant-available="{{ onetime_available }}"
+      data-cta-prefix="Agregar al carrito"
+      onclick="ProductForm.selectOption(this)"
+      {% unless onetime_available %}disabled{% endunless %}
+    >
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <span class="bc-radio" aria-hidden="true"></span>
+        <div style="flex:1; min-width:0;">
+          <div class="flex items-baseline justify-between" style="gap:12px;">
+            <p class="font-bold text-background" style="font-size:14px">{{ _onetime_heading }}</p>
+            <div style="text-align:right; white-space:nowrap;">
+              <span class="font-display font-black text-background" style="font-size:20px">${{ _ot_formatted }}</span>
+            </div>
+          </div>
+          <p style="font-size:11px; font-weight:500; margin-top:2px; color:rgba(7,29,64,0.55);">
+            Una sola entrega · Sin recurrencia
+            {%- if onetime_per_whole != blank and onetime_per_whole > 0 %} · ${{ onetime_per_whole }}/toma{% endif -%}
+          </p>
         </div>
       </div>
     </button>

@@ -21,7 +21,8 @@ var ProductForm = {
   },
 
   // Cheers-style radio selection: clicking a tile picks it. The tile element
-  // carries data-variant-id, data-price, and (optionally) data-selling-plan-id.
+  // carries data-variant-id, data-price, optional data-selling-plan-id, plus
+  // data-cta-prefix / data-cta-suffix used to render the main button label.
   selectOption: function (tile) {
     if (!tile) return;
     document.querySelectorAll('.bc-buybox-tile').forEach(function (t) {
@@ -42,10 +43,31 @@ var ProductForm = {
       this.isSubscription = false;
     }
 
+    this.selectedCtaPrefix = tile.dataset.ctaPrefix || 'Agregar al carrito';
+    this.selectedCtaSuffix = tile.dataset.ctaSuffix || '';
+
     this.updateUI();
   },
 
+  formatPrice: function (cents) {
+    if (!cents) return '';
+    var total = (cents / 100) * this.quantity;
+    var hasDecimals = total % 1 !== 0;
+    var lang = document.documentElement.lang || 'es';
+    return '$' + total.toLocaleString(lang, { minimumFractionDigits: hasDecimals ? 2 : 0, maximumFractionDigits: 2 });
+  },
+
+  updateCartCTA: function () {
+    var btn = document.getElementById('add-to-cart-btn');
+    if (!btn) return;
+    var prefix = this.selectedCtaPrefix || 'Agregar al carrito';
+    var suffix = this.selectedCtaSuffix || '';
+    var price = this.formatPrice(this.selectedPrice);
+    btn.textContent = price ? (prefix + ' – ' + price + suffix) : prefix;
+  },
+
   updateUI: function () {
+    this.updateCartCTA();
     this.updateMobileCTA();
   },
 
@@ -84,19 +106,11 @@ var ProductForm = {
 
   updateMobileCTA: function () {
     var ctaText = document.getElementById('mobile-cta-text');
-    if (!ctaText || !this.selectedPrice) return;
-
-    var total = (this.selectedPrice / 100) * this.quantity;
-    var hasDecimals = total % 1 !== 0;
-    var lang = document.documentElement.lang || 'es';
-    var formatted = '$' + total.toLocaleString(lang, { minimumFractionDigits: hasDecimals ? 2 : 0, maximumFractionDigits: 2 });
-
-    if (this.isSubscription) {
-      ctaText.textContent = 'Suscribirme \u2013 ' + formatted + '/mes';
-    } else {
-      var label = (window.theme && window.theme.strings && window.theme.strings.addToCart) || 'Agregar al carrito';
-      ctaText.textContent = label + ' \u2013 ' + formatted;
-    }
+    if (!ctaText) return;
+    var prefix = this.selectedCtaPrefix || (this.isSubscription ? 'Suscribirme' : 'Agregar al carrito');
+    var suffix = this.selectedCtaSuffix || (this.isSubscription ? '/mes' : '');
+    var price = this.formatPrice(this.selectedPrice);
+    ctaText.textContent = price ? (prefix + ' \u2013 ' + price + suffix) : prefix;
   },
 
   setButtonLoading: function (loading) {
