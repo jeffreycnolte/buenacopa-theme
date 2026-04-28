@@ -12,101 +12,62 @@ var ProductForm = {
   isSubmitting: false,
 
   init: function () {
-    var subCard = document.getElementById('subscription-card');
-    if (subCard) {
-      this.selectedVariantId = parseInt(subCard.dataset.variantId);
-      this.selectedSellingPlan = parseInt(subCard.dataset.sellingPlanId);
-      this.selectedPrice = parseInt(subCard.dataset.price);
+    // Default selection = the tile marked [data-default] (subscription if
+    // present, else one-time). All buy-box tiles share class .bc-buybox-tile.
+    var def = document.querySelector('.bc-buybox-tile[data-default="true"]')
+           || document.querySelector('.bc-buybox-tile');
+    if (def) this.selectOption(def);
+    this.updateUI();
+  },
+
+  // Cheers-style radio selection: clicking a tile picks it. The tile element
+  // carries data-variant-id, data-price, optional data-selling-plan-id, plus
+  // data-cta-prefix / data-cta-suffix used to render the main button label.
+  selectOption: function (tile) {
+    if (!tile) return;
+    document.querySelectorAll('.bc-buybox-tile').forEach(function (t) {
+      t.classList.remove('selected', 'border-accent');
+      t.classList.add('border-background/15');
+    });
+    tile.classList.add('selected', 'border-accent');
+    tile.classList.remove('border-background/15');
+
+    this.selectedVariantId = parseInt(tile.dataset.variantId);
+    this.selectedPrice = parseInt(tile.dataset.price);
+    var planId = tile.dataset.sellingPlanId;
+    if (planId) {
+      this.selectedSellingPlan = parseInt(planId);
       this.isSubscription = true;
-      // Ensure visual selection on load
-      subCard.classList.add('border-accent', 'selected');
-      subCard.classList.remove('border-background/15', 'bg-background/5');
     } else {
-      var firstBtn = document.querySelector('.variant-btn');
-      if (firstBtn) {
-        this.selectedVariantId = parseInt(firstBtn.dataset.variantId);
-        this.selectedPrice = parseInt(firstBtn.dataset.variantPrice);
-        this.isSubscription = false;
-        firstBtn.classList.add('selected', 'border-accent', 'bg-accent/10');
-      }
-    }
-    this.updateUI();
-  },
-
-  selectSubscription: function (variantId, sellingPlanId) {
-    this.selectedVariantId = variantId;
-    this.selectedSellingPlan = sellingPlanId;
-    this.isSubscription = true;
-
-    var subCard = document.getElementById('subscription-card');
-    if (subCard) {
-      this.selectedPrice = parseInt(subCard.dataset.price);
+      this.selectedSellingPlan = null;
+      this.isSubscription = false;
     }
 
-    // Visual: highlight subscription card
-    if (subCard) {
-      subCard.classList.add('border-accent', 'bg-accent/5', 'selected');
-      subCard.classList.remove('border-background/15', 'bg-background/5');
-    }
-
-    // Deselect one-time variants
-    document.querySelectorAll('#variant-selector .variant-btn').forEach(function (btn) {
-      btn.classList.remove('selected', 'border-accent', 'bg-accent/10');
-      btn.classList.add('border-background/15', 'bg-background/5');
-    });
+    this.selectedCtaPrefix = tile.dataset.ctaPrefix || 'Agregar al carrito';
+    this.selectedCtaSuffix = tile.dataset.ctaSuffix || '';
 
     this.updateUI();
   },
 
-  selectOneTime: function (variantId, button) {
-    this.selectedVariantId = variantId;
-    this.selectedSellingPlan = null;
-    this.isSubscription = false;
-    this.selectedPrice = parseInt(button.dataset.variantPrice);
-
-    // Deselect subscription card
-    var subCard = document.getElementById('subscription-card');
-    if (subCard) {
-      subCard.classList.remove('border-accent', 'bg-accent/5', 'selected');
-      subCard.classList.add('border-background/15', 'bg-background/5');
-    }
-
-    // Deselect all one-time, select clicked
-    document.querySelectorAll('#variant-selector .variant-btn').forEach(function (btn) {
-      btn.classList.remove('selected', 'border-accent', 'bg-accent/10');
-      btn.classList.add('border-background/15', 'bg-background/5');
-    });
-    button.classList.add('selected', 'border-accent', 'bg-accent/10');
-    button.classList.remove('border-background/15', 'bg-background/5');
-
-    this.updateUI();
+  formatPrice: function (cents) {
+    if (!cents) return '';
+    var total = (cents / 100) * this.quantity;
+    var hasDecimals = total % 1 !== 0;
+    var lang = document.documentElement.lang || 'es';
+    return '$' + total.toLocaleString(lang, { minimumFractionDigits: hasDecimals ? 2 : 0, maximumFractionDigits: 2 });
   },
 
-  // Called from hero CTAs
-  preselectSubscription: function () {
-    var subCard = document.getElementById('subscription-card');
-    if (subCard) {
-      this.selectSubscription(
-        parseInt(subCard.dataset.variantId),
-        parseInt(subCard.dataset.sellingPlanId)
-      );
-    }
-  },
-
-  preselectOneTime: function () {
-    var firstBtn = document.querySelector('#variant-selector .variant-btn');
-    if (firstBtn) {
-      this.selectOneTime(parseInt(firstBtn.dataset.variantId), firstBtn);
-    }
+  updateCartCTA: function () {
+    var label = document.getElementById('add-to-cart-label');
+    if (!label) return;
+    var prefix = this.selectedCtaPrefix || 'Agregar al carrito';
+    var suffix = this.selectedCtaSuffix || '';
+    var price = this.formatPrice(this.selectedPrice);
+    label.textContent = price ? (prefix + ' – ' + price + suffix) : prefix;
   },
 
   updateUI: function () {
-    // Show/hide one-time CTA row (quantity + button)
-    var ctaRow = document.getElementById('onetime-cta-row');
-    if (ctaRow) {
-      ctaRow.style.display = this.isSubscription ? 'none' : 'block';
-    }
-
+    this.updateCartCTA();
     this.updateMobileCTA();
   },
 
@@ -145,19 +106,11 @@ var ProductForm = {
 
   updateMobileCTA: function () {
     var ctaText = document.getElementById('mobile-cta-text');
-    if (!ctaText || !this.selectedPrice) return;
-
-    var total = (this.selectedPrice / 100) * this.quantity;
-    var hasDecimals = total % 1 !== 0;
-    var lang = document.documentElement.lang || 'es';
-    var formatted = '$' + total.toLocaleString(lang, { minimumFractionDigits: hasDecimals ? 2 : 0, maximumFractionDigits: 2 });
-
-    if (this.isSubscription) {
-      ctaText.textContent = 'Suscribirme \u2013 ' + formatted + '/mes';
-    } else {
-      var label = (window.theme && window.theme.strings && window.theme.strings.addToCart) || 'Agregar al carrito';
-      ctaText.textContent = label + ' \u2013 ' + formatted;
-    }
+    if (!ctaText) return;
+    var prefix = this.selectedCtaPrefix || (this.isSubscription ? 'Suscribirme' : 'Agregar al carrito');
+    var suffix = this.selectedCtaSuffix || (this.isSubscription ? '/mes' : '');
+    var price = this.formatPrice(this.selectedPrice);
+    ctaText.textContent = price ? (prefix + ' \u2013 ' + price + suffix) : prefix;
   },
 
   setButtonLoading: function (loading) {
