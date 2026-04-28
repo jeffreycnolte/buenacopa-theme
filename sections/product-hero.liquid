@@ -10,11 +10,11 @@
 {%- endif -%}
 
 {%- liquid
+  comment --- Subscription detection: first selling plan + the variant it's allocated to. endcomment
   assign has_subscription = false
   assign sub_variant = nil
   assign sub_plan = nil
   assign sub_price = 0
-  assign sub_servings = 0
 
   for group in product.selling_plan_groups
     if group.selling_plans.size > 0
@@ -36,51 +36,59 @@
     endif
   endfor
 
-  if sub_variant
-    assign sub_title_words = sub_variant.title | split: ' '
-    for word in sub_title_words
+  comment --- One-time variant: first available variant (single-SKU model). endcomment
+  assign onetime_variant = nil
+  for variant in product.variants
+    if variant.available
+      assign onetime_variant = variant
+      break
+    endif
+  endfor
+  if onetime_variant == nil
+    assign onetime_variant = product.variants.first
+  endif
+
+  comment --- Servings: parse first numeric token from the one-time variant title. endcomment
+  assign servings = 0
+  if onetime_variant
+    assign title_words = onetime_variant.title | split: ' '
+    for word in title_words
       assign word_num = word | plus: 0
       if word_num > 0
-        assign sub_servings = word_num
+        assign servings = word_num
         break
       endif
     endfor
   endif
-  if sub_servings == 0
-    assign sub_servings = 1
+  if servings == 0
+    assign servings = 10
   endif
+  assign sub_servings = servings
 
-  if sub_price > 0 and sub_servings > 0
-    assign sub_per_serving = sub_price | divided_by: sub_servings
+  comment --- Subscription price math endcomment
+  assign sub_price_whole = sub_price | divided_by: 100
+  assign sub_price_cents = sub_price | modulo: 100
+  if sub_price > 0 and servings > 0
+    assign sub_per_serving = sub_price | divided_by: servings
   else
     assign sub_per_serving = 0
   endif
-
-  assign sub_price_whole = sub_price | divided_by: 100
-  assign sub_price_cents = sub_price | modulo: 100
   assign sub_per_whole = sub_per_serving | divided_by: 100
 
-  comment
-    Find the one-time price for the same serving count to show as compare-at
-  endcomment
-  assign sub_compare_price = 0
-  for variant in product.variants
-    assign v_title_lower = variant.title | downcase
-    unless v_title_lower contains 'suscri'
-      assign v_words = variant.title | split: ' '
-      for w in v_words
-        assign w_num = w | plus: 0
-        if w_num == sub_servings
-          assign sub_compare_price = variant.price
-          break
-        endif
-      endfor
-    endunless
-    if sub_compare_price > 0
-      break
-    endif
-  endfor
-  assign sub_compare_whole = sub_compare_price | divided_by: 100
+  comment --- One-time price math endcomment
+  assign ot_price = onetime_variant.price | default: 0
+  assign ot_compare = onetime_variant.compare_at_price | default: 0
+  assign ot_price_whole = ot_price | divided_by: 100
+  assign ot_compare_whole = ot_compare | divided_by: 100
+  if ot_price > 0 and servings > 0
+    assign ot_per_serving = ot_price | divided_by: servings
+  else
+    assign ot_per_serving = 0
+  endif
+  assign ot_per_whole = ot_per_serving | divided_by: 100
+
+  comment --- Sub compare-at = the one-time price (shows strikethrough on sub card). endcomment
+  assign sub_compare_whole = ot_price_whole
 -%}
 
 <section id="comprar" class="overflow-hidden bg-white">
@@ -377,245 +385,33 @@
       <div class="space-y-3 pb-4 lg:pb-0" id="product-form-container" data-product-id="{{ product.id }}">
         <h2 class="sr-only">{{ product.title }}</h2>
 
-        <!-- Shipping badge -->
-        <div class="flex items-center gap-2 text-background/50">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          <span style="font-size:12px" class="font-medium">Envíos a todo México</span>
-        </div>
+        {%- assign t_ssl = 'general.security.ssl_badge' | t -%}
+        {%- assign t_shipping = 'general.security.free_shipping_badge' | t -%}
+        {%- assign t_guarantee = 'general.security.guarantee_badge' | t -%}
+        {% render 'brand-buybox',
+          id_prefix: '',
+          product_id: product.id,
+          has_subscription: has_subscription,
+          sub_variant_id: sub_variant.id,
+          sub_plan_id: sub_plan.id,
+          sub_price_raw: sub_price,
+          sub_servings: sub_servings,
+          sub_price_whole: sub_price_whole,
+          sub_price_cents: sub_price_cents,
+          sub_compare_whole: sub_compare_whole,
+          sub_per_whole: sub_per_whole,
+          onetime_variant_id: onetime_variant.id,
+          onetime_variant_title: onetime_variant.title,
+          onetime_price_raw: ot_price,
+          onetime_price_whole: ot_price_whole,
+          onetime_compare_whole: ot_compare_whole,
+          onetime_per_whole: ot_per_whole,
+          onetime_available: onetime_variant.available,
+          trust_ssl: t_ssl,
+          trust_shipping: t_shipping,
+          trust_guarantee: t_guarantee
+        %}
 
-        <!-- ═══ SUBSCRIPTION CARD ═══ -->
-        {% if has_subscription and sub_variant %}
-          <div
-            id="subscription-card"
-            class="relative rounded-xl border-2 border-accent cursor-pointer transition-all"
-            style="background: linear-gradient(180deg, rgba(0,171,67,0.06) 0%, rgba(0,171,67,0.02) 100%); padding: 24px 16px 14px;"
-            onclick="ProductForm.selectSubscription({{ sub_variant.id }}, {{ sub_plan.id }})"
-            data-variant-id="{{ sub_variant.id }}"
-            data-selling-plan-id="{{ sub_plan.id }}"
-            data-price="{{ sub_price }}"
-          >
-            <span class="absolute left-3" style="top:-11px; font-size:11px; letter-spacing:0.05em; display:inline-flex; align-items:center; gap:5px; background:#00A33C; color:#fff; font-weight:700; text-transform:uppercase; padding:3px 10px; border-radius:999px;">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              MEJOR VALOR
-            </span>
-
-            <div class="flex items-baseline justify-between">
-              <p class="font-bold text-background" style="font-size:14px">Suscripción ({{ sub_servings }} sobres)</p>
-              <div style="text-align:right; white-space:nowrap;">
-                {%- if sub_compare_price > sub_price -%}
-                  <span style="font-size:13px; color:rgba(7,29,64,0.4); text-decoration:line-through; font-weight:600; margin-right:4px;">${{ sub_compare_whole }}</span>
-                {%- endif -%}
-                <span class="font-display font-black text-background" style="font-size:22px">${{ sub_price_whole }}</span>{%- if sub_price_cents > 0 -%}<span class="font-display font-black text-background" style="font-size:14px">.{{ sub_price_cents }}</span>{%- endif -%}<span style="font-size:11px; color:rgba(7,29,64,0.4); font-weight:600; margin-left:2px">/mes</span>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-2" style="margin-top:8px; gap:3px 12px">
-              <div style="display:flex; align-items:center; gap:6px">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-                <span style="font-size:11px; color:rgba(7,29,64,0.65)"><strong>40% off primeros 2 meses</strong></span>
-              </div>
-              <div style="display:flex; align-items:center; gap:6px">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-                <span style="font-size:11px; color:rgba(7,29,64,0.65)"><strong>15% off de por vida</strong></span>
-              </div>
-              <div style="display:flex; align-items:center; gap:6px">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-                <span style="font-size:11px; color:rgba(7,29,64,0.65)">${{ sub_per_whole }} por toma</span>
-              </div>
-              <div style="display:flex; align-items:center; gap:6px">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-                <span style="font-size:11px; color:rgba(7,29,64,0.65)">Cancela cuando quieras</span>
-              </div>
-            </div>
-
-            <button
-              onclick="event.stopPropagation(); ProductForm.selectSubscription({{ sub_variant.id }}, {{ sub_plan.id }}); ProductForm.addToCart();"
-              class="w-full btn-cta flex items-center justify-center gap-2"
-              style="margin-top:14px; font-size:14px; padding:10px 0"
-            >
-              Suscribirme ahora
-              <span class="inline-flex">{% render 'icon-arrow-right', size: 16 %}</span>
-            </button>
-          </div>
-        {% endif %}
-
-        <!-- ═══ ONE-TIME PURCHASE ═══ -->
-        <div>
-          <div class="flex items-center gap-3" style="margin-top:4px">
-            <p class="font-bold text-background shrink-0" style="font-size:14px">Compra única</p>
-            <div class="flex-1 h-px bg-background/10"></div>
-          </div>
-
-          {%- comment -%}Collect non-subscription variants{%- endcomment -%}
-          {%- assign onetime_variants = '' -%}
-          {%- assign onetime_count = 0 -%}
-          {%- for variant in product.variants -%}
-            {%- liquid
-              assign variant_title_lower = variant.title | downcase
-              assign is_sub_only = false
-              if variant_title_lower contains 'suscripción' or variant_title_lower contains 'suscripcion' or variant_title_lower contains 'subscription'
-                assign is_sub_only = true
-              endif
-            -%}
-            {%- unless is_sub_only -%}
-              {%- assign onetime_count = onetime_count | plus: 1 -%}
-            {%- endunless -%}
-          {%- endfor -%}
-
-          <div id="variant-selector">
-            {%- comment -%}First row: 2-column grid for smaller variants{%- endcomment -%}
-            <div class="grid grid-cols-2 gap-2" style="margin-top:8px">
-              {%- assign rendered = 0 -%}
-              {%- for variant in product.variants -%}
-                {%- liquid
-                  assign variant_title_lower = variant.title | downcase
-                  assign is_sub_only = false
-                  if variant_title_lower contains 'suscripción' or variant_title_lower contains 'suscripcion' or variant_title_lower contains 'subscription'
-                    assign is_sub_only = true
-                  endif
-                  assign servings = 0
-                  assign title_words = variant.title | split: ' '
-                  for word in title_words
-                    assign word_as_number = word | plus: 0
-                    if word_as_number > 0
-                      assign servings = word_as_number
-                      break
-                    endif
-                  endfor
-                  if servings == 0
-                    assign servings = 1
-                  endif
-                  if variant.price > 0 and servings > 0
-                    assign per_serving = variant.price | divided_by: servings
-                  else
-                    assign per_serving = 0
-                  endif
-                -%}
-                {%- unless is_sub_only -%}
-                  {%- assign rendered = rendered | plus: 1 -%}
-                  {%- if rendered <= 2 -%}
-                    <button
-                      type="button"
-                      onclick="ProductForm.selectOneTime({{ variant.id }}, this)"
-                      aria-label="{{ 'sections.product.select_variant' | t: title: variant.title }}"
-                      data-variant-id="{{ variant.id }}"
-                      data-variant-price="{{ variant.price }}"
-                      data-variant-available="{{ variant.available }}"
-                      class="variant-btn flex items-center justify-between rounded-xl border-2 transition-all duration-200 border-background/15 bg-background/5 hover:border-background/25 {% unless variant.available %}opacity-50 cursor-not-allowed{% endunless %}"
-                      style="padding:10px 12px"
-                      {% unless variant.available %}disabled{% endunless %}
-                    >
-                      <span class="font-bold text-background" style="font-size:13px">{{ variant.title }}</span>
-                      <div style="text-align:right">
-                        {%- assign v_whole = variant.price | divided_by: 100 -%}
-                        {%- assign v_cents = variant.price | modulo: 100 -%}
-                        {%- capture v_formatted -%}{%- if v_whole >= 1000 -%}{{ v_whole | divided_by: 1000 }},{{ v_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ v_whole }}{%- endif -%}{%- endcapture -%}
-                        {% if variant.compare_at_price > variant.price %}
-                          {%- assign cap_whole = variant.compare_at_price | divided_by: 100 -%}
-                          <span class="text-background/30" style="font-size:11px; text-decoration:line-through">${{ cap_whole }}</span>
-                        {% endif %}
-                        <span class="font-display font-black text-background" style="font-size:15px">${{ v_formatted }}</span>
-                        {% if per_serving > 0 %}
-                          {%- assign ps_whole = per_serving | divided_by: 100 -%}
-                          <div class="text-background/40" style="font-size:9px; text-align:right">${{ ps_whole }}/toma</div>
-                        {% endif %}
-                      </div>
-                    </button>
-                  {%- endif -%}
-                {%- endunless -%}
-              {%- endfor -%}
-            </div>
-
-            {%- comment -%}Second row: full-width for 20 sobres{%- endcomment -%}
-            {%- assign rendered = 0 -%}
-            {%- for variant in product.variants -%}
-              {%- liquid
-                assign variant_title_lower = variant.title | downcase
-                assign is_sub_only = false
-                if variant_title_lower contains 'suscripción' or variant_title_lower contains 'suscripcion' or variant_title_lower contains 'subscription'
-                  assign is_sub_only = true
-                endif
-                assign servings = 10
-                if variant_title_lower contains '20'
-                  assign servings = 20
-                elsif variant_title_lower contains '30'
-                  assign servings = 30
-                elsif variant_title_lower contains '5 '
-                  assign servings = 5
-                endif
-                if variant.price > 0 and servings > 0
-                  assign per_serving = variant.price | divided_by: servings
-                else
-                  assign per_serving = 0
-                endif
-              -%}
-              {%- unless is_sub_only -%}
-                {%- assign rendered = rendered | plus: 1 -%}
-                {%- if rendered > 2 -%}
-                  <button
-                    type="button"
-                    onclick="ProductForm.selectOneTime({{ variant.id }}, this)"
-                    aria-label="{{ 'sections.product.select_variant' | t: title: variant.title }}"
-                    data-variant-id="{{ variant.id }}"
-                    data-variant-price="{{ variant.price }}"
-                    data-variant-available="{{ variant.available }}"
-                    class="variant-btn w-full flex items-center justify-between rounded-xl border-2 transition-all duration-200 text-left border-background/15 bg-background/5 hover:border-background/25 {% unless variant.available %}opacity-50 cursor-not-allowed{% endunless %}"
-                    style="padding:10px 12px; margin-top:8px; min-height:48px"
-                    {% unless variant.available %}disabled{% endunless %}
-                  >
-                    <span class="font-bold text-background" style="font-size:13px">{{ variant.title }}</span>
-                    <div style="text-align:right">
-                      {%- assign v_whole = variant.price | divided_by: 100 -%}
-                      {%- assign v_cents = variant.price | modulo: 100 -%}
-                      {%- capture v_formatted -%}{%- if v_whole >= 1000 -%}{{ v_whole | divided_by: 1000 }},{{ v_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ v_whole }}{%- endif -%}{%- endcapture -%}
-                      <span class="font-display font-black text-background" style="font-size:15px">${{ v_formatted }}</span>
-                      {% if per_serving > 0 %}
-                        {%- assign ps_whole = per_serving | divided_by: 100 -%}
-                        <div class="text-background/40" style="font-size:9px; text-align:right">${{ ps_whole }}/toma</div>
-                      {% endif %}
-                    </div>
-                  </button>
-                {%- endif -%}
-              {%- endunless -%}
-            {%- endfor -%}
-          </div>
-
-          <!-- Quantity + One-time CTA -->
-          <div id="onetime-cta-row" class="mt-3" style="display:none;">
-            <div style="display:flex; gap:10px; align-items:stretch;">
-              {% render 'brand-quantity-stepper', quantity_id: 'product-quantity' %}
-              <button
-                id="add-to-cart-btn"
-                onclick="ProductForm.addToCart()"
-                class="flex-1 flex items-center justify-center gap-2.5 text-white font-bold text-base rounded-xl transition-colors disabled:opacity-50"
-                style="background-color: #00A33C; padding:12px 0;"
-                onmouseover="this.style.backgroundColor='#009639'"
-                onmouseout="this.style.backgroundColor='#00A33C'"
-              >
-                Agregar al carrito
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Trust Badges -->
-        <div class="flex items-center justify-center text-background/50" id="trust-badges" style="gap:12px; padding:8px 0; font-size:10px">
-          <style>@media(min-width:1024px) { #trust-badges { font-size: 12px !important; } #trust-badges svg { width: 14px; height: 14px; } }</style>
-          <div class="flex items-center whitespace-nowrap" style="gap:5px; font-weight:500">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="shrink-0"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            {{ 'general.security.ssl_badge' | t }}
-          </div>
-          <span class="text-background/20">|</span>
-          <div class="flex items-center whitespace-nowrap" style="gap:5px; font-weight:500">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="shrink-0"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-            {{ 'general.security.free_shipping_badge' | t }}
-          </div>
-          <span class="text-background/20">|</span>
-          <div class="flex items-center whitespace-nowrap" style="gap:5px; font-weight:500">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            {{ 'general.security.guarantee_badge' | t }}
-          </div>
-        </div>
 
         <!-- Dropdowns -->
         <div>

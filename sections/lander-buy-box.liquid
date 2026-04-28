@@ -1,8 +1,8 @@
 {%- comment -%}
-  Lander Buy Box — Uses the same purchase module as the homepage product-hero.
-  Adds: "Elige tu plan" heading, larger product image above.
-  Removes: carousel, dropdowns, thumbnails.
-  Uses theme CSS classes (text-background, border-accent, etc.) that are in compiled Tailwind.
+  Lander Buy Box — Uses the canonical brand-buybox snippet.
+  Single-SKU model: one one-time variant + one optional subscription.
+  Section file is the controller — does all Shopify-data work, then passes
+  pre-shaped scalars to the view snippet.
 {%- endcomment -%}
 
 {%- assign product = section.settings.product -%}
@@ -11,11 +11,13 @@
 {%- endif -%}
 
 {%- liquid
+  comment
+    --- Subscription detection: first selling plan + the variant it's allocated to.
+  endcomment
   assign has_subscription = false
   assign sub_variant = nil
   assign sub_plan = nil
   assign sub_price = 0
-  assign sub_servings = 0
 
   for group in product.selling_plan_groups
     if group.selling_plans.size > 0
@@ -37,48 +39,67 @@
     endif
   endfor
 
-  if sub_variant
-    assign sub_title_words = sub_variant.title | split: ' '
-    for word in sub_title_words
+  comment
+    --- One-time variant: first available variant (single-SKU model).
+    Falls back to first variant if none are available so the tile still renders.
+  endcomment
+  assign onetime_variant = nil
+  for variant in product.variants
+    if variant.available
+      assign onetime_variant = variant
+      break
+    endif
+  endfor
+  if onetime_variant == nil
+    assign onetime_variant = product.variants.first
+  endif
+
+  comment
+    --- Servings count: parse first numeric token from the one-time variant
+    title (e.g. "10 sobres" → 10). Defaults to 10.
+  endcomment
+  assign servings = 0
+  if onetime_variant
+    assign title_words = onetime_variant.title | split: ' '
+    for word in title_words
       assign word_num = word | plus: 0
       if word_num > 0
-        assign sub_servings = word_num
+        assign servings = word_num
         break
       endif
     endfor
   endif
-  if sub_servings == 0
-    assign sub_servings = 1
+  if servings == 0
+    assign servings = 10
   endif
 
-  if sub_price > 0 and sub_servings > 0
-    assign sub_per_serving = sub_price | divided_by: sub_servings
+  comment --- Subscription price math endcomment
+  assign sub_price_whole = sub_price | divided_by: 100
+  assign sub_price_cents = sub_price | modulo: 100
+  if sub_price > 0 and servings > 0
+    assign sub_per_serving = sub_price | divided_by: servings
   else
     assign sub_per_serving = 0
   endif
-
-  assign sub_price_whole = sub_price | divided_by: 100
-  assign sub_price_cents = sub_price | modulo: 100
   assign sub_per_whole = sub_per_serving | divided_by: 100
 
-  assign sub_compare_price = 0
-  for variant in product.variants
-    assign v_title_lower = variant.title | downcase
-    unless v_title_lower contains 'suscri'
-      assign v_words = variant.title | split: ' '
-      for w in v_words
-        assign w_num = w | plus: 0
-        if w_num == sub_servings
-          assign sub_compare_price = variant.price
-          break
-        endif
-      endfor
-    endunless
-    if sub_compare_price > 0
-      break
-    endif
-  endfor
-  assign sub_compare_whole = sub_compare_price | divided_by: 100
+  comment --- One-time price math endcomment
+  assign ot_price = onetime_variant.price | default: 0
+  assign ot_compare = onetime_variant.compare_at_price | default: 0
+  assign ot_price_whole = ot_price | divided_by: 100
+  assign ot_compare_whole = ot_compare | divided_by: 100
+  if ot_price > 0 and servings > 0
+    assign ot_per_serving = ot_price | divided_by: servings
+  else
+    assign ot_per_serving = 0
+  endif
+  assign ot_per_whole = ot_per_serving | divided_by: 100
+
+  comment
+    --- Subscription compare-at = the one-time price for the same variant.
+    Shows the strikethrough on the sub card.
+  endcomment
+  assign sub_compare_whole = ot_price_whole
 -%}
 
 <section id="lander-buy-box" class="overflow-hidden bg-white" style="padding: 2.5rem 0;">
@@ -94,7 +115,7 @@
       </h2>
     </div>
 
-    {%- comment -%}Product image — bigger than before{%- endcomment -%}
+    {%- comment -%}Product image{%- endcomment -%}
     {% if product.featured_image %}
       <div class="mx-auto rounded-2xl overflow-hidden" style="max-width: 340px; margin-bottom: 20px;">
         <img
@@ -112,16 +133,13 @@
     {% endif %}
 
     {%- comment -%}
-      Purchase flow — delegates to snippets/brand-buybox.liquid (the canonical
-      view). All Shopify-data calculations (subscription detection, plan/variant
-      lookups, price math) stay in this section's {%- liquid %} block above.
-      The snippet receives only pre-shaped scalars + the variants collection.
-      Translation strings are resolved here before being passed in (filters
-      don't evaluate inline in render-tag arguments).
+      Translation strings — pre-assign because filters don't always evaluate
+      inline in render-tag arguments.
     {%- endcomment -%}
     {%- assign t_ssl = 'general.security.ssl_badge' | t -%}
     {%- assign t_shipping = 'general.security.free_shipping_badge' | t -%}
     {%- assign t_guarantee = 'general.security.guarantee_badge' | t -%}
+
     {% render 'brand-buybox',
       id_prefix: 'lander',
       product_id: product.id,
@@ -129,12 +147,18 @@
       sub_variant_id: sub_variant.id,
       sub_plan_id: sub_plan.id,
       sub_price_raw: sub_price,
-      sub_servings: sub_servings,
+      sub_servings: servings,
       sub_price_whole: sub_price_whole,
       sub_price_cents: sub_price_cents,
       sub_compare_whole: sub_compare_whole,
       sub_per_whole: sub_per_whole,
-      variants: product.variants,
+      onetime_variant_id: onetime_variant.id,
+      onetime_variant_title: onetime_variant.title,
+      onetime_price_raw: ot_price,
+      onetime_price_whole: ot_price_whole,
+      onetime_compare_whole: ot_compare_whole,
+      onetime_per_whole: ot_per_whole,
+      onetime_available: onetime_variant.available,
       trust_ssl: t_ssl,
       trust_shipping: t_shipping,
       trust_guarantee: t_guarantee
