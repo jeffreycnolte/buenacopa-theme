@@ -49,10 +49,10 @@
 {%- assign _trust_shipping  = trust_shipping  | default: 'Envío gratis' -%}
 {%- assign _trust_guarantee = trust_guarantee | default: 'Garantía 30 días' -%}
 {%- assign _ben_1 = sub_benefit_1 | default: '20% de descuento de por vida' -%}
-{%- capture _ben_2_default -%}${{ sub_per_whole }} por toma{%- endcapture -%}
+{%- capture _ben_2_default -%}{%- if sub_savings_whole != blank and sub_savings_whole > 0 -%}Ahorras ${{ sub_savings_whole }} cada mes{%- else -%}20% más barato{%- endif -%}{%- endcapture -%}
 {%- assign _ben_2 = sub_benefit_2 | default: _ben_2_default -%}
-{%- assign _ben_3 = sub_benefit_3 | default: 'Envío gratis' -%}
-{%- assign _ben_4 = sub_benefit_4 | default: 'Cancela cuando quieras' -%}
+{%- assign _ben_3 = sub_benefit_3 | default: 'Llega cada mes' -%}
+{%- assign _ben_4 = sub_benefit_4 | default: 'Pausa o cancela cuando quieras' -%}
 
 {%- comment -%}─── DOM id helpers ───{%- endcomment -%}
 {%- if id_prefix != blank -%}
@@ -92,13 +92,16 @@
     >
       {% render 'brand-badge', variant: 'best-value', text: 'MEJOR VALOR', class_extra: 'absolute left-3', style_extra: 'top:-11px;' %}
 
-      <div class="flex items-baseline justify-between">
-        <p class="font-bold text-background" style="font-size:14px">Suscripción ({{ sub_servings }} sobres)</p>
+      <div class="flex items-start justify-between">
+        <p class="font-bold text-background" style="font-size:14px">Suscripción mensual</p>
         <div style="text-align:right; white-space:nowrap;">
           {%- if sub_compare_whole != blank and sub_compare_whole > sub_price_whole -%}
             <span style="font-size:13px; color:rgba(7,29,64,0.4); text-decoration:line-through; font-weight:600; margin-right:4px;">${{ sub_compare_whole }}</span>
           {%- endif -%}
           <span class="font-display font-black text-background" style="font-size:22px">${{ sub_price_whole }}</span>{%- if sub_price_cents != blank and sub_price_cents > 0 -%}<span class="font-display font-black text-background" style="font-size:14px">.{{ sub_price_cents }}</span>{%- endif -%}<span style="font-size:11px; color:rgba(7,29,64,0.4); font-weight:600; margin-left:2px">/mes</span>
+          {%- if sub_per_whole != blank and sub_per_whole > 0 -%}
+            <div class="text-background/40" style="font-size:10px; text-align:right; margin-top:2px">${{ sub_per_whole }}/toma</div>
+          {%- endif -%}
         </div>
       </div>
 
@@ -136,49 +139,53 @@
 
   {%- comment -%}─── One-time tile ───{%- endcomment -%}
   {%- if onetime_variant_id != blank -%}
-    <div>
-      <div class="flex items-center gap-3" style="margin-top:4px">
-        <p class="font-bold text-background shrink-0" style="font-size:14px">{{ _onetime_heading }}</p>
-        <div class="flex-1 h-px bg-background/10"></div>
-      </div>
-
-      <div id="{{ _id_variant_sel }}" style="margin-top:8px">
-        {%- assign _ot_whole = onetime_price_whole | default: 0 -%}
-        {%- capture _ot_formatted -%}{%- if _ot_whole >= 1000 -%}{{ _ot_whole | divided_by: 1000 }},{{ _ot_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ _ot_whole }}{%- endif -%}{%- endcapture -%}
-        <button
-          type="button"
-          onclick="ProductForm.selectOneTime({{ onetime_variant_id }}, this)"
-          data-variant-id="{{ onetime_variant_id }}"
-          data-variant-price="{{ onetime_price_raw }}"
-          data-variant-available="{{ onetime_available }}"
-          class="variant-btn w-full flex items-center justify-between rounded-xl border-2 transition-all duration-200 text-left border-background/15 bg-background/5 hover:border-background/25 {% unless onetime_available %}opacity-50 cursor-not-allowed{% endunless %}"
-          style="padding:12px 14px; min-height:52px"
-          {% unless onetime_available %}disabled{% endunless %}
-        >
-          <span class="font-bold text-background" style="font-size:14px">{{ onetime_variant_title | default: '10 sobres' }}</span>
-          <div style="text-align:right">
-            {%- if onetime_compare_whole != blank and onetime_compare_whole > _ot_whole -%}
-              <span class="text-background/30" style="font-size:11px; text-decoration:line-through; margin-right:4px">${{ onetime_compare_whole }}</span>
-            {%- endif -%}
-            <span class="font-display font-black text-background" style="font-size:16px">${{ _ot_formatted }}</span>
-            {%- if onetime_per_whole != blank and onetime_per_whole > 0 -%}
-              <div class="text-background/40" style="font-size:10px; text-align:right">${{ onetime_per_whole }}/toma</div>
-            {%- endif -%}
-          </div>
-        </button>
-      </div>
-
-      {%- comment -%}Quantity stepper + Add-to-cart row (hidden until variant selected by JS){%- endcomment -%}
-      <div id="{{ _id_onetime }}" class="mt-3" style="display:none;">
-        <div style="display:flex; gap:10px; align-items:stretch;">
-          {% render 'brand-quantity-stepper', quantity_id: _id_qty %}
-          {% render 'brand-button',
-            tag: 'button',
-            text: _add_to_cart,
-            onclick: 'ProductForm.addToCart()',
-            class_extra: 'flex-1 disabled:opacity-50'
-          %}
+    {%- assign _ot_whole = onetime_price_whole | default: 0 -%}
+    {%- capture _ot_formatted -%}{%- if _ot_whole >= 1000 -%}{{ _ot_whole | divided_by: 1000 }},{{ _ot_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ _ot_whole }}{%- endif -%}{%- endcapture -%}
+    {%- assign _ot_onclick = 'ProductForm.addToCartOneTime()' -%}
+    <div
+      id="{{ _id_variant_sel }}"
+      class="rounded-xl border-2 border-background/15 bg-background/5 transition-all"
+      style="padding:14px 16px; margin-top:4px"
+    >
+      <div class="flex items-start justify-between">
+        <div>
+          <p class="font-bold text-background" style="font-size:14px">{{ _onetime_heading }}</p>
+          <p class="text-background/50" style="font-size:11px; font-weight:600; margin-top:2px">Una sola entrega · Sin recurrencia</p>
         </div>
+        <div style="text-align:right; white-space:nowrap;">
+          {%- if onetime_compare_whole != blank and onetime_compare_whole > _ot_whole -%}
+            <span style="font-size:13px; color:rgba(7,29,64,0.4); text-decoration:line-through; font-weight:600; margin-right:4px;">${{ onetime_compare_whole }}</span>
+          {%- endif -%}
+          <span class="font-display font-black text-background" style="font-size:22px">${{ _ot_formatted }}</span>
+          {%- if onetime_per_whole != blank and onetime_per_whole > 0 -%}
+            <div class="text-background/40" style="font-size:10px; text-align:right; margin-top:2px">${{ onetime_per_whole }}/toma</div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%}
+        Hidden marker button so JS contracts that look up `.variant-btn` (sticky CTA,
+        ProductForm.preselectOneTime) still work with a known data-variant-id/price.
+      {%- endcomment -%}
+      <button
+        type="button"
+        class="variant-btn"
+        data-variant-id="{{ onetime_variant_id }}"
+        data-variant-price="{{ onetime_price_raw }}"
+        data-variant-available="{{ onetime_available }}"
+        style="display:none"
+        aria-hidden="true"
+        tabindex="-1"
+      ></button>
+
+      <div id="{{ _id_onetime }}" style="margin-top:12px; display:flex; gap:10px; align-items:stretch;">
+        {% render 'brand-quantity-stepper', quantity_id: _id_qty %}
+        {% render 'brand-button',
+          tag: 'button',
+          text: _add_to_cart,
+          onclick: _ot_onclick,
+          class_extra: 'flex-1 disabled:opacity-50'
+        %}
       </div>
     </div>
   {%- endif -%}

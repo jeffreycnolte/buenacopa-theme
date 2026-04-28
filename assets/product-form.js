@@ -82,6 +82,19 @@ var ProductForm = {
     this.updateUI();
   },
 
+  // Single-SKU: switch state to the one-time variant (read from hidden marker)
+  // and add to cart. Used by the always-visible "Agregar al carrito" button.
+  addToCartOneTime: function () {
+    var marker = document.querySelector('.variant-btn[data-variant-id][data-variant-price]');
+    if (marker) {
+      this.selectedVariantId = parseInt(marker.dataset.variantId);
+      this.selectedPrice = parseInt(marker.dataset.variantPrice);
+      this.selectedSellingPlan = null;
+      this.isSubscription = false;
+    }
+    this.addToCart();
+  },
+
   // Called from hero CTAs
   preselectSubscription: function () {
     var subCard = document.getElementById('subscription-card');
@@ -101,12 +114,8 @@ var ProductForm = {
   },
 
   updateUI: function () {
-    // Show/hide one-time CTA row (quantity + button)
-    var ctaRow = document.getElementById('onetime-cta-row');
-    if (ctaRow) {
-      ctaRow.style.display = this.isSubscription ? 'none' : 'block';
-    }
-
+    // One-time qty + Add-to-cart row is always visible in the single-SKU model
+    // (it has its own self-contained CTA on the tile, no longer click-to-reveal).
     this.updateMobileCTA();
   },
 

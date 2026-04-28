@@ -90,6 +90,12 @@
 
   # Subscription compare-at = one-time price (strikethrough on sub card).
   assign sub_compare_whole = ot_price_whole
+
+  # Monthly savings vs one-time (peso difference).
+  assign sub_savings_whole = 0
+  if ot_price_whole > sub_price_whole
+    assign sub_savings_whole = ot_price_whole | minus: sub_price_whole
+  endif
 -%}
 
 <section id="lander-buy-box" class="overflow-hidden bg-white" style="padding: 2.5rem 0;">
@@ -142,6 +148,7 @@
       sub_price_cents: sub_price_cents,
       sub_compare_whole: sub_compare_whole,
       sub_per_whole: sub_per_whole,
+      sub_savings_whole: sub_savings_whole,
       onetime_variant_id: onetime_variant.id,
       onetime_variant_title: onetime_variant.title,
       onetime_price_raw: ot_price,

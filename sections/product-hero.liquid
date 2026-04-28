@@ -89,6 +89,12 @@
 
   # Sub compare-at = the one-time price (strikethrough on sub card).
   assign sub_compare_whole = ot_price_whole
+
+  # Monthly savings vs one-time.
+  assign sub_savings_whole = 0
+  if ot_price_whole > sub_price_whole
+    assign sub_savings_whole = ot_price_whole | minus: sub_price_whole
+  endif
 -%}
 
 <section id="comprar" class="overflow-hidden bg-white">
@@ -400,6 +406,7 @@
           sub_price_cents: sub_price_cents,
           sub_compare_whole: sub_compare_whole,
           sub_per_whole: sub_per_whole,
+          sub_savings_whole: sub_savings_whole,
           onetime_variant_id: onetime_variant.id,
           onetime_variant_title: onetime_variant.title,
           onetime_price_raw: ot_price,
