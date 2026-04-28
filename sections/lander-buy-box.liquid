@@ -11,9 +11,7 @@
 {%- endif -%}
 
 {%- liquid
-  comment
-    --- Subscription detection: first selling plan + the variant it's allocated to.
-  endcomment
+  # Subscription detection: first selling plan + the variant it's allocated to.
   assign has_subscription = false
   assign sub_variant = nil
   assign sub_plan = nil
@@ -39,10 +37,8 @@
     endif
   endfor
 
-  comment
-    --- One-time variant: first available variant (single-SKU model).
-    Falls back to first variant if none are available so the tile still renders.
-  endcomment
+  # One-time variant: first available variant (single-SKU model).
+  # Falls back to first variant if none are available so the tile still renders.
   assign onetime_variant = nil
   for variant in product.variants
     if variant.available
@@ -54,10 +50,7 @@
     assign onetime_variant = product.variants.first
   endif
 
-  comment
-    --- Servings count: parse first numeric token from the one-time variant
-    title (e.g. "10 sobres" → 10). Defaults to 10.
-  endcomment
+  # Servings: parse first numeric token from the one-time variant title.
   assign servings = 0
   if onetime_variant
     assign title_words = onetime_variant.title | split: ' '
@@ -73,7 +66,7 @@
     assign servings = 10
   endif
 
-  comment --- Subscription price math endcomment
+  # Subscription price math
   assign sub_price_whole = sub_price | divided_by: 100
   assign sub_price_cents = sub_price | modulo: 100
   if sub_price > 0 and servings > 0
@@ -83,7 +76,7 @@
   endif
   assign sub_per_whole = sub_per_serving | divided_by: 100
 
-  comment --- One-time price math endcomment
+  # One-time price math
   assign ot_price = onetime_variant.price | default: 0
   assign ot_compare = onetime_variant.compare_at_price | default: 0
   assign ot_price_whole = ot_price | divided_by: 100
@@ -95,10 +88,7 @@
   endif
   assign ot_per_whole = ot_per_serving | divided_by: 100
 
-  comment
-    --- Subscription compare-at = the one-time price for the same variant.
-    Shows the strikethrough on the sub card.
-  endcomment
+  # Subscription compare-at = one-time price (strikethrough on sub card).
   assign sub_compare_whole = ot_price_whole
 -%}
 
