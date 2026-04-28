@@ -1,8 +1,13 @@
 {%- comment -%}
-  Brand buy-box — pure view component for the canonical purchase module.
+  Brand buy-box — radio-style two-option layout (cheers-pattern).
 
-  Single-SKU model: one one-time variant + one optional subscription plan.
-  Caller pre-computes all numbers; this snippet renders.
+  Single-SKU model: one product, two ways to buy.
+    Tile 1 (top, anchor):     Compra única — full retail.
+    Tile 2 (bottom, default): Suscripción mensual — 20% off.
+  Single "Agregar al carrito" CTA below; selection is read off the
+  active .bc-buybox-tile via ProductForm.selectOption.
+
+  Caller pre-computes scalars; this snippet renders.
 
   Usage:
     {% render 'brand-buybox',
@@ -13,65 +18,53 @@
        sub_variant_id: sub_variant.id,
        sub_plan_id: sub_plan.id,
        sub_price_raw: sub_price,
-       sub_servings: sub_servings,
        sub_price_whole: sub_price_whole,
        sub_price_cents: sub_price_cents,
        sub_compare_whole: sub_compare_whole,
        sub_per_whole: sub_per_whole,
+       sub_savings_whole: sub_savings_whole,
 
        onetime_variant_id: ot_variant.id,
-       onetime_variant_title: ot_variant.title,
        onetime_price_raw: ot_variant.price,
        onetime_price_whole: ot_price_whole,
        onetime_per_whole: ot_per_whole,
        onetime_available: ot_variant.available
     %}
 
-  Subscription card is rendered only when `has_subscription` is true and
-  `sub_variant_id` is present. One-time tile is always rendered when
-  `onetime_variant_id` is present.
-
-  DOM ids the snippet emits (using id_prefix):
-    {prefix-}product-form, {prefix-}subscription-card, {prefix-}variant-selector,
-    {prefix-}onetime-cta, {prefix-}product-quantity, {prefix-}trust-badges
-    (no leading dash if prefix is blank)
-
-  JS contract: ProductForm.selectSubscription, .selectOneTime, .addToCart,
-  .decrementQty, .incrementQty.
+  JS contract: ProductForm.selectOption(tile), .addToCart.
 {%- endcomment -%}
 
-{%- comment -%}─── Resolve defaults ───{%- endcomment -%}
 {%- assign _shipping_text   = shipping_text   | default: 'Envíos a todo México' -%}
 {%- assign _onetime_heading = onetime_heading | default: 'Compra única' -%}
-{%- assign _sub_cta_text    = sub_cta_text    | default: 'Suscribirme ahora' -%}
+{%- assign _sub_heading     = sub_heading     | default: 'Suscripción mensual' -%}
 {%- assign _add_to_cart     = add_to_cart_text | default: 'Agregar al carrito' -%}
 {%- assign _trust_ssl       = trust_ssl       | default: 'Pago seguro SSL' -%}
 {%- assign _trust_shipping  = trust_shipping  | default: 'Envío gratis' -%}
 {%- assign _trust_guarantee = trust_guarantee | default: 'Garantía 30 días' -%}
-{%- assign _ben_1 = sub_benefit_1 | default: '20% de descuento de por vida' -%}
-{%- capture _ben_2_default -%}{%- if sub_savings_whole != blank and sub_savings_whole > 0 -%}Ahorras ${{ sub_savings_whole }} cada mes{%- else -%}20% más barato{%- endif -%}{%- endcapture -%}
-{%- assign _ben_2 = sub_benefit_2 | default: _ben_2_default -%}
-{%- assign _ben_3 = sub_benefit_3 | default: 'Llega cada mes' -%}
-{%- assign _ben_4 = sub_benefit_4 | default: 'Pausa o cancela cuando quieras' -%}
 
-{%- comment -%}─── DOM id helpers ───{%- endcomment -%}
 {%- if id_prefix != blank -%}
-  {%- capture _id_form -%}{{ id_prefix }}-product-form{%- endcapture -%}
-  {%- capture _id_sub -%}{{ id_prefix }}-subscription-card{%- endcapture -%}
-  {%- capture _id_variant_sel -%}{{ id_prefix }}-variant-selector{%- endcapture -%}
-  {%- capture _id_onetime -%}{{ id_prefix }}-onetime-cta{%- endcapture -%}
-  {%- capture _id_qty -%}{{ id_prefix }}-product-quantity{%- endcapture -%}
+  {%- capture _id_form  -%}{{ id_prefix }}-product-form{%- endcapture -%}
   {%- capture _id_trust -%}{{ id_prefix }}-trust-badges{%- endcapture -%}
 {%- else -%}
-  {%- assign _id_form = 'product-form' -%}
-  {%- assign _id_sub = 'subscription-card' -%}
-  {%- assign _id_variant_sel = 'variant-selector' -%}
-  {%- assign _id_onetime = 'onetime-cta-row' -%}
-  {%- assign _id_qty = 'product-quantity' -%}
+  {%- assign _id_form  = 'product-form' -%}
   {%- assign _id_trust = 'trust-badges' -%}
 {%- endif -%}
 
+{%- assign _ot_whole = onetime_price_whole | default: 0 -%}
+{%- capture _ot_formatted -%}{%- if _ot_whole >= 1000 -%}{{ _ot_whole | divided_by: 1000 }},{{ _ot_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ _ot_whole }}{%- endif -%}{%- endcapture -%}
+{%- assign _sub_whole = sub_price_whole | default: 0 -%}
+{%- capture _sub_formatted -%}{%- if _sub_whole >= 1000 -%}{{ _sub_whole | divided_by: 1000 }},{{ _sub_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ _sub_whole }}{%- endif -%}{%- endcapture -%}
+
 <div class="space-y-3 mx-auto" style="max-width: 520px;" id="{{ _id_form }}" data-product-id="{{ product_id }}">
+
+  <style>
+    .bc-radio { width:18px; height:18px; border-radius:50%; border:2px solid rgba(7,29,64,0.25); position:relative; flex-shrink:0; margin-top:1px; transition:border-color 0.15s; }
+    .bc-buybox-tile.selected .bc-radio { border-color: #00A33C; }
+    .bc-buybox-tile.selected .bc-radio::after { content:''; position:absolute; inset:3px; border-radius:50%; background:#00A33C; }
+    .bc-buybox-tile { background:#fff; }
+    .bc-buybox-tile.selected { background:linear-gradient(180deg, rgba(0,171,67,0.06) 0%, rgba(0,171,67,0.02) 100%); }
+    .bc-savings-pill { display:inline-flex; align-items:center; gap:4px; background:#00A33C; color:#fff; font-weight:700; text-transform:uppercase; font-size:10px; letter-spacing:0.04em; padding:2px 8px; border-radius:999px; }
+  </style>
 
   {%- comment -%}─── Shipping badge ───{%- endcomment -%}
   <div class="flex items-center gap-2 text-background/50">
@@ -79,118 +72,96 @@
     <span style="font-size:12px" class="font-medium">{{ _shipping_text }}</span>
   </div>
 
-  {%- comment -%}─── Subscription card ───{%- endcomment -%}
+  {%- comment -%}─── Tile 1: One-Time (anchor) ───{%- endcomment -%}
+  {%- if onetime_variant_id != blank -%}
+    <button
+      type="button"
+      class="bc-buybox-tile w-full text-left rounded-xl border-2 border-background/15 transition-all cursor-pointer {% unless onetime_available %}opacity-50 cursor-not-allowed{% endunless %}"
+      style="padding:14px 16px;"
+      data-variant-id="{{ onetime_variant_id }}"
+      data-price="{{ onetime_price_raw }}"
+      data-variant-price="{{ onetime_price_raw }}"
+      data-variant-available="{{ onetime_available }}"
+      onclick="ProductForm.selectOption(this)"
+      {% unless onetime_available %}disabled{% endunless %}
+    >
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <span class="bc-radio" aria-hidden="true"></span>
+        <div style="flex:1; min-width:0;">
+          <div class="flex items-baseline justify-between" style="gap:12px;">
+            <p class="font-bold text-background" style="font-size:14px">{{ _onetime_heading }}</p>
+            <div style="text-align:right; white-space:nowrap;">
+              <span class="font-display font-black text-background" style="font-size:20px">${{ _ot_formatted }}</span>
+            </div>
+          </div>
+          <p style="font-size:11px; font-weight:500; margin-top:2px; color:rgba(7,29,64,0.55);">
+            Una sola entrega · Sin recurrencia
+            {%- if onetime_per_whole != blank and onetime_per_whole > 0 %} · ${{ onetime_per_whole }}/toma{% endif -%}
+          </p>
+        </div>
+      </div>
+    </button>
+  {%- endif -%}
+
+  {%- comment -%}─── Tile 2: Subscription (default) ───{%- endcomment -%}
   {%- if has_subscription and sub_variant_id != blank -%}
-    <div
-      id="{{ _id_sub }}"
-      class="relative rounded-xl border-2 border-accent cursor-pointer transition-all"
-      style="background: linear-gradient(180deg, rgba(0,171,67,0.06) 0%, rgba(0,171,67,0.02) 100%); padding: 24px 16px 14px;"
-      onclick="ProductForm.selectSubscription({{ sub_variant_id }}, {{ sub_plan_id }})"
+    <button
+      type="button"
+      class="bc-buybox-tile w-full text-left rounded-xl border-2 border-accent transition-all cursor-pointer selected"
+      style="padding:14px 16px;"
       data-variant-id="{{ sub_variant_id }}"
       data-selling-plan-id="{{ sub_plan_id }}"
       data-price="{{ sub_price_raw }}"
+      data-default="true"
+      onclick="ProductForm.selectOption(this)"
     >
-      {% render 'brand-badge', variant: 'best-value', text: 'MEJOR VALOR', class_extra: 'absolute left-3', style_extra: 'top:-11px;' %}
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <span class="bc-radio" aria-hidden="true"></span>
+        <div style="flex:1; min-width:0;">
+          <div class="flex items-baseline justify-between" style="gap:12px;">
+            <div>
+              <p class="font-bold text-background" style="font-size:14px; display:inline; margin-right:8px">{{ _sub_heading }}</p>
+              <span class="bc-savings-pill">AHORRA 20%</span>
+            </div>
+            <div style="text-align:right; white-space:nowrap;">
+              {%- if sub_compare_whole != blank and sub_compare_whole > _sub_whole -%}
+                <span style="font-size:12px; color:rgba(7,29,64,0.4); text-decoration:line-through; font-weight:600; margin-right:4px;">${{ sub_compare_whole }}</span>
+              {%- endif -%}
+              <span class="font-display font-black text-background" style="font-size:20px">${{ _sub_formatted }}</span><span style="font-size:11px; color:rgba(7,29,64,0.5); font-weight:600; margin-left:2px">/mes</span>
+            </div>
+          </div>
 
-      <div class="flex items-start justify-between">
-        <p class="font-bold text-background" style="font-size:14px">Suscripción mensual</p>
-        <div style="text-align:right; white-space:nowrap;">
-          {%- if sub_compare_whole != blank and sub_compare_whole > sub_price_whole -%}
-            <span style="font-size:13px; color:rgba(7,29,64,0.4); text-decoration:line-through; font-weight:600; margin-right:4px;">${{ sub_compare_whole }}</span>
-          {%- endif -%}
-          <span class="font-display font-black text-background" style="font-size:22px">${{ sub_price_whole }}</span>{%- if sub_price_cents != blank and sub_price_cents > 0 -%}<span class="font-display font-black text-background" style="font-size:14px">.{{ sub_price_cents }}</span>{%- endif -%}<span style="font-size:11px; color:rgba(7,29,64,0.4); font-weight:600; margin-left:2px">/mes</span>
-          {%- if sub_per_whole != blank and sub_per_whole > 0 -%}
-            <div class="text-background/40" style="font-size:10px; text-align:right; margin-top:2px">${{ sub_per_whole }}/toma</div>
-          {%- endif -%}
+          <ul style="margin-top:8px; display:flex; flex-direction:column; gap:3px; list-style:none; padding:0;">
+            <li style="display:flex; align-items:center; gap:6px; font-size:11px; color:rgba(7,29,64,0.7); font-weight:500">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>
+              {%- if sub_savings_whole != blank and sub_savings_whole > 0 -%}
+                Ahorras ${{ sub_savings_whole }} cada mes
+              {%- else -%}
+                20% de descuento de por vida
+              {%- endif -%}
+            </li>
+            <li style="display:flex; align-items:center; gap:6px; font-size:11px; color:rgba(7,29,64,0.7); font-weight:500">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>
+              Llega cada mes — pausa o cancela cuando quieras
+            </li>
+          </ul>
         </div>
       </div>
-
-      <div class="grid grid-cols-2" style="margin-top:8px; gap:3px 12px">
-        <div style="display:flex; align-items:center; gap:6px">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-          <span style="font-size:11px; color:rgba(7,29,64,0.65)"><strong>{{ _ben_1 }}</strong></span>
-        </div>
-        <div style="display:flex; align-items:center; gap:6px">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-          <span style="font-size:11px; color:rgba(7,29,64,0.65)">{{ _ben_2 }}</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:6px">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-          <span style="font-size:11px; color:rgba(7,29,64,0.65)">{{ _ben_3 }}</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:6px">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" class="shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-          <span style="font-size:11px; color:rgba(7,29,64,0.65)">{{ _ben_4 }}</span>
-        </div>
-      </div>
-
-      {%- capture _sub_onclick -%}event.stopPropagation(); ProductForm.selectSubscription({{ sub_variant_id }}, {{ sub_plan_id }}); ProductForm.addToCart();{%- endcapture -%}
-      {%- assign _sub_cta_label = _sub_cta_text | append: ' →' -%}
-      <div style="margin-top:14px;">
-        {% render 'brand-button',
-          tag: 'button',
-          text: _sub_cta_label,
-          onclick: _sub_onclick,
-          full_width: true
-        %}
-      </div>
-    </div>
+    </button>
   {%- endif -%}
 
-  {%- comment -%}─── One-time tile ───{%- endcomment -%}
-  {%- if onetime_variant_id != blank -%}
-    {%- assign _ot_whole = onetime_price_whole | default: 0 -%}
-    {%- capture _ot_formatted -%}{%- if _ot_whole >= 1000 -%}{{ _ot_whole | divided_by: 1000 }},{{ _ot_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ _ot_whole }}{%- endif -%}{%- endcapture -%}
-    {%- assign _ot_onclick = 'ProductForm.addToCartOneTime()' -%}
-    <div
-      id="{{ _id_variant_sel }}"
-      class="rounded-xl border-2 border-background/15 bg-background/5 transition-all"
-      style="padding:14px 16px; margin-top:4px"
-    >
-      <div class="flex items-start justify-between">
-        <div>
-          <p class="font-bold text-background" style="font-size:14px">{{ _onetime_heading }}</p>
-          <p class="text-background/50" style="font-size:11px; font-weight:600; margin-top:2px">Una sola entrega · Sin recurrencia</p>
-        </div>
-        <div style="text-align:right; white-space:nowrap;">
-          {%- if onetime_compare_whole != blank and onetime_compare_whole > _ot_whole -%}
-            <span style="font-size:13px; color:rgba(7,29,64,0.4); text-decoration:line-through; font-weight:600; margin-right:4px;">${{ onetime_compare_whole }}</span>
-          {%- endif -%}
-          <span class="font-display font-black text-background" style="font-size:22px">${{ _ot_formatted }}</span>
-          {%- if onetime_per_whole != blank and onetime_per_whole > 0 -%}
-            <div class="text-background/40" style="font-size:10px; text-align:right; margin-top:2px">${{ onetime_per_whole }}/toma</div>
-          {%- endif -%}
-        </div>
-      </div>
+  {%- comment -%}─── Single CTA ───{%- endcomment -%}
+  <div style="margin-top:8px;">
+    {% render 'brand-button',
+      tag: 'button',
+      text: _add_to_cart,
+      onclick: 'ProductForm.addToCart()',
+      full_width: true,
+      id: 'add-to-cart-btn'
+    %}
+  </div>
 
-      {%- comment -%}
-        Hidden marker button so JS contracts that look up `.variant-btn` (sticky CTA,
-        ProductForm.preselectOneTime) still work with a known data-variant-id/price.
-      {%- endcomment -%}
-      <button
-        type="button"
-        class="variant-btn"
-        data-variant-id="{{ onetime_variant_id }}"
-        data-variant-price="{{ onetime_price_raw }}"
-        data-variant-available="{{ onetime_available }}"
-        style="display:none"
-        aria-hidden="true"
-        tabindex="-1"
-      ></button>
-
-      <div id="{{ _id_onetime }}" style="margin-top:12px; display:flex; gap:10px; align-items:stretch;">
-        {% render 'brand-quantity-stepper', quantity_id: _id_qty %}
-        {% render 'brand-button',
-          tag: 'button',
-          text: _add_to_cart,
-          onclick: _ot_onclick,
-          class_extra: 'flex-1 disabled:opacity-50'
-        %}
-      </div>
-    </div>
-  {%- endif -%}
-
-  {%- comment -%}─── Trust badges (icon row) ───{%- endcomment -%}
+  {%- comment -%}─── Trust badges ───{%- endcomment -%}
   <div class="flex items-center justify-center text-background/50" id="{{ _id_trust }}" style="gap:12px; padding:8px 0; font-size:10px">
     <style>@media(min-width:1024px) { #{{ _id_trust }} { font-size: 12px !important; } #{{ _id_trust }} svg { width: 14px; height: 14px; } }</style>
     <div class="flex items-center whitespace-nowrap" style="gap:5px; font-weight:500">

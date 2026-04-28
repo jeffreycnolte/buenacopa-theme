@@ -12,110 +12,40 @@ var ProductForm = {
   isSubmitting: false,
 
   init: function () {
-    var subCard = document.getElementById('subscription-card');
-    if (subCard) {
-      this.selectedVariantId = parseInt(subCard.dataset.variantId);
-      this.selectedSellingPlan = parseInt(subCard.dataset.sellingPlanId);
-      this.selectedPrice = parseInt(subCard.dataset.price);
+    // Default selection = the tile marked [data-default] (subscription if
+    // present, else one-time). All buy-box tiles share class .bc-buybox-tile.
+    var def = document.querySelector('.bc-buybox-tile[data-default="true"]')
+           || document.querySelector('.bc-buybox-tile');
+    if (def) this.selectOption(def);
+    this.updateUI();
+  },
+
+  // Cheers-style radio selection: clicking a tile picks it. The tile element
+  // carries data-variant-id, data-price, and (optionally) data-selling-plan-id.
+  selectOption: function (tile) {
+    if (!tile) return;
+    document.querySelectorAll('.bc-buybox-tile').forEach(function (t) {
+      t.classList.remove('selected', 'border-accent');
+      t.classList.add('border-background/15');
+    });
+    tile.classList.add('selected', 'border-accent');
+    tile.classList.remove('border-background/15');
+
+    this.selectedVariantId = parseInt(tile.dataset.variantId);
+    this.selectedPrice = parseInt(tile.dataset.price);
+    var planId = tile.dataset.sellingPlanId;
+    if (planId) {
+      this.selectedSellingPlan = parseInt(planId);
       this.isSubscription = true;
-      // Ensure visual selection on load
-      subCard.classList.add('border-accent', 'selected');
-      subCard.classList.remove('border-background/15', 'bg-background/5');
     } else {
-      var firstBtn = document.querySelector('.variant-btn');
-      if (firstBtn) {
-        this.selectedVariantId = parseInt(firstBtn.dataset.variantId);
-        this.selectedPrice = parseInt(firstBtn.dataset.variantPrice);
-        this.isSubscription = false;
-        firstBtn.classList.add('selected', 'border-accent', 'bg-accent/10');
-      }
-    }
-    this.updateUI();
-  },
-
-  selectSubscription: function (variantId, sellingPlanId) {
-    this.selectedVariantId = variantId;
-    this.selectedSellingPlan = sellingPlanId;
-    this.isSubscription = true;
-
-    var subCard = document.getElementById('subscription-card');
-    if (subCard) {
-      this.selectedPrice = parseInt(subCard.dataset.price);
-    }
-
-    // Visual: highlight subscription card
-    if (subCard) {
-      subCard.classList.add('border-accent', 'bg-accent/5', 'selected');
-      subCard.classList.remove('border-background/15', 'bg-background/5');
-    }
-
-    // Deselect one-time variants
-    document.querySelectorAll('#variant-selector .variant-btn').forEach(function (btn) {
-      btn.classList.remove('selected', 'border-accent', 'bg-accent/10');
-      btn.classList.add('border-background/15', 'bg-background/5');
-    });
-
-    this.updateUI();
-  },
-
-  selectOneTime: function (variantId, button) {
-    this.selectedVariantId = variantId;
-    this.selectedSellingPlan = null;
-    this.isSubscription = false;
-    this.selectedPrice = parseInt(button.dataset.variantPrice);
-
-    // Deselect subscription card
-    var subCard = document.getElementById('subscription-card');
-    if (subCard) {
-      subCard.classList.remove('border-accent', 'bg-accent/5', 'selected');
-      subCard.classList.add('border-background/15', 'bg-background/5');
-    }
-
-    // Deselect all one-time, select clicked
-    document.querySelectorAll('#variant-selector .variant-btn').forEach(function (btn) {
-      btn.classList.remove('selected', 'border-accent', 'bg-accent/10');
-      btn.classList.add('border-background/15', 'bg-background/5');
-    });
-    button.classList.add('selected', 'border-accent', 'bg-accent/10');
-    button.classList.remove('border-background/15', 'bg-background/5');
-
-    this.updateUI();
-  },
-
-  // Single-SKU: switch state to the one-time variant (read from hidden marker)
-  // and add to cart. Used by the always-visible "Agregar al carrito" button.
-  addToCartOneTime: function () {
-    var marker = document.querySelector('.variant-btn[data-variant-id][data-variant-price]');
-    if (marker) {
-      this.selectedVariantId = parseInt(marker.dataset.variantId);
-      this.selectedPrice = parseInt(marker.dataset.variantPrice);
       this.selectedSellingPlan = null;
       this.isSubscription = false;
     }
-    this.addToCart();
-  },
 
-  // Called from hero CTAs
-  preselectSubscription: function () {
-    var subCard = document.getElementById('subscription-card');
-    if (subCard) {
-      this.selectSubscription(
-        parseInt(subCard.dataset.variantId),
-        parseInt(subCard.dataset.sellingPlanId)
-      );
-    }
-  },
-
-  preselectOneTime: function () {
-    var firstBtn = document.querySelector('#variant-selector .variant-btn');
-    if (firstBtn) {
-      this.selectOneTime(parseInt(firstBtn.dataset.variantId), firstBtn);
-    }
+    this.updateUI();
   },
 
   updateUI: function () {
-    // One-time qty + Add-to-cart row is always visible in the single-SKU model
-    // (it has its own self-contained CTA on the tile, no longer click-to-reveal).
     this.updateMobileCTA();
   },
 

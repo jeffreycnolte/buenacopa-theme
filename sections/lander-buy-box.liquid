@@ -164,41 +164,8 @@
 </section>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  var buyBox = document.getElementById('lander-product-form');
-  if (!buyBox) return;
-
-  buyBox.querySelectorAll('.variant-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var ctaRow = document.getElementById('lander-onetime-cta');
-      if (ctaRow) ctaRow.style.display = 'block';
-      var subCard = document.getElementById('lander-subscription-card');
-      if (subCard) {
-        subCard.style.borderColor = 'hsl(215 50% 25%)';
-        subCard.style.background = 'transparent';
-      }
-      buyBox.querySelectorAll('.variant-btn').forEach(function(b) {
-        b.style.borderColor = '';
-        b.className = b.className.replace('border-accent', 'border-background/15');
-      });
-      btn.style.borderColor = '#001D45';
-    });
-  });
-
-  var subCard = document.getElementById('lander-subscription-card');
-  if (subCard) {
-    subCard.addEventListener('click', function() {
-      subCard.style.borderColor = '';
-      subCard.style.background = '';
-      subCard.className = subCard.className.replace('border-background/15', 'border-accent');
-      var ctaRow = document.getElementById('lander-onetime-cta');
-      if (ctaRow) ctaRow.style.display = 'none';
-      buyBox.querySelectorAll('.variant-btn').forEach(function(b) {
-        b.style.borderColor = '';
-      });
-    });
-  }
-});
+// Selection visuals + cart wiring are handled by ProductForm (assets/product-form.js).
+// The lander shares the same JS as the homepage buy-box; no extra wiring needed here.
 </script>
 
 {% schema %}
