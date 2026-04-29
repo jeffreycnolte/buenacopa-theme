@@ -34,6 +34,19 @@
   JS contract: ProductForm.selectOption(tile), .addToCart.
 {%- endcomment -%}
 
+{%- comment -%}
+  Quantity label (e.g. "10 sobres") shown in tile subtitles. Defaults to
+  the lowercased one-time variant title; caller can override with
+  quantity_label.
+{%- endcomment -%}
+{%- if quantity_label != blank -%}
+  {%- assign _qty_label = quantity_label -%}
+{%- elsif onetime_variant_title != blank -%}
+  {%- assign _qty_label = onetime_variant_title | downcase -%}
+{%- else -%}
+  {%- assign _qty_label = '10 sobres' -%}
+{%- endif -%}
+
 {%- assign _shipping_text   = shipping_text   | default: 'Envíos a todo México' -%}
 {%- assign _onetime_heading = onetime_heading | default: 'Compra única' -%}
 {%- assign _sub_heading     = sub_heading     | default: 'Suscripción mensual' -%}
@@ -104,6 +117,9 @@
           <span class="font-display font-black text-background" style="font-size:20px">${{ _sub_formatted }}{%- if sub_price_cents != blank and sub_price_cents > 0 -%},{{ sub_price_cents | prepend: '00' | slice: -2, 2 }}{%- endif -%}</span><span style="font-size:11px; color:rgba(7,29,64,0.5); font-weight:600; margin-left:2px">/mes</span>
         </div>
       </div>
+      {%- if _qty_label != blank -%}
+        <p style="font-size:11px; font-weight:500; margin-top:4px; padding-left:30px; color:rgba(7,29,64,0.55);">{{ _qty_label }} · Renovación cada mes</p>
+      {%- endif -%}
 
       <ul style="margin-top:8px; padding-left:30px; display:flex; flex-direction:column; gap:3px; list-style:none;">
         <li style="display:flex; align-items:center; gap:6px; font-size:11px; color:rgba(7,29,64,0.7); font-weight:500">
@@ -144,7 +160,8 @@
         </div>
       </div>
       <p style="font-size:11px; font-weight:500; margin-top:4px; padding-left:30px; color:rgba(7,29,64,0.55);">
-        Una sola entrega · Sin recurrencia
+        {%- if _qty_label != blank %}{{ _qty_label }} · {% endif -%}
+        Una sola entrega
         {%- if onetime_per_whole != blank and onetime_per_whole > 0 %} · ${{ onetime_per_whole }} por mañana sin cruda{% endif -%}
       </p>
     </button>
