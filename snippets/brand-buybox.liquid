@@ -35,17 +35,11 @@
 {%- endcomment -%}
 
 {%- comment -%}
-  Quantity label (e.g. "10 sobres") shown in tile subtitles. Defaults to
-  the lowercased one-time variant title; caller can override with
-  quantity_label.
+  Quantity label (e.g. "10 dosis") shown in tile subtitles. Caller can
+  override with quantity_label. We use "dosis" rather than the variant
+  title's "sobres" because each sobre is one dose.
 {%- endcomment -%}
-{%- if quantity_label != blank -%}
-  {%- assign _qty_label = quantity_label -%}
-{%- elsif onetime_variant_title != blank -%}
-  {%- assign _qty_label = onetime_variant_title | downcase -%}
-{%- else -%}
-  {%- assign _qty_label = '10 sobres' -%}
-{%- endif -%}
+{%- assign _qty_label = quantity_label | default: '10 dosis' -%}
 
 {%- assign _shipping_text   = shipping_text   | default: 'Envíos a todo México' -%}
 {%- assign _onetime_heading = onetime_heading | default: 'Compra única' -%}
@@ -118,7 +112,7 @@
         </div>
       </div>
       {%- if _qty_label != blank -%}
-        <p style="font-size:11px; font-weight:500; margin-top:4px; padding-left:30px; color:rgba(7,29,64,0.55);">{{ _qty_label }} · Renovación cada mes</p>
+        <p style="font-size:11px; font-weight:500; margin-top:4px; padding-left:30px; color:rgba(7,29,64,0.55);">{{ _qty_label }} mensuales</p>
       {%- endif -%}
 
       <ul style="margin-top:8px; padding-left:30px; display:flex; flex-direction:column; gap:3px; list-style:none;">
