@@ -22,7 +22,20 @@
       {
         "type": "image_picker",
         "id": "favicon",
-        "label": "Favicon"
+        "label": "Favicon",
+        "info": "Square image used as the browser tab icon and iOS home-screen icon. 512×512 PNG recommended. Falls back to Settings → Brand → Square logo if blank."
+      },
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "Imagen para compartir (Open Graph / Twitter)",
+        "info": "Used when the site is shared on Facebook, WhatsApp, Twitter, etc. 1200×630 JPG/PNG recommended. Falls back to Settings → Brand → Cover image, then to bundled og-default.jpg."
+      },
+      {
+        "type": "text",
+        "id": "twitter_handle",
+        "label": "Twitter / X handle",
+        "info": "Optional. Without the @ — e.g. \"buenacopa\". Renders as twitter:site meta tag for richer link cards."
       },
       {
         "type": "text",
