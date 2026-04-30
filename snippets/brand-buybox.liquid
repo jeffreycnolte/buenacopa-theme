@@ -68,9 +68,10 @@
     .bc-radio { width:18px; height:18px; border-radius:50%; border:2px solid rgba(7,29,64,0.25); position:relative; flex-shrink:0; margin-top:1px; transition:border-color 0.15s; }
     .bc-buybox-tile.selected .bc-radio { border-color: #00A33C; }
     .bc-buybox-tile.selected .bc-radio::after { content:''; position:absolute; inset:3px; border-radius:50%; background:#00A33C; }
-    .bc-buybox-tile { background:#fff; }
+    .bc-buybox-tile { background:#fff; position:relative; }
     .bc-buybox-tile.selected { background:linear-gradient(180deg, rgba(0,171,67,0.06) 0%, rgba(0,171,67,0.02) 100%); }
-    .bc-savings-pill { display:inline-flex; align-items:center; gap:4px; background:#00A33C; color:#fff; font-weight:700; text-transform:uppercase; font-size:10px; letter-spacing:0.04em; padding:2px 8px; border-radius:999px; white-space:nowrap; }
+    .bc-savings-pill { display:inline-flex; align-items:center; gap:4px; background:#00A33C; color:#fff; font-weight:700; text-transform:uppercase; font-size:10px; letter-spacing:0.04em; padding:3px 9px; border-radius:999px; white-space:nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+    .bc-savings-pill--floating { position:absolute; top:-9px; left:14px; z-index:1; }
   </style>
 
   {%- comment -%}─── Pre-decision trust bullets (cheers-pattern) ───{%- endcomment -%}
@@ -115,17 +116,17 @@
       {%- assign _sub_recurring_cents = sub_recurring_cents | default: sub_price_cents -%}
       {%- capture _sub_recurring_formatted -%}{%- if _sub_recurring_whole >= 1000 -%}{{ _sub_recurring_whole | divided_by: 1000 }},{{ _sub_recurring_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ _sub_recurring_whole }}{%- endif -%}{%- endcapture -%}
 
+      {%- comment -%}
+        Floating savings pill — overlaps the top-left edge of the tile so it
+        reads as a ribbon callout. Frees the title row to use full width and
+        keeps the long "AHORRA 36% PRIMER MES" copy out of the inline layout
+        where it would either squeeze the title or wrap awkwardly.
+      {%- endcomment -%}
+      <span class="bc-savings-pill bc-savings-pill--floating">{{ _pill_text }}</span>
+
       <div style="display:flex; align-items:center; gap:12px;">
         <span class="bc-radio" aria-hidden="true"></span>
-        {%- comment -%}
-          Title row uses flex-wrap so the long "AHORRA 36% PRIMER MES" pill
-          drops to its own line below the title on narrow viewports instead
-          of squeezing the title into a wrapped 2-line column.
-        {%- endcomment -%}
-        <div style="flex:1; min-width:0; display:flex; flex-wrap:wrap; align-items:center; gap:8px; row-gap:6px;">
-          <p class="font-bold text-background" style="font-size:14px; margin:0;">{{ _sub_heading }}</p>
-          <span class="bc-savings-pill">{{ _pill_text }}</span>
-        </div>
+        <p class="font-bold text-background" style="font-size:14px; flex:1; min-width:0; margin:0;">{{ _sub_heading }}</p>
         <div style="text-align:right; white-space:nowrap;">
           {%- comment -%}
             Multi-tier: skip the strikethrough (the AHORRA pill + savings
