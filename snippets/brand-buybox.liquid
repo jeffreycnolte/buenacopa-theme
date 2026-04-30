@@ -117,17 +117,30 @@
 
       <div style="display:flex; align-items:center; gap:12px;">
         <span class="bc-radio" aria-hidden="true"></span>
-        <div style="flex:1; min-width:0;">
-          <p class="font-bold text-background" style="font-size:14px; display:inline; margin-right:8px">{{ _sub_heading }}</p>
+        {%- comment -%}
+          Title row uses flex-wrap so the long "AHORRA 36% PRIMER MES" pill
+          drops to its own line below the title on narrow viewports instead
+          of squeezing the title into a wrapped 2-line column.
+        {%- endcomment -%}
+        <div style="flex:1; min-width:0; display:flex; flex-wrap:wrap; align-items:center; gap:8px; row-gap:6px;">
+          <p class="font-bold text-background" style="font-size:14px; margin:0;">{{ _sub_heading }}</p>
           <span class="bc-savings-pill">{{ _pill_text }}</span>
         </div>
         <div style="text-align:right; white-space:nowrap;">
-          {%- if sub_compare_whole != blank and sub_compare_whole > _sub_whole -%}
-            <span style="font-size:12px; color:rgba(7,29,64,0.4); text-decoration:line-through; font-weight:600; margin-right:4px;">${{ sub_compare_whole }}</span>
-          {%- endif -%}
-          <span class="font-display font-black text-background" style="font-size:20px">${{ _sub_formatted }}{%- if sub_price_cents != blank and sub_price_cents > 0 -%},{{ sub_price_cents | prepend: '00' | slice: -2, 2 }}{%- endif -%}</span><span style="font-size:11px; color:rgba(7,29,64,0.5); font-weight:600; margin-left:2px">/mes{%- if sub_is_multi_tier %} primer mes{% endif -%}</span>
+          {%- comment -%}
+            Multi-tier: skip the strikethrough (the AHORRA pill + savings
+            bullet carry the savings story; the strikethrough alongside two
+            different prices reads as confusing).
+            Single-tier: keep strikethrough as the compare-at anchor.
+          {%- endcomment -%}
+          {%- unless sub_is_multi_tier -%}
+            {%- if sub_compare_whole != blank and sub_compare_whole > _sub_whole -%}
+              <span style="font-size:12px; color:rgba(7,29,64,0.4); text-decoration:line-through; font-weight:600; margin-right:4px;">${{ sub_compare_whole }}</span>
+            {%- endif -%}
+          {%- endunless -%}
+          <span class="font-display font-black text-background" style="font-size:20px">${{ _sub_formatted }}{%- if sub_price_cents != blank and sub_price_cents > 0 -%},{{ sub_price_cents | prepend: '00' | slice: -2, 2 }}{%- endif -%}</span><span style="font-size:11px; color:rgba(7,29,64,0.5); font-weight:600; margin-left:2px">/mes</span>
           {%- if sub_is_multi_tier -%}
-            <div style="font-size:10px; color:rgba(7,29,64,0.5); font-weight:600; margin-top:2px;">Luego ${{ _sub_recurring_formatted }}{%- if _sub_recurring_cents != blank and _sub_recurring_cents > 0 -%},{{ _sub_recurring_cents | prepend: '00' | slice: -2, 2 }}{%- endif -%}/mes</div>
+            <div style="font-size:10px; color:rgba(7,29,64,0.55); font-weight:600; margin-top:2px;">primer mes</div>
           {%- endif -%}
         </div>
       </div>
@@ -146,9 +159,15 @@
             20% de descuento de por vida
           {%- endif -%}
         </li>
+        {%- if sub_is_multi_tier -%}
+          <li style="display:flex; align-items:center; gap:6px; font-size:11px; color:rgba(7,29,64,0.7); font-weight:500">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>
+            Después: ${{ _sub_recurring_formatted }}{%- if _sub_recurring_cents != blank and _sub_recurring_cents > 0 -%},{{ _sub_recurring_cents | prepend: '00' | slice: -2, 2 }}{%- endif -%}/mes
+          </li>
+        {%- endif -%}
         <li style="display:flex; align-items:center; gap:6px; font-size:11px; color:rgba(7,29,64,0.7); font-weight:500">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>
-          Llega cada mes — modifica, salta o cancela en cualquier momento
+          Modifica, salta o cancela cuando quieras
         </li>
       </ul>
     </button>
