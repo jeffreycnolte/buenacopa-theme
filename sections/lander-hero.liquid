@@ -4,9 +4,12 @@
   Mobile-first. Massive headline, social proof, product image, price anchor, CTA, trust bar.
 {%- endcomment -%}
 
-{%- assign product = section.settings.product -%}
+{%- comment -%}
+  Product resolution: prefer the current page's product (when on /products/<handle>),
+  fall back to section setting, then to first product. See lander-buy-box.liquid.
+{%- endcomment -%}
 {%- if product == blank -%}
-  {%- assign product = collections.all.products.first -%}
+  {%- assign product = section.settings.product | default: collections.all.products.first -%}
 {%- endif -%}
 
 {%- liquid
