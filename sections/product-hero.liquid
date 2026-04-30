@@ -88,8 +88,13 @@
   endif
   assign ot_per_whole = ot_per_serving | divided_by: 100
 
-  # Sub compare-at = the one-time price (strikethrough on sub card).
-  assign sub_compare_whole = ot_price_whole
+  # Subscription strikethrough anchor: prefer compare_at when the variant
+  # is pre-discounted, else use the variant's regular price.
+  if ot_compare > ot_price
+    assign sub_compare_whole = ot_compare_whole
+  else
+    assign sub_compare_whole = ot_price_whole
+  endif
 
   # Monthly savings vs one-time, rounded to nearest peso for display.
   assign sub_savings_total = 0
@@ -97,6 +102,42 @@
     assign sub_savings_total = ot_price | minus: sub_price
   endif
   assign sub_savings_whole = sub_savings_total | plus: 50 | divided_by: 100
+
+  # Multi-tier Recharge plan detection (e.g. "20% off first N orders, then 0%").
+  # Used by the Meta acquisition lander; harmless on the homepage where plans
+  # are typically single-tier (sub_is_multi_tier stays false).
+  assign sub_is_multi_tier = false
+  assign sub_recurring_price = sub_price
+  if sub_plan and sub_plan.price_adjustments.size > 1
+    assign sub_is_multi_tier = true
+    assign last_adj = sub_plan.price_adjustments.last
+    if last_adj.value_type == 'percentage'
+      assign factor = 100 | minus: last_adj.value
+      assign sub_recurring_price = onetime_variant.price | times: factor | divided_by: 100
+    elsif last_adj.value_type == 'fixed_amount'
+      assign sub_recurring_price = onetime_variant.price | minus: last_adj.value
+    elsif last_adj.value_type == 'price'
+      assign sub_recurring_price = last_adj.value
+    endif
+  endif
+  assign sub_recurring_whole = sub_recurring_price | divided_by: 100
+  assign sub_recurring_cents = sub_recurring_price | modulo: 100
+
+  # First-month savings vs retail (compare_at_price).
+  assign retail_anchor = ot_compare
+  if retail_anchor == 0
+    assign retail_anchor = ot_price
+  endif
+  assign sub_first_savings_total = 0
+  if retail_anchor > sub_price
+    assign sub_first_savings_total = retail_anchor | minus: sub_price
+  endif
+  assign sub_first_savings_whole = sub_first_savings_total | plus: 50 | divided_by: 100
+  assign sub_first_savings_pct = 0
+  if retail_anchor > 0
+    assign half = retail_anchor | divided_by: 2
+    assign sub_first_savings_pct = sub_first_savings_total | times: 100 | plus: half | divided_by: retail_anchor
+  endif
 -%}
 
 <section id="comprar" class="overflow-hidden bg-white">
@@ -409,6 +450,11 @@
           sub_compare_whole: sub_compare_whole,
           sub_per_whole: sub_per_whole,
           sub_savings_whole: sub_savings_whole,
+          sub_is_multi_tier: sub_is_multi_tier,
+          sub_recurring_whole: sub_recurring_whole,
+          sub_recurring_cents: sub_recurring_cents,
+          sub_first_savings_whole: sub_first_savings_whole,
+          sub_first_savings_pct: sub_first_savings_pct,
           onetime_variant_id: onetime_variant.id,
           onetime_variant_title: onetime_variant.title,
           onetime_price_raw: ot_price,

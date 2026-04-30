@@ -70,7 +70,7 @@
     .bc-buybox-tile.selected .bc-radio::after { content:''; position:absolute; inset:3px; border-radius:50%; background:#00A33C; }
     .bc-buybox-tile { background:#fff; }
     .bc-buybox-tile.selected { background:linear-gradient(180deg, rgba(0,171,67,0.06) 0%, rgba(0,171,67,0.02) 100%); }
-    .bc-savings-pill { display:inline-flex; align-items:center; gap:4px; background:#00A33C; color:#fff; font-weight:700; text-transform:uppercase; font-size:10px; letter-spacing:0.04em; padding:2px 8px; border-radius:999px; }
+    .bc-savings-pill { display:inline-flex; align-items:center; gap:4px; background:#00A33C; color:#fff; font-weight:700; text-transform:uppercase; font-size:10px; letter-spacing:0.04em; padding:2px 8px; border-radius:999px; white-space:nowrap; }
   </style>
 
   {%- comment -%}─── Pre-decision trust bullets (cheers-pattern) ───{%- endcomment -%}
@@ -98,17 +98,37 @@
       data-default="true"
       onclick="ProductForm.selectOption(this)"
     >
+      {%- comment -%}
+        Pill copy: multi-tier plans show "AHORRA X% PRIMER MES" using the
+        first-month savings pct vs retail; single-tier plans use the
+        recurring savings pct (sub_first_savings_pct still works since
+        first-month and recurring savings are equal in single-tier).
+      {%- endcomment -%}
+      {%- assign _pill_pct = sub_first_savings_pct | default: 20 -%}
+      {%- if sub_is_multi_tier -%}
+        {%- capture _pill_text -%}AHORRA {{ _pill_pct }}% PRIMER MES{%- endcapture -%}
+      {%- else -%}
+        {%- capture _pill_text -%}AHORRA {{ _pill_pct }}%{%- endcapture -%}
+      {%- endif -%}
+
+      {%- assign _sub_recurring_whole = sub_recurring_whole | default: _sub_whole -%}
+      {%- assign _sub_recurring_cents = sub_recurring_cents | default: sub_price_cents -%}
+      {%- capture _sub_recurring_formatted -%}{%- if _sub_recurring_whole >= 1000 -%}{{ _sub_recurring_whole | divided_by: 1000 }},{{ _sub_recurring_whole | modulo: 1000 | prepend: '000' | slice: -3, 3 }}{%- else -%}{{ _sub_recurring_whole }}{%- endif -%}{%- endcapture -%}
+
       <div style="display:flex; align-items:center; gap:12px;">
         <span class="bc-radio" aria-hidden="true"></span>
         <div style="flex:1; min-width:0;">
           <p class="font-bold text-background" style="font-size:14px; display:inline; margin-right:8px">{{ _sub_heading }}</p>
-          <span class="bc-savings-pill">AHORRA 20%</span>
+          <span class="bc-savings-pill">{{ _pill_text }}</span>
         </div>
         <div style="text-align:right; white-space:nowrap;">
           {%- if sub_compare_whole != blank and sub_compare_whole > _sub_whole -%}
             <span style="font-size:12px; color:rgba(7,29,64,0.4); text-decoration:line-through; font-weight:600; margin-right:4px;">${{ sub_compare_whole }}</span>
           {%- endif -%}
-          <span class="font-display font-black text-background" style="font-size:20px">${{ _sub_formatted }}{%- if sub_price_cents != blank and sub_price_cents > 0 -%},{{ sub_price_cents | prepend: '00' | slice: -2, 2 }}{%- endif -%}</span><span style="font-size:11px; color:rgba(7,29,64,0.5); font-weight:600; margin-left:2px">/mes</span>
+          <span class="font-display font-black text-background" style="font-size:20px">${{ _sub_formatted }}{%- if sub_price_cents != blank and sub_price_cents > 0 -%},{{ sub_price_cents | prepend: '00' | slice: -2, 2 }}{%- endif -%}</span><span style="font-size:11px; color:rgba(7,29,64,0.5); font-weight:600; margin-left:2px">/mes{%- if sub_is_multi_tier %} primer mes{% endif -%}</span>
+          {%- if sub_is_multi_tier -%}
+            <div style="font-size:10px; color:rgba(7,29,64,0.5); font-weight:600; margin-top:2px;">Luego ${{ _sub_recurring_formatted }}{%- if _sub_recurring_cents != blank and _sub_recurring_cents > 0 -%},{{ _sub_recurring_cents | prepend: '00' | slice: -2, 2 }}{%- endif -%}/mes</div>
+          {%- endif -%}
         </div>
       </div>
       {%- if _qty_label != blank -%}
@@ -118,7 +138,9 @@
       <ul style="margin-top:8px; padding-left:30px; display:flex; flex-direction:column; gap:3px; list-style:none;">
         <li style="display:flex; align-items:center; gap:6px; font-size:11px; color:rgba(7,29,64,0.7); font-weight:500">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" aria-hidden="true" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>
-          {%- if sub_savings_whole != blank and sub_savings_whole > 0 -%}
+          {%- if sub_is_multi_tier and sub_first_savings_whole > 0 -%}
+            Ahorras ${{ sub_first_savings_whole }} el primer mes
+          {%- elsif sub_savings_whole != blank and sub_savings_whole > 0 -%}
             Ahorras ${{ sub_savings_whole }} cada mes
           {%- else -%}
             20% de descuento de por vida
@@ -150,12 +172,15 @@
         <span class="bc-radio" aria-hidden="true"></span>
         <p class="font-bold text-background" style="font-size:14px; flex:1; min-width:0;">{{ _onetime_heading }}</p>
         <div style="text-align:right; white-space:nowrap;">
+          {%- if onetime_compare_whole != blank and onetime_compare_whole > _ot_whole -%}
+            <span style="font-size:12px; color:rgba(7,29,64,0.4); text-decoration:line-through; font-weight:600; margin-right:4px;">${{ onetime_compare_whole }}</span>
+          {%- endif -%}
           <span class="font-display font-black text-background" style="font-size:20px">${{ _ot_formatted }}{%- if onetime_price_cents != blank and onetime_price_cents > 0 -%},{{ onetime_price_cents | prepend: '00' | slice: -2, 2 }}{%- endif -%}</span>
         </div>
       </div>
       <p style="font-size:11px; font-weight:500; margin-top:4px; padding-left:30px; color:rgba(7,29,64,0.55);">
         {%- if _qty_label != blank %}{{ _qty_label }} · {% endif -%}
-        Una sola entrega
+        {%- if onetime_compare_whole != blank and onetime_compare_whole > _ot_whole -%}Solo primer pedido{%- else -%}Una sola entrega{%- endif -%}
         {%- if onetime_per_whole != blank and onetime_per_whole > 0 %} · ${{ onetime_per_whole }} por mañana sin cruda{% endif -%}
       </p>
     </button>

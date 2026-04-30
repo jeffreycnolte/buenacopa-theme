@@ -26,6 +26,14 @@
   {%- if request.page_type == 'list_collections' -%}
     <meta name="robots" content="noindex, follow">
   {%- endif -%}
+  {%- comment -%}
+    Lander-template product pages are paid-acquisition surfaces with offers
+    distinct from the evergreen catalog. Keep them out of organic search to
+    avoid duplicate-content + offer-leakage to non-paid traffic.
+  {%- endcomment -%}
+  {%- if template.suffix == 'lander' -%}
+    <meta name="robots" content="noindex, nofollow">
+  {%- endif -%}
 
   {%- comment -%}Favicon{%- endcomment -%}
   {%- if settings.favicon -%}
