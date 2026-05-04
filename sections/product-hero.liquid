@@ -36,6 +36,14 @@
     endif
   endfor
 
+  # Subscription opt-out for products incompatible with /cart/add.js + selling_plan.
+  # Shopify Bundles reject subscription line items at the cart API level — the
+  # variant has a selling_plan_group attached but the cart endpoint returns 422.
+  # Tag the product 'bundle' or 'no-subscription' to suppress the sub tile.
+  if product.tags contains 'bundle' or product.tags contains 'no-subscription'
+    assign has_subscription = false
+  endif
+
   # One-time variant: first available variant (single-SKU model).
   assign onetime_variant = nil
   for variant in product.variants
