@@ -52,9 +52,18 @@
 
 <div id="brand-sticky-cta" data-target-id="{{ _target_id }}">
   <div style="background-color: #001D45; box-shadow: 0 -4px 20px rgba(0,0,0,0.25); padding: 8px 16px 12px;">
+    {%- comment -%}
+      Click behavior:
+        Primary — fire ProductForm.addToCart() with the user's currently
+        selected option. The label says "Suscribirme – $X/mes" so the click
+        should reflect that intent + emit the AddToCart Pixel event for
+        attribution. We fall back to scrolling to the buy-box if ProductForm
+        isn't initialised on the page (defensive — every page that renders
+        this snippet also loads product-form.js, but belt-and-suspenders).
+    {%- endcomment -%}
     <a
       href="#{{ _target_id }}"
-      onclick="event.preventDefault(); var t = document.getElementById('{{ _target_id }}'); if (t) t.scrollIntoView({behavior:'smooth', block:'start'});"
+      onclick="event.preventDefault(); if (window.ProductForm && typeof ProductForm.addToCart === 'function') { ProductForm.addToCart(); } else { var t = document.getElementById('{{ _target_id }}'); if (t) t.scrollIntoView({behavior:'smooth', block:'start'}); }"
       style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background-color: #00A33C; color: #fff; font-weight: 700; font-size: 15px; padding: 12px 0; border-radius: 12px; text-decoration: none;"
     >
       {% render 'icon-cart', size: 18 %}
