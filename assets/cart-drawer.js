@@ -65,12 +65,17 @@ var CartDrawer = {
         // Lead with variant (e.g. "10 Sobres") since it's a single-product store
         var displayTitle = variantTitle || escapedTitle;
         html += '<h4 class="font-bold text-sm text-foreground" style="line-height:1.3">' + displayTitle + '</h4>';
-        // Decision label: every line item gets a qualifier so a customer
-        // who has both a sub and a one-time in the cart can immediately
-        // see which is which. Sub uses the Recharge plan name (green);
-        // one-time uses a muted "Compra única" label.
+        // Decision label: every line item gets an explicit qualifier so the
+        // customer can scan the cart and see what they bought. Parallel
+        // structure between sub and one-time:
+        //   Sub:      "Suscripción mensual" (green, bold) + plan name (muted, smaller)
+        //   One-time: "Compra única" (muted)
+        // Leading with the explicit Spanish word avoids ambiguity from plan
+        // names like "Bienvenida — 36% primer mes…" that don't themselves
+        // contain the word "subscription".
         if (sellingPlan) {
-          html += '<p class="text-xs font-semibold" style="margin-top:1px;color:hsl(149 100% 34%)">' + sellingPlan + '</p>';
+          html += '<p class="text-xs font-bold" style="margin-top:1px;color:hsl(149 100% 34%)">Suscripción mensual</p>';
+          html += '<p class="text-xs" style="margin-top:0;color:rgba(255,255,255,0.6)">' + sellingPlan + '</p>';
         } else {
           html += '<p class="text-xs font-semibold" style="margin-top:1px;color:rgba(255,255,255,0.55)">Compra única</p>';
         }
