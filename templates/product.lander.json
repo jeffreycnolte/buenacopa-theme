@@ -5,11 +5,11 @@
       "settings": {
         "heading_line_1": "La fiesta sigue.",
         "heading_line_2": "La cruda no.",
-        "subheading": "Tómalo antes de dormir. Despierta listo para conquistar tu día.",
-        "social_proof_text": "+10,000 mañanas sin cruda · Garantía de 30 días",
-        "cta_text": "Ver planes →",
-        "trust_1": "Envío gratis",
-        "trust_2": "Garantía 30 días",
+        "subheading": "T\u00f3malo antes de dormir. Despierta listo para conquistar tu d\u00eda.",
+        "social_proof_text": "+10,000 ma\u00f1anas sin cruda \u00b7 Garant\u00eda de 30 d\u00edas",
+        "cta_text": "Ver planes \u2192",
+        "trust_1": "Env\u00edo gratis",
+        "trust_2": "Garant\u00eda 30 d\u00edas",
         "trust_3": "Sin riesgo",
         "product": "buenacopa-bienestar-post-fiesta"
       }
@@ -17,7 +17,7 @@
     "lander-problem": {
       "type": "lander-problem",
       "settings": {
-        "heading": "La noche es tuya. El día también.",
+        "heading": "La noche es tuya. El d\u00eda tambi\u00e9n.",
         "subtext": "Sin cruda de por medio."
       }
     },
@@ -26,15 +26,15 @@
       "settings": {
         "label": "RESULTADOS",
         "heading": "Buenacopa trabaja mientras duermes",
-        "outcome_1": "Despierta con energía real",
-        "outcome_2": "Sin dolor de cabeza ni náuseas",
+        "outcome_1": "Despierta con energ\u00eda real",
+        "outcome_2": "Sin dolor de cabeza ni n\u00e1useas",
         "outcome_3": "Listo para lo que sigue"
       }
     },
     "lander-steps": {
       "type": "lander-steps",
       "settings": {
-        "label": "CÓMO FUNCIONA",
+        "label": "C\u00d3MO FUNCIONA",
         "heading": "Cuatro pasos. Cero sacrificios."
       },
       "blocks": {
@@ -51,8 +51,8 @@
           "type": "step",
           "settings": {
             "number": "2",
-            "title": "Toma tus 3 cápsulas",
-            "description": "Con agua, después de tu última copa",
+            "title": "Toma tus 3 c\u00e1psulas",
+            "description": "Con agua, despu\u00e9s de tu \u00faltima copa",
             "default_icon": "glass"
           }
         },
@@ -60,7 +60,7 @@
           "type": "step",
           "settings": {
             "number": "3",
-            "title": "Actúa mientras duermes",
+            "title": "Act\u00faa mientras duermes",
             "description": "Buenacopa procesa el alcohol mientras descansas",
             "default_icon": "moon"
           }
@@ -70,12 +70,17 @@
           "settings": {
             "number": "4",
             "title": "Despierta y conquista",
-            "description": "Tu mañana es tuya",
+            "description": "Tu ma\u00f1ana es tuya",
             "default_icon": "sun"
           }
         }
       },
-      "block_order": ["step-1", "step-2", "step-3", "step-4"]
+      "block_order": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4"
+      ]
     },
     "ingredients": {
       "type": "lander-ingredients",
@@ -92,27 +97,31 @@
         "lcisteina": {
           "type": "ingredient",
           "settings": {
-            "title": "L-Cisteína",
+            "title": "L-Ciste\u00edna",
             "subtitle": "",
-            "description": "Neutraliza toxinas. Menos náuseas, menos daño.",
+            "description": "Neutraliza toxinas. Menos n\u00e1useas, menos da\u00f1o.",
             "icon_type": "shield"
           }
         },
         "vitc": {
           "type": "ingredient",
           "settings": {
-            "title": "Vitamina C + Cúrcuma",
+            "title": "Vitamina C + C\u00farcuma",
             "subtitle": "",
             "description": "Antioxidantes que trabajan de noche.",
             "icon_type": "leaf"
           }
         }
       },
-      "block_order": ["dhm", "lcisteina", "vitc"],
+      "block_order": [
+        "dhm",
+        "lcisteina",
+        "vitc"
+      ],
       "settings": {
-        "label": "LA FÓRMULA",
+        "label": "LA F\u00d3RMULA",
         "heading": "Lo que hay adentro importa.",
-        "tagline": "Sin cafeína · Sin azúcar · Fabricado GMP · Regulado por COFEPRIS"
+        "tagline": "Sin cafe\u00edna \u00b7 Sin az\u00facar \u00b7 Fabricado GMP \u00b7 Regulado por COFEPRIS"
       }
     },
     "ugc": {
@@ -122,13 +131,13 @@
         "heading_line_2": "crudas",
         "video_1": "shopify://files/videos/Ad_Conversion_Sept_Gustavo (1).mp4",
         "name_1": "Gustavo",
-        "quote_1": "Funciona increíble, lo recomiendo al 100%",
+        "quote_1": "Funciona incre\u00edble, lo recomiendo al 100%",
         "video_2": "shopify://files/videos/Reel Testimonio Viri.mp4",
         "name_2": "Viri",
         "quote_2": "No salgo de fiesta sin mi Buenacopa",
         "video_3": "shopify://files/videos/Reel Gerardo H_sutitulos.mp4",
         "name_3": "Gerardo",
-        "quote_3": "Le regalé a mis amigos y ya todos lo usan",
+        "quote_3": "Le regal\u00e9 a mis amigos y ya todos lo usan",
         "name_4": "",
         "quote_4": "",
         "name_5": "",
@@ -144,8 +153,8 @@
             "author": "Ana Hernandez",
             "gender": "female",
             "rating": 5,
-            "title": "La verdad me sorprendió bastante",
-            "body": "No pensé que fuera taaan efectivo. Cansada de la desvelada sí, pero síntomas de cruda nadaaa.",
+            "title": "La verdad me sorprendi\u00f3 bastante",
+            "body": "No pens\u00e9 que fuera taaan efectivo. Cansada de la desvelada s\u00ed, pero s\u00edntomas de cruda nadaaa.",
             "date": "Sep 2025",
             "city": "Guadalajara",
             "variant": "10 Sobres",
@@ -159,7 +168,7 @@
             "gender": "female",
             "rating": 5,
             "title": "De temer la cruda a disfrutar sin miedo",
-            "body": "Me atreví a tomarme 2 Negronis porque tenía mi BuenaCopa. Al día siguiente estaba como si nada!",
+            "body": "Me atrev\u00ed a tomarme 2 Negronis porque ten\u00eda mi BuenaCopa. Al d\u00eda siguiente estaba como si nada!",
             "date": "Ago 2025",
             "city": "CDMX",
             "variant": "10 Sobres",
@@ -172,8 +181,8 @@
             "author": "Alan Sosa",
             "gender": "male",
             "rating": 5,
-            "title": "Como si hubiera sido un día normal",
-            "body": "Noche pesada de vino, tequila y fiesta. Al día siguiente, como si nada. Como si hubiera sido un día normal.",
+            "title": "Como si hubiera sido un d\u00eda normal",
+            "body": "Noche pesada de vino, tequila y fiesta. Al d\u00eda siguiente, como si nada. Como si hubiera sido un d\u00eda normal.",
             "date": "Sep 2025",
             "city": "CDMX",
             "variant": "10 Sobres",
@@ -181,10 +190,14 @@
           }
         }
       },
-      "block_order": ["rev-1", "rev-2", "rev-3"],
+      "block_order": [
+        "rev-1",
+        "rev-2",
+        "rev-3"
+      ],
       "settings": {
-        "heading_line_1": "+10,000 personas ya eligieron sus mañanas",
-        "heading_line_2": "y lo cuentan así",
+        "heading_line_1": "+10,000 personas ya eligieron sus ma\u00f1anas",
+        "heading_line_2": "y lo cuentan as\u00ed",
         "product": "buenacopa-bienestar-post-fiesta",
         "rating": "4.7",
         "review_count": "33",
@@ -200,14 +213,15 @@
       "type": "lander-guarantee",
       "settings": {
         "heading": "Si no funciona, te devolvemos tu dinero.",
-        "subtext": "30 días. Sin preguntas. Sin complicaciones."
+        "subtext": "30 d\u00edas. Sin preguntas. Sin complicaciones."
       }
     },
     "lander-buy-box": {
       "type": "lander-buy-box",
       "settings": {
         "heading": "Elige tu plan",
-        "product": "buenacopa-bienestar-post-fiesta"
+        "product": "buenacopa-bienestar-post-fiesta",
+        "subscription_source_product": "buenacopa-bienestar-post-fiesta"
       }
     },
     "faq": {
@@ -216,40 +230,46 @@
         "faq-1": {
           "type": "faq_item",
           "settings": {
-            "question": "¿Cuándo lo tomo?",
-            "answer": "Después de tu última copa, antes de dormir. 3 cápsulas con un vaso de agua."
+            "question": "\u00bfCu\u00e1ndo lo tomo?",
+            "answer": "Despu\u00e9s de tu \u00faltima copa, antes de dormir. 3 c\u00e1psulas con un vaso de agua."
           }
         },
         "faq-2": {
           "type": "faq_item",
           "settings": {
-            "question": "¿De verdad funciona?",
+            "question": "\u00bfDe verdad funciona?",
             "answer": "Funciona para +10,000 personas. Y si no te funciona para ti, te devolvemos tu dinero."
           }
         },
         "faq-3": {
           "type": "faq_item",
           "settings": {
-            "question": "¿Es seguro?",
-            "answer": "Ingredientes naturales, sin cafeína, sin azúcar. Fabricado GMP, regulado por COFEPRIS."
+            "question": "\u00bfEs seguro?",
+            "answer": "Ingredientes naturales, sin cafe\u00edna, sin az\u00facar. Fabricado GMP, regulado por COFEPRIS."
           }
         },
         "faq-4": {
           "type": "faq_item",
           "settings": {
-            "question": "¿Puedo cancelar la suscripción?",
+            "question": "\u00bfPuedo cancelar la suscripci\u00f3n?",
             "answer": "Cuando quieras. Sin penalizaciones, sin llamadas, sin drama."
           }
         },
         "faq-5": {
           "type": "faq_item",
           "settings": {
-            "question": "¿Cuánto tarda en llegar?",
-            "answer": "Envío express 2–3 días. Pedidos antes de 1pm CDMX en día hábil salen el mismo día."
+            "question": "\u00bfCu\u00e1nto tarda en llegar?",
+            "answer": "Env\u00edo express 2\u20133 d\u00edas. Pedidos antes de 1pm CDMX en d\u00eda h\u00e1bil salen el mismo d\u00eda."
           }
         }
       },
-      "block_order": ["faq-1", "faq-2", "faq-3", "faq-4", "faq-5"],
+      "block_order": [
+        "faq-1",
+        "faq-2",
+        "faq-3",
+        "faq-4",
+        "faq-5"
+      ],
       "settings": {
         "heading": "Preguntas frecuentes"
       }
@@ -257,9 +277,9 @@
     "lander-final-cta": {
       "type": "lander-final-cta",
       "settings": {
-        "heading": "Tu próxima mañana ya está decidida.",
+        "heading": "Tu pr\u00f3xima ma\u00f1ana ya est\u00e1 decidida.",
         "subheading": "La pregunta es si vas a estar bien o no.",
-        "cta_text": "Quiero mis mañanas →"
+        "cta_text": "Quiero mis ma\u00f1anas \u2192"
       }
     }
   },

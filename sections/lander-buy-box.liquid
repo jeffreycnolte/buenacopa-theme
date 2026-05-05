@@ -25,11 +25,27 @@
   assign sub_plan = nil
   assign sub_price = 0
 
-  for group in product.selling_plan_groups
+  # --- Subscription source resolution -----------------------------------------
+  # Default: read sub_variant + plan from the page's product (the standard case
+  # for /products/X where X is a regular product with a Recharge plan).
+  #
+  # Override: section setting `subscription_source_product` lets the lander pull
+  # sub_variant + plan from a DIFFERENT product. Used when the page product is
+  # a Shopify Bundle (which can't accept selling_plan line items via
+  # /cart/add.js — 422 "del paquete"). Sub tile click then adds the override
+  # product's variant + plan, bypassing the bundle limitation while the
+  # one-time tile still uses the bundle for inventory sharing.
+  # ------------------------------------------------------------------------------
+  assign sub_source = section.settings.subscription_source_product
+  if sub_source == blank
+    assign sub_source = product
+  endif
+
+  for group in sub_source.selling_plan_groups
     if group.selling_plans.size > 0
       assign has_subscription = true
       assign sub_plan = group.selling_plans[0]
-      for variant in product.variants
+      for variant in sub_source.variants
         for allocation in variant.selling_plan_allocations
           if allocation.selling_plan.id == sub_plan.id
             assign sub_variant = variant
@@ -45,13 +61,13 @@
     endif
   endfor
 
-  # Subscription opt-out for products incompatible with /cart/add.js + selling_plan.
-  # Shopify Bundles reject subscription line items at the cart API level — the
-  # variant has a selling_plan_group attached but the cart endpoint returns 422
-  # ("del paquete no se puede agregar"). Tag the product 'bundle' or
-  # 'no-subscription' to suppress the sub tile and avoid surfacing a broken CTA.
-  if product.tags contains 'bundle' or product.tags contains 'no-subscription'
-    assign has_subscription = false
+  # Tag-based suppression: only applies when no explicit override product is set.
+  # If you've configured a subscription_source_product, you've already bypassed
+  # the bundle limitation, so the tag check shouldn't second-guess that.
+  if section.settings.subscription_source_product == blank
+    if product.tags contains 'bundle' or product.tags contains 'no-subscription'
+      assign has_subscription = false
+    endif
   endif
 
   # One-time variant: first available variant (single-SKU model).
@@ -260,6 +276,16 @@
       "type": "product",
       "id": "product",
       "label": "Product"
+    },
+    {
+      "type": "header",
+      "content": "Subscription source override"
+    },
+    {
+      "type": "product",
+      "id": "subscription_source_product",
+      "label": "Subscription source product",
+      "info": "Optional. Use when the page product is a Shopify Bundle (which can't accept subscription line items via the cart API). The sub tile will pull its variant + plan from this product instead. Leave blank for normal products."
     }
   ],
   "presets": [
