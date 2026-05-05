@@ -65,8 +65,14 @@ var CartDrawer = {
         // Lead with variant (e.g. "10 Sobres") since it's a single-product store
         var displayTitle = variantTitle || escapedTitle;
         html += '<h4 class="font-bold text-sm text-foreground" style="line-height:1.3">' + displayTitle + '</h4>';
+        // Decision label: every line item gets a qualifier so a customer
+        // who has both a sub and a one-time in the cart can immediately
+        // see which is which. Sub uses the Recharge plan name (green);
+        // one-time uses a muted "Compra única" label.
         if (sellingPlan) {
           html += '<p class="text-xs font-semibold" style="margin-top:1px;color:hsl(149 100% 34%)">' + sellingPlan + '</p>';
+        } else {
+          html += '<p class="text-xs font-semibold" style="margin-top:1px;color:rgba(255,255,255,0.55)">Compra única</p>';
         }
         html += '<p class="font-semibold text-sm text-foreground" style="margin-top:4px">' + Shopify.formatMoney(item.price) + '</p>';
         html += '</div>';
