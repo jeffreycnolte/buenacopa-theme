@@ -114,16 +114,20 @@
   # Multi-tier Recharge plan detection (e.g. "20% off first N orders, then 0%").
   # Used by the Meta acquisition lander; harmless on the homepage where plans
   # are typically single-tier (sub_is_multi_tier stays false).
+  # Multi-tier recurring price: apply the last price adjustment to the
+  # SUB SOURCE variant's price (sub_variant), not necessarily the page
+  # product's variant — the two diverge when the sub override is in use.
   assign sub_is_multi_tier = false
   assign sub_recurring_price = sub_price
+  assign sub_anchor_price = sub_variant.price | default: onetime_variant.price
   if sub_plan and sub_plan.price_adjustments.size > 1
     assign sub_is_multi_tier = true
     assign last_adj = sub_plan.price_adjustments.last
     if last_adj.value_type == 'percentage'
       assign factor = 100 | minus: last_adj.value
-      assign sub_recurring_price = onetime_variant.price | times: factor | divided_by: 100
+      assign sub_recurring_price = sub_anchor_price | times: factor | divided_by: 100
     elsif last_adj.value_type == 'fixed_amount'
-      assign sub_recurring_price = onetime_variant.price | minus: last_adj.value
+      assign sub_recurring_price = sub_anchor_price | minus: last_adj.value
     elsif last_adj.value_type == 'price'
       assign sub_recurring_price = last_adj.value
     endif
