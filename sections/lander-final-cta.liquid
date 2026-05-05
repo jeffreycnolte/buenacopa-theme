@@ -49,7 +49,7 @@
         href: '#lander-buy-box',
         size: 'lg',
         style_extra: 'min-width: 260px;',
-        onclick: "event.preventDefault(); document.getElementById('lander-subscription-card').scrollIntoView({behavior:'smooth', block:'start'});"
+        onclick: "event.preventDefault(); var t = document.getElementById('lander-product-form') || document.getElementById('lander-buy-box'); if (t) t.scrollIntoView({behavior:'smooth', block:'start'});"
       %}
     </div>
   </div>
