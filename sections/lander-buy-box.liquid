@@ -41,23 +41,43 @@
     assign sub_source = product
   endif
 
+  # Plan resolution within the source product:
+  #   - If `subscription_plan_id` section setting is set, find that specific
+  #     plan (used when a product has multiple plans and we want a specific
+  #     one — e.g. Bienvenida's multi-tier 36%-first / 20%-ongoing plan
+  #     attached to the main product variant alongside the evergreen 20%
+  #     flat plan).
+  #   - Otherwise, fall back to the first plan in the first group.
+  assign target_plan_id_str = section.settings.subscription_plan_id
+  assign target_plan_id = 0
+  if target_plan_id_str != blank
+    assign target_plan_id = target_plan_id_str | plus: 0
+  endif
+
   for group in sub_source.selling_plan_groups
     if group.selling_plans.size > 0
-      assign has_subscription = true
-      assign sub_plan = group.selling_plans[0]
-      for variant in sub_source.variants
-        for allocation in variant.selling_plan_allocations
-          if allocation.selling_plan.id == sub_plan.id
-            assign sub_variant = variant
-            assign sub_price = allocation.price
-            break
-          endif
-        endfor
-        if sub_variant
+      for plan in group.selling_plans
+        if target_plan_id == 0 or plan.id == target_plan_id
+          assign sub_plan = plan
           break
         endif
       endfor
-      break
+      if sub_plan
+        assign has_subscription = true
+        for variant in sub_source.variants
+          for allocation in variant.selling_plan_allocations
+            if allocation.selling_plan.id == sub_plan.id
+              assign sub_variant = variant
+              assign sub_price = allocation.price
+              break
+            endif
+          endfor
+          if sub_variant
+            break
+          endif
+        endfor
+        break
+      endif
     endif
   endfor
 
@@ -286,6 +306,12 @@
       "id": "subscription_source_product",
       "label": "Subscription source product",
       "info": "Optional. Use when the page product is a Shopify Bundle (which can't accept subscription line items via the cart API). The sub tile will pull its variant + plan from this product instead. Leave blank for normal products."
+    },
+    {
+      "type": "text",
+      "id": "subscription_plan_id",
+      "label": "Subscription plan ID (optional)",
+      "info": "Optional. When the source product has multiple selling plans (e.g. an evergreen flat 20% plan + an acquisition multi-tier 36%-first / 20%-ongoing plan), this picks the specific plan to use for the sub tile. Leave blank to use the first plan."
     }
   ],
   "presets": [

@@ -127,7 +127,7 @@
         style="background-color: #00A33C; padding: 14px 0; font-size: 16px; text-decoration: none;"
         onmouseover="this.style.backgroundColor='#009639'"
         onmouseout="this.style.backgroundColor='#00A33C'"
-        onclick="event.preventDefault(); document.getElementById('lander-subscription-card').scrollIntoView({behavior:'smooth', block:'start'});"
+        onclick="event.preventDefault(); var t = document.getElementById('lander-product-form') || document.getElementById('lander-buy-box'); if (t) t.scrollIntoView({behavior:'smooth', block:'start'});"
       >
         {{ section.settings.cta_text | default: 'Ver planes →' }}
       </a>
