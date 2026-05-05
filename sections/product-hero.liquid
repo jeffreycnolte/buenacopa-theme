@@ -10,29 +10,53 @@
 {%- endif -%}
 
 {%- liquid
-  # Subscription detection: first selling plan + the variant it's allocated to.
+  # Subscription detection: pick a specific selling plan + its allocated variant.
+  #
+  # When the variant has multiple plans attached (e.g. an evergreen flat 20%
+  # plan AND a Meta-acquisition multi-tier 36%-first/20%-ongoing plan), the
+  # `subscription_plan_id` section setting picks the specific plan to render.
+  # Without that setting, we fall back to the first plan, which historically
+  # was the only plan but no longer is.
+  #
+  # IMPORTANT: configure subscription_plan_id on the homepage section
+  # explicitly so the evergreen offer is shown to organic traffic — otherwise
+  # whichever plan happens to be first in Recharge's response leaks the
+  # acquisition discount to non-paid visitors.
   assign has_subscription = false
   assign sub_variant = nil
   assign sub_plan = nil
   assign sub_price = 0
 
+  assign target_plan_id_str = section.settings.subscription_plan_id
+  assign target_plan_id = 0
+  if target_plan_id_str != blank
+    assign target_plan_id = target_plan_id_str | plus: 0
+  endif
+
   for group in product.selling_plan_groups
     if group.selling_plans.size > 0
-      assign has_subscription = true
-      assign sub_plan = group.selling_plans[0]
-      for variant in product.variants
-        for allocation in variant.selling_plan_allocations
-          if allocation.selling_plan.id == sub_plan.id
-            assign sub_variant = variant
-            assign sub_price = allocation.price
-            break
-          endif
-        endfor
-        if sub_variant
+      for plan in group.selling_plans
+        if target_plan_id == 0 or plan.id == target_plan_id
+          assign sub_plan = plan
           break
         endif
       endfor
-      break
+      if sub_plan
+        assign has_subscription = true
+        for variant in product.variants
+          for allocation in variant.selling_plan_allocations
+            if allocation.selling_plan.id == sub_plan.id
+              assign sub_variant = variant
+              assign sub_price = allocation.price
+              break
+            endif
+          endfor
+          if sub_variant
+            break
+          endif
+        endfor
+        break
+      endif
     endif
   endfor
 
@@ -662,6 +686,12 @@
       "type": "product",
       "id": "product",
       "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "subscription_plan_id",
+      "label": "Subscription plan ID (optional)",
+      "info": "When the product has multiple Recharge plans attached (e.g. evergreen flat 20% AND a Meta-acquisition multi-tier 36%/20% plan), this picks which plan to render here. Set to the EVERGREEN plan ID on the homepage so the acquisition discount doesn't leak to organic traffic. Leave blank to use the first plan."
     },
     {
       "type": "image_picker",

@@ -16,21 +16,21 @@
           "type": "dropdown",
           "settings": {
             "title": "Modo de uso",
-            "content": "<ul><li>Toma 1 dosis (3 cápsulas) después de tu última copa</li><li>Hidrátate con un vaso grande de agua</li><li>Descansa y despierta listo para disfrutar tu día</li></ul>"
+            "content": "<ul><li>Toma 1 dosis (3 c\u00e1psulas) despu\u00e9s de tu \u00faltima copa</li><li>Hidr\u00e1tate con un vaso grande de agua</li><li>Descansa y despierta listo para disfrutar tu d\u00eda</li></ul>"
           }
         },
         "dropdown-ingredients": {
           "type": "dropdown",
           "settings": {
             "title": "Ingredientes",
-            "content": "<ul><li><strong>DHM:</strong> Acelera el metabolismo del alcohol y equilibra tus neurotransmisores</li><li><strong>L-Cisteína:</strong> Neutraliza las toxinas del alcohol y protege tu hígado</li><li><strong>Vitamina C:</strong> Antioxidante que combate el estrés en tus células</li><li><strong>Cúrcuma:</strong> Ayuda a disminuir la inflamación</li></ul>"
+            "content": "<ul><li><strong>DHM:</strong> Acelera el metabolismo del alcohol y equilibra tus neurotransmisores</li><li><strong>L-Ciste\u00edna:</strong> Neutraliza las toxinas del alcohol y protege tu h\u00edgado</li><li><strong>Vitamina C:</strong> Antioxidante que combate el estr\u00e9s en tus c\u00e9lulas</li><li><strong>C\u00farcuma:</strong> Ayuda a disminuir la inflamaci\u00f3n</li></ul>"
           }
         },
         "dropdown-shipping": {
           "type": "dropdown",
           "settings": {
-            "title": "Información de envío",
-            "content": "<p>Para que estés preparado cuando llegue la próxima celebración</p><p><strong>Envío Express (2-3 días):</strong> GRATIS por tiempo limitado</p><p><strong>Procesamiento el mismo día.</strong> Realiza tu pedido antes de la 1:00 p.m. (hora CDMX) y lo enviamos el mismo día.</p><p><em>Aplica únicamente en días hábiles.</em></p><p><strong>BUENACOPA. BUENOS DÍAS.</strong></p>"
+            "title": "Informaci\u00f3n de env\u00edo",
+            "content": "<p>Para que est\u00e9s preparado cuando llegue la pr\u00f3xima celebraci\u00f3n</p><p><strong>Env\u00edo Express (2-3 d\u00edas):</strong> GRATIS por tiempo limitado</p><p><strong>Procesamiento el mismo d\u00eda.</strong> Realiza tu pedido antes de la 1:00 p.m. (hora CDMX) y lo enviamos el mismo d\u00eda.</p><p><em>Aplica \u00fanicamente en d\u00edas h\u00e1biles.</em></p><p><strong>BUENACOPA. BUENOS D\u00cdAS.</strong></p>"
           }
         }
       },
@@ -43,13 +43,14 @@
         "heading_line_1": "La fiesta sigue.",
         "heading_line_2": "La cruda no.",
         "subheading": "Buenacopa, bienestar post-fiesta.",
-        "trust_text": "Envío gratis y 30 días de garantía.",
+        "trust_text": "Env\u00edo gratis y 30 d\u00edas de garant\u00eda.",
         "product": "buenacopa-bienestar-post-fiesta",
         "tagline": "Bienestar Post-Fiesta",
-        "review_label": "10,000+ mañanas sin cruda",
+        "review_label": "10,000+ ma\u00f1anas sin cruda",
         "review_count": "150",
         "amazon_url": "https://www.amazon.com.mx/stores/page/FDB18C6D-10B7-43A2-AA75-D935DEF10C38?channel=BOTONSITIOWEB",
-        "mercadolibre_url": "https://www.mercadolibre.com.mx/tienda/buenacopa"
+        "mercadolibre_url": "https://www.mercadolibre.com.mx/tienda/buenacopa",
+        "subscription_plan_id": "2820931773"
       }
     },
     "177578091173f352fa": {
@@ -65,16 +66,16 @@
             "icon": "shopify://shop_images/Group.svg",
             "title": "DHM",
             "subtitle": "Dihidromiricetina",
-            "description": "Acelera el metabolismo del alcohol desde el cerebro. Reduce la ansiedad post-fiesta. Protege tu hígado."
+            "description": "Acelera el metabolismo del alcohol desde el cerebro. Reduce la ansiedad post-fiesta. Protege tu h\u00edgado."
           }
         },
         "lcisteina": {
           "type": "ingredient",
           "settings": {
             "icon": "shopify://shop_images/Vector.svg",
-            "title": "L-Cisteína",
+            "title": "L-Ciste\u00edna",
             "subtitle": "",
-            "description": "Neutraliza toxinas. Refuerza tus defensas. Disminuye náuseas y dolor de cabeza."
+            "description": "Neutraliza toxinas. Refuerza tus defensas. Disminuye n\u00e1useas y dolor de cabeza."
           }
         }
       },
@@ -83,8 +84,8 @@
         "lcisteina"
       ],
       "settings": {
-        "heading": "La fórmula que previene la cruda",
-        "tagline": "Doble ataque, una sola misión: Que la cruda no llegue, y amanezcas bien."
+        "heading": "La f\u00f3rmula que previene la cruda",
+        "tagline": "Doble ataque, una sola misi\u00f3n: Que la cruda no llegue, y amanezcas bien."
       }
     },
     "ugc": {
@@ -94,10 +95,10 @@
         "heading_line_2": "(y no tuvieron cruda)",
         "video_1": "shopify://files/videos/Ad_Conversion_Sept_Gustavo (1).mp4",
         "name_1": "Gustavo",
-        "quote_1": "Funciona increíble, lo recomiendo al 100%",
+        "quote_1": "Funciona incre\u00edble, lo recomiendo al 100%",
         "video_2": "shopify://files/videos/Reel Gerardo H_sutitulos.mp4",
         "name_2": "Gerardo",
-        "quote_2": "Le regalé a mis amigos y ya todos lo usan",
+        "quote_2": "Le regal\u00e9 a mis amigos y ya todos lo usan",
         "video_3": "shopify://files/videos/Reel Testimonio Viri.mp4",
         "name_3": "Viri",
         "quote_3": "No salgo de fiesta sin mi Buenacopa",
@@ -115,7 +116,7 @@
           "settings": {
             "number": "1",
             "title": "Celebra tu noche",
-            "description": "Disfruta de forma responsable. Buenacopa está diseñado para acompañar tus mejores noches.",
+            "description": "Disfruta de forma responsable. Buenacopa est\u00e1 dise\u00f1ado para acompa\u00f1ar tus mejores noches.",
             "default_icon": "world"
           }
         },
@@ -123,8 +124,8 @@
           "type": "step",
           "settings": {
             "number": "2",
-            "title": "Toma tus 3 cápsulas antes de dormir",
-            "description": "Con un vaso de agua, después de tu última copa.",
+            "title": "Toma tus 3 c\u00e1psulas antes de dormir",
+            "description": "Con un vaso de agua, despu\u00e9s de tu \u00faltima copa.",
             "default_icon": "glass"
           }
         },
@@ -132,7 +133,7 @@
           "type": "step",
           "settings": {
             "number": "3",
-            "title": "Actúa mientras duermes",
+            "title": "Act\u00faa mientras duermes",
             "description": "Buenacopa procesa el alcohol mientras descansas.",
             "default_icon": "moon"
           }
@@ -141,8 +142,8 @@
           "type": "step",
           "settings": {
             "number": "4",
-            "title": "Despierta y conquista tu día",
-            "description": "Sin cruda, sin náuseas, sin dolor de cabeza. Tu mañana es tuya.",
+            "title": "Despierta y conquista tu d\u00eda",
+            "description": "Sin cruda, sin n\u00e1useas, sin dolor de cabeza. Tu ma\u00f1ana es tuya.",
             "default_icon": "sun"
           }
         }
@@ -182,7 +183,7 @@
         "mercadolibre"
       ],
       "settings": {
-        "heading": "También disponible en:"
+        "heading": "Tambi\u00e9n disponible en:"
       }
     },
     "brand-banner": {
@@ -197,43 +198,43 @@
         "faq-1": {
           "type": "faq_item",
           "settings": {
-            "question": "¿Cómo funciona Buenacopa?",
-            "answer": "Buenacopa combina DHM y L-Cisteína para acelerar el metabolismo del alcohol y neutralizar toxinas mientras duermes. Toma 3 cápsulas antes de dormir y despierta sin cruda."
+            "question": "\u00bfC\u00f3mo funciona Buenacopa?",
+            "answer": "Buenacopa combina DHM y L-Ciste\u00edna para acelerar el metabolismo del alcohol y neutralizar toxinas mientras duermes. Toma 3 c\u00e1psulas antes de dormir y despierta sin cruda."
           }
         },
         "faq-2": {
           "type": "faq_item",
           "settings": {
-            "question": "¿Cuándo debo tomarlo?",
-            "answer": "Toma las 3 cápsulas con un vaso de agua después de tu última copa, antes de dormir."
+            "question": "\u00bfCu\u00e1ndo debo tomarlo?",
+            "answer": "Toma las 3 c\u00e1psulas con un vaso de agua despu\u00e9s de tu \u00faltima copa, antes de dormir."
           }
         },
         "faq-3": {
           "type": "faq_item",
           "settings": {
-            "question": "¿Tiene efectos secundarios?",
-            "answer": "No. Buenacopa es un suplemento alimenticio con ingredientes naturales. No contiene cafeína, azúcar ni estimulantes. Es seguro para uso nocturno."
+            "question": "\u00bfTiene efectos secundarios?",
+            "answer": "No. Buenacopa es un suplemento alimenticio con ingredientes naturales. No contiene cafe\u00edna, az\u00facar ni estimulantes. Es seguro para uso nocturno."
           }
         },
         "faq-4": {
           "type": "faq_item",
           "settings": {
-            "question": "¿Cuántas cápsulas trae cada sachet?",
-            "answer": "Cada sachet contiene 1 dosis completa de 3 cápsulas de 750mg cada una (2.25g total)."
+            "question": "\u00bfCu\u00e1ntas c\u00e1psulas trae cada sachet?",
+            "answer": "Cada sachet contiene 1 dosis completa de 3 c\u00e1psulas de 750mg cada una (2.25g total)."
           }
         },
         "faq-5": {
           "type": "faq_item",
           "settings": {
-            "question": "¿Si no me funciona?",
+            "question": "\u00bfSi no me funciona?",
             "answer": "Si no sientes la diferencia, te devolvemos tu dinero. Sin preguntas."
           }
         },
         "faq_item_gLEBFy": {
           "type": "faq_item",
           "settings": {
-            "question": "¿Cuáles son sus estándares?",
-            "answer": "Hecho en México con ingredientes de origen global\nFabricado en una instalación regulada por COFEPRIS\nInstalación certificada con Buenas Prácticas de Manufactura (GMP)\nSin colorantes ni ingredientes artificiales\nApto para vegetarianos\nLibre de gluten\nSin cafeína\nSin taurina\nSin ázucar"
+            "question": "\u00bfCu\u00e1les son sus est\u00e1ndares?",
+            "answer": "Hecho en M\u00e9xico con ingredientes de origen global\nFabricado en una instalaci\u00f3n regulada por COFEPRIS\nInstalaci\u00f3n certificada con Buenas Pr\u00e1cticas de Manufactura (GMP)\nSin colorantes ni ingredientes artificiales\nApto para vegetarianos\nLibre de gluten\nSin cafe\u00edna\nSin taurina\nSin \u00e1zucar"
           }
         }
       },
@@ -259,7 +260,7 @@
             "gender": "male",
             "rating": 5,
             "title": "Funciona de verdad",
-            "body": "Lo probé en una boda y al día siguiente me sentí increíble. Mis amigos no lo podían creer. Ya no salgo sin mi Buenacopa.",
+            "body": "Lo prob\u00e9 en una boda y al d\u00eda siguiente me sent\u00ed incre\u00edble. Mis amigos no lo pod\u00edan creer. Ya no salgo sin mi Buenacopa.",
             "date": "Mar 2026",
             "city": "Monterrey",
             "variant": "10 Sobres",
@@ -273,7 +274,7 @@
             "gender": "female",
             "rating": 5,
             "title": "Indispensable",
-            "body": "Lo uso cada fin de semana. La diferencia es brutal — antes perdía todo el domingo, ahora despierto lista para todo.",
+            "body": "Lo uso cada fin de semana. La diferencia es brutal \u2014 antes perd\u00eda todo el domingo, ahora despierto lista para todo.",
             "date": "Feb 2026",
             "city": "CDMX",
             "variant": "10 Sobres",
@@ -287,7 +288,7 @@
             "gender": "male",
             "rating": 5,
             "title": "El mejor regalo",
-            "body": "Le regalé a todo mi grupo de amigos. Ahora todos lo piden antes de cada salida. 100% recomendado.",
+            "body": "Le regal\u00e9 a todo mi grupo de amigos. Ahora todos lo piden antes de cada salida. 100% recomendado.",
             "date": "Mar 2026",
             "city": "Guadalajara",
             "variant": "20 Sobres",
@@ -301,7 +302,7 @@
             "gender": "female",
             "rating": 4,
             "title": "Muy bueno",
-            "body": "La primera vez no lo tomé correctamente pero ya aprendí — con agua después de la última copa. Desde entonces funciona perfecto.",
+            "body": "La primera vez no lo tom\u00e9 correctamente pero ya aprend\u00ed \u2014 con agua despu\u00e9s de la \u00faltima copa. Desde entonces funciona perfecto.",
             "date": "Ene 2026",
             "city": "Puebla",
             "variant": "5 Sobres",
@@ -314,10 +315,10 @@
             "author": "Roberto S.",
             "gender": "male",
             "rating": 5,
-            "title": "No más crudas",
-            "body": "Soy escéptico por naturaleza pero esto realmente funciona. Lo he probado varias veces y el resultado es consistente.",
+            "title": "No m\u00e1s crudas",
+            "body": "Soy esc\u00e9ptico por naturaleza pero esto realmente funciona. Lo he probado varias veces y el resultado es consistente.",
             "date": "Feb 2026",
-            "city": "Querétaro",
+            "city": "Quer\u00e9taro",
             "variant": "10 Sobres",
             "verified": true
           }
@@ -329,7 +330,7 @@
             "gender": "female",
             "rating": 5,
             "title": "Sorprendente",
-            "body": "Mi novio me lo recomendó y ahora soy yo la que no sale sin sus sobres. Amaneces como si no hubieras tomado.",
+            "body": "Mi novio me lo recomend\u00f3 y ahora soy yo la que no sale sin sus sobres. Amaneces como si no hubieras tomado.",
             "date": "Mar 2026",
             "city": "CDMX",
             "variant": "10 Sobres",
@@ -347,7 +348,7 @@
       ],
       "settings": {
         "heading_line_1": "Miles ya despertaron sin cruda",
-        "heading_line_2": "y lo cuentan así",
+        "heading_line_2": "y lo cuentan as\u00ed",
         "product": "buenacopa-bienestar-post-fiesta",
         "rating": "4.7",
         "review_count": "33",
