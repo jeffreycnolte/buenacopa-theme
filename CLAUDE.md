@@ -9,6 +9,7 @@ Claude Code reads this file on every session start. Follow these rules.
 Multiple Claude Code sessions sharing this directory will **race for the same HEAD**. A `git checkout` in one session silently flips every other session's working tree. This has caused repeated lost-work incidents.
 
 **Rules:**
+- **One PR per fix.** Never reuse a branch after its PR merges — each new bug or change gets its own fresh branch off `origin/main` and its own PR. No piling follow-up commits onto a merged branch (causes squash-merge conflicts and muddies PR history).
 - **Don't `git checkout`** unless you really need to. Stay on one branch as long as possible.
 - **Don't sync main with `git checkout main && git reset --hard origin/main`.** That moves HEAD. Use `git fetch origin` instead — it updates remote-tracking refs without touching the working tree.
 - **Branch off `origin/main` directly**, not local main: `git checkout -b new-branch origin/main`.
