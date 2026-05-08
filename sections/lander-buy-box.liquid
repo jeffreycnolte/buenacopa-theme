@@ -63,7 +63,6 @@
         endif
       endfor
       if sub_plan
-        assign has_subscription = true
         for variant in sub_source.variants
           for allocation in variant.selling_plan_allocations
             if allocation.selling_plan.id == sub_plan.id
@@ -76,6 +75,12 @@
             break
           endif
         endfor
+        # Only flip the subscription flag once we've confirmed a real
+        # variant allocation exists. Otherwise the sub tile would render
+        # with an empty data-variant-id and /cart/add.js would 422 on click.
+        if sub_variant
+          assign has_subscription = true
+        endif
         break
       endif
     endif
