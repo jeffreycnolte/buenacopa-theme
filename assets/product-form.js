@@ -130,8 +130,26 @@ var ProductForm = {
     });
   },
 
+  showInlineError: function (message) {
+    var btn = document.getElementById('add-to-cart-btn');
+    if (!btn) return;
+    var existing = document.getElementById('add-to-cart-error');
+    if (existing) existing.remove();
+    var el = document.createElement('p');
+    el.id = 'add-to-cart-error';
+    el.setAttribute('role', 'alert');
+    el.style.cssText = 'margin-top:8px;padding:8px 12px;border-radius:8px;background:#FEE2E2;color:#B91C1C;font-size:13px;font-weight:600;text-align:center;';
+    el.textContent = message;
+    btn.parentNode.insertBefore(el, btn.nextSibling);
+    setTimeout(function () { if (el.parentNode) el.remove(); }, 6000);
+  },
+
   addToCart: function () {
-    if (!this.selectedVariantId || this.isSubmitting) return;
+    if (this.isSubmitting) return;
+    if (!this.selectedVariantId) {
+      this.showInlineError('No se pudo seleccionar el producto. Recarga la página.');
+      return;
+    }
     this.isSubmitting = true;
     this.setButtonLoading(true);
 
@@ -152,7 +170,7 @@ var ProductForm = {
     .then(function (r) {
       if (!r.ok) {
         return r.json().then(function (data) {
-          throw new Error(data.description || 'Error');
+          throw new Error(data.description || data.message || 'Error');
         });
       }
       return r.json();
@@ -161,7 +179,7 @@ var ProductForm = {
       CartDrawer.open();
     })
     .catch(function (err) {
-      CartDrawer.showError(err.message || 'Error al agregar al carrito');
+      ProductForm.showInlineError(err.message || 'Error al agregar al carrito');
     })
     .finally(function () {
       ProductForm.isSubmitting = false;
