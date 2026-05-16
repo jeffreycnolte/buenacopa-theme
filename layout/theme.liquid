@@ -195,14 +195,18 @@
   <script>
     document.addEventListener('click', function(e) {
       var link = e.target.closest('a[href*="amazon.com"], a[href*="mercadolibre.com"]');
-      if (!link || typeof gtag !== 'function') return;
+      if (!link) return;
       var dest = link.href.indexOf('amazon.com') !== -1 ? 'amazon' : 'mercadolibre';
-      gtag('event', 'marketplace_click', {
+      var placement = link.getAttribute('data-track-placement') || 'unknown';
+      var payload = {
         destination: dest,
         link_url: link.href,
         page_location: window.location.href,
-        placement: link.getAttribute('data-track-placement') || 'unknown'
-      });
+        placement: placement
+      };
+      if (typeof gtag === 'function') {
+        gtag('event', 'marketplace_click', payload);
+      }
     });
   </script>
 
