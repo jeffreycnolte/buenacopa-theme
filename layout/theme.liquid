@@ -200,7 +200,8 @@
       gtag('event', 'marketplace_click', {
         destination: dest,
         link_url: link.href,
-        page_location: window.location.href
+        page_location: window.location.href,
+        placement: link.getAttribute('data-track-placement') || 'unknown'
       });
     });
   </script>
