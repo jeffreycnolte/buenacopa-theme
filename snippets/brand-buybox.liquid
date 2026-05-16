@@ -219,6 +219,23 @@
     </button>
   </div>
 
+  {%- comment -%}─── Amazon CTA — only renders when amazon_url is passed ───{%- endcomment -%}
+  {% if amazon_url != blank %}
+    <div style="margin-top:6px;">
+      <a href="{{ amazon_url }}"
+         target="_blank"
+         rel="noopener noreferrer"
+         data-track-placement="hero"
+         style="display:flex; flex-direction:row; align-items:center; justify-content:center; gap:0.5rem; width:100%; background:#fff; color:#0F1111; font-family:'Nunito','Inter',system-ui,sans-serif; font-weight:800; font-size:15px; padding:14px 32px; border-radius:12px; border:2px solid #00A33C; cursor:pointer; text-decoration:none; transition:opacity 0.2s; line-height:1;"
+         onmouseover="this.style.opacity='0.88'"
+         onmouseout="this.style.opacity='1'"
+      >
+        <span style="line-height:1;">Comprar en</span>
+        <img src="{{ 'amazon-logo.png' | asset_url }}" alt="Amazon" width="300" height="100" style="flex-shrink:0; height:18px; width:auto; display:block; position:relative; top:4px;">
+      </a>
+    </div>
+  {% endif %}
+
   {%- comment -%}─── Trust badges ───{%- endcomment -%}
   <div class="flex items-center justify-center text-background/50" id="{{ _id_trust }}" style="gap:12px; padding:8px 0; font-size:10px">
     <style>@media(min-width:1024px) { #{{ _id_trust }} { font-size: 12px !important; } #{{ _id_trust }} svg { width: 14px; height: 14px; } }</style>
